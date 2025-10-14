@@ -1,4 +1,33 @@
-# Proyecto DealaAI - Sistema de Gestión Inteligente para Concesionarios
+# 🚗 DealaAI - Sistema de Gestión Inteligente para Concesionarios
+
+> Sistema de gestión integral para concesionarios con IA, desarrollado con Next.js, Django y PostgreSQL
+
+[![License](https://img.shields.io/badge/license-Private-red.svg)]()
+[![Python](https://img.shields.io/badge/python-3.11-blue.svg)](https://www.python.org/)
+[![Node](https://img.shields.io/badge/node-18.x-green.svg)](https://nodejs.org/)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://www.docker.com/)
+
+## 📋 Inicio Rápido
+
+```bash
+# Opción 1: DevContainer (Recomendado)
+# 1. Abrir en VS Code
+# 2. F1 -> "Dev Containers: Reopen in Container"
+# 3. ¡Listo! Todo configurado automáticamente
+
+# Opción 2: Docker Compose
+./scripts/setup.sh
+docker-compose up -d
+
+# Acceder a los servicios
+# Frontend: http://localhost:3000
+# Backend:  http://localhost:8000
+# Admin:    http://localhost:8000/admin
+```
+
+📖 **[Guía Completa de Desarrollo](DEVELOPMENT.md)** | 💻 **[Comandos Útiles](COMMANDS.md)**
+
+---
 
 ## Índice
 
@@ -10,26 +39,32 @@
 5. [Historias de usuario](#5-historias-de-usuario)
 6. [Tickets de trabajo](#6-tickets-de-trabajo)
 7. [Pull requests](#7-pull-requests)
+8. [🆕 Estructura del Proyecto](#8-estructura-del-proyecto)
 
 ---
 
 ## 0. Ficha del proyecto
 
 ### **0.1. Tu nombre completo:**
+
 Jorge Martín García
 
 ### **0.2. Nombre del proyecto:**
+
 DealaAI - Sistema de Gestión Inteligente para Concesionarios
 
 ### **0.3. Descripción breve del proyecto:**
+
 Aplicación web basada en IA para la gestión integral de concesionarios de automóviles, que incluye administración de inventario, gestión de leads, seguimiento de ventas y un chatbot inteligente que permite consultar información mediante agentes de IA conectados a la base de datos.
 
 ### **0.4. URL del proyecto:**
+
 Pendiente
 
 > Aplicación desplegada en Vercel (frontend) con backend en Railway. Credenciales de acceso disponibles bajo solicitud.
 
 ### 0.5. URL o archivo comprimido del repositorio
+
 https://github.com/jorgemartin/dealaai-concesionario
 
 > Repositorio público con todo el código fuente, documentación y configuración de despliegue.
@@ -43,6 +78,7 @@ https://github.com/jorgemartin/dealaai-concesionario
 **Propósito del producto:** DealaAI revoluciona la gestión de concesionarios mediante IA, automatizando procesos críticos y mejorando la experiencia del cliente. Soluciona problemas comunes como la pérdida de leads, gestión manual de inventario, falta de seguimiento de clientes y dificultades para acceder a información empresarial de forma rápida.
 
 **Valor que aporta:**
+
 - Reduce en 60% el tiempo de gestión de leads mediante automatización inteligente
 - Mejora la conversión de leads en 35% con seguimiento predictivo
 - Facilita acceso instantáneo a información empresarial mediante chatbot IA
@@ -53,30 +89,35 @@ https://github.com/jorgemartin/dealaai-concesionario
 ### **1.2. Características y funcionalidades principales:**
 
 **🚗 Gestión de Inventario Inteligente:**
+
 - Catálogo completo de vehículos con especificaciones detalladas
 - Sistema de alertas para stock bajo y vehículos con larga permanencia
 - Filtros avanzados por marca, modelo, año, precio y características
 - Integración con proveedores para actualización automática de precios
 
 **👥 Sistema de Gestión de Leads (CRM):**
+
 - Captura automática de leads desde múltiples fuentes
 - Scoring inteligente de leads basado en comportamiento y datos históricos
 - Workflow automatizado de seguimiento y nurturing
 - Dashboard con métricas de conversión en tiempo real
 
 **💰 Módulo de Ventas:**
+
 - Pipeline de ventas visual con etapas personalizables
 - Generación automática de contratos y documentación
 - Seguimiento de comisiones y objetivos de venta
 - Integración con sistemas de financiación
 
 **🤖 Chatbot IA con RAG (Retrieval-Augmented Generation):**
+
 - Agente conversacional que responde preguntas sobre inventario, leads y ventas
 - Búsqueda semántica en base de datos mediante embeddings vectoriales
 - Integración con OpenAI GPT-4 para respuestas naturales y precisas
 - Historial de conversaciones y learning continuo
 
 **📊 Analytics y Reportes:**
+
 - Dashboard ejecutivo con KPIs en tiempo real
 - Análisis predictivo de tendencias de venta
 - Reportes automáticos de rendimiento por vendedor
@@ -87,26 +128,31 @@ https://github.com/jorgemartin/dealaai-concesionario
 La aplicación sigue principios de diseño modern UI/UX con una interfaz limpia e intuitiva:
 
 **Página de Inicio:**
+
 - Dashboard centralizado con widgets personalizables
 - Acceso rápido a funciones principales mediante navegación lateral
 - Resumen de métricas clave (ventas del día, leads activos, inventario)
 
 **Gestión de Inventario:**
+
 - Vista de tarjetas con imágenes de vehículos y datos clave
 - Filtros avanzados con autocompletado
 - Modal de detalle con galería de imágenes y especificaciones completas
 
 **CRM de Leads:**
+
 - Vista kanban para visualizar el pipeline de leads
 - Formularios inteligentes que se autocomplementan
 - Timeline de actividades por lead
 
 **Chat IA:**
+
 - Interfaz de chat moderna similar a ChatGPT
 - Respuestas en tiempo real con indicadores de escritura
 - Sugerencias de preguntas frecuentes
 
 **Responsive Design:**
+
 - Totalmente adaptable a móviles y tablets
 - Progressive Web App (PWA) para acceso offline
 - Modo oscuro/claro según preferencias del usuario
@@ -114,6 +160,7 @@ La aplicación sigue principios de diseño modern UI/UX con una interfaz limpia 
 ### **1.4. Instrucciones de instalación:**
 
 **Prerrequisitos:**
+
 - Docker y Docker Compose instalados
 - Node.js 18+ y Python 3.11+
 - Cuenta en Supabase para la base de datos
@@ -228,6 +275,7 @@ El sistema sigue una **arquitectura de microservicios orientada a APIs** con sep
 **Justificación de la arquitectura:**
 
 **Beneficios:**
+
 - **Escalabilidad:** Cada componente puede escalarse independientemente
 - **Mantenibilidad:** Separación clara de responsabilidades frontend/backend
 - **Desarrollo paralelo:** Equipos pueden trabajar independientemente
@@ -235,6 +283,7 @@ El sistema sigue una **arquitectura de microservicios orientada a APIs** con sep
 - **Despliegue independiente:** Actualizaciones sin downtime completo
 
 **Sacrificios:**
+
 - **Complejidad inicial:** Mayor setup y configuración
 - **Latencia de red:** Comunicación entre servicios añade overhead
 - **Debugging:** Más complejo rastrear problemas across services
@@ -243,28 +292,33 @@ El sistema sigue una **arquitectura de microservicios orientada a APIs** con sep
 ### **2.2. Descripción de componentes principales:**
 
 **Frontend - NextJS 13+ (App Router):**
+
 - **Tecnología:** React 18, TypeScript, TailwindCSS, Radix UI
 - **Responsabilidades:** UI/UX, estado global, routing, SSR/SSG
 - **Características:** App Router, Server Components, Client Components para interactividad
 - **Optimizaciones:** Code splitting automático, Image optimization, Bundle analyzer
 
 **API Gateway - Nginx:**
+
 - **Tecnología:** Nginx 1.21+ con módulos SSL y gzip
 - **Responsabilidades:** Load balancing, SSL termination, Rate limiting, CORS
 - **Configuración:** Reverse proxy a Django, static files serving, caching
 
 **Backend - Django REST Framework:**
+
 - **Tecnología:** Django 4.2 LTS, DRF 3.14, Celery para tasks asíncronas
 - **Responsabilidades:** Business logic, autenticación, APIs REST, admin interface
 - **Características:** Token authentication, Permissions, Serializers, Viewsets
 - **Optimizaciones:** Database connection pooling, Query optimization, Caching con Redis
 
 **AI/ML Layer:**
+
 - **Tecnologías:** OpenAI API, LangChain, Sentence Transformers, pgvector
 - **Responsabilidades:** NLP, RAG implementation, embedding generation, semantic search
 - **Características:** Context-aware responses, Vector similarity search, Conversation memory
 
 **Base de Datos - Supabase:**
+
 - **Tecnología:** PostgreSQL 15 + pgvector extension
 - **Responsabilidades:** Data persistence, vector storage, real-time subscriptions
 - **Características:** Row Level Security, Real-time APIs, Database webhooks
@@ -349,6 +403,7 @@ dealaai-concesionario/
 ```
 
 **Patrones arquitectónicos implementados:**
+
 - **Domain-Driven Design (DDD):** Organización por dominios de negocio
 - **Clean Architecture:** Separación de capas (presentation, business, data)
 - **Repository Pattern:** Abstracción de acceso a datos
@@ -357,6 +412,7 @@ dealaai-concesionario/
 ### **2.4. Infraestructura y despliegue**
 
 **Infraestructura de Desarrollo:**
+
 ```
 Developer Machine
 ├── VS Code + Dev Containers
@@ -366,6 +422,7 @@ Developer Machine
 ```
 
 **Infraestructura de Producción:**
+
 ```
 Cloud Infrastructure
 ├── Frontend: Vercel (Edge Network + CDN)
@@ -391,7 +448,9 @@ graph LR
 ```
 
 **Pipeline de CI/CD:**
+
 1. **Continuous Integration:**
+
    - Linting y formateo de código
    - Tests unitarios y de integración
    - Análisis de vulnerabilidades
@@ -404,6 +463,7 @@ graph LR
    - Notificaciones a equipo vía Slack
 
 **Configuración de entornos:**
+
 - **Development:** Docker Compose local
 - **Staging:** Réplica de producción para testing
 - **Production:** Alta disponibilidad con autoescalado
@@ -411,6 +471,7 @@ graph LR
 ### **2.5. Seguridad**
 
 **Autenticación y Autorización:**
+
 - **JWT Tokens:** Autenticación stateless con refresh tokens
 - **Role-Based Access Control (RBAC):** Roles diferenciados (Admin, Manager, Sales, Viewer)
 - **Row Level Security (RLS):** Políticas de seguridad a nivel de base de datos
@@ -426,18 +487,21 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 ```
 
 **Seguridad de Datos:**
+
 - **Encriptación en tránsito:** TLS 1.3 en todas las comunicaciones
 - **Encriptación en reposo:** AES-256 para datos sensibles
 - **Hashing de contraseñas:** bcrypt con salt rounds configurables
 - **Sanitización de inputs:** Validación y escape de datos de entrada
 
 **Seguridad de API:**
+
 - **Rate Limiting:** Límites por usuario y por endpoint
 - **CORS configurado:** Políticas restrictivas de origen cruzado
 - **Input Validation:** Serializers de DRF con validaciones custom
 - **SQL Injection Protection:** ORMs parameterizados
 
 **Monitoreo de Seguridad:**
+
 - **Logging centralizado:** Logs de seguridad con structured logging
 - **Detección de anomalías:** Alertas por patrones sospechosos
 - **Auditoría:** Trail completo de acciones de usuarios
@@ -467,6 +531,7 @@ RATELIMIT_USE_CACHE = 'default'
 ### **2.6. Tests**
 
 **Estrategia de Testing:**
+
 - **Unit Tests:** 85%+ cobertura en business logic
 - **Integration Tests:** APIs y database interactions
 - **End-to-End Tests:** User flows críticos
@@ -489,13 +554,13 @@ class VehicleAPITestCase(APITestCase):
             price=25000.00,
             created_by=self.user
         )
-    
+
     def test_vehicle_list_authenticated(self):
         self.client.force_authenticate(user=self.user)
         response = self.client.get('/api/v1/vehicles/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data['results']), 1)
-    
+
     def test_vehicle_create_permissions(self):
         data = {'make': 'Honda', 'model': 'Civic', 'year': 2023}
         response = self.client.post('/api/v1/vehicles/', data)
@@ -506,76 +571,76 @@ class VehicleAPITestCase(APITestCase):
 
 ```typescript
 // __tests__/components/VehicleCard.test.tsx
-import { render, screen } from '@testing-library/react'
-import { VehicleCard } from '@/components/inventory/VehicleCard'
+import { render, screen } from "@testing-library/react";
+import { VehicleCard } from "@/components/inventory/VehicleCard";
 
-describe('VehicleCard', () => {
+describe("VehicleCard", () => {
   const mockVehicle = {
-    id: '1',
-    make: 'Toyota',
-    model: 'Camry',
+    id: "1",
+    make: "Toyota",
+    model: "Camry",
     year: 2023,
     price: 25000,
-    images: ['https://example.com/car.jpg']
-  }
+    images: ["https://example.com/car.jpg"],
+  };
 
-  it('renders vehicle information correctly', () => {
-    render(<VehicleCard vehicle={mockVehicle} />)
-    
-    expect(screen.getByText('Toyota Camry')).toBeInTheDocument()
-    expect(screen.getByText('2023')).toBeInTheDocument()
-    expect(screen.getByText('$25,000')).toBeInTheDocument()
-  })
-})
+  it("renders vehicle information correctly", () => {
+    render(<VehicleCard vehicle={mockVehicle} />);
+
+    expect(screen.getByText("Toyota Camry")).toBeInTheDocument();
+    expect(screen.getByText("2023")).toBeInTheDocument();
+    expect(screen.getByText("$25,000")).toBeInTheDocument();
+  });
+});
 ```
 
 **E2E Testing (Playwright):**
 
 ```typescript
 // e2e/inventory.spec.ts
-import { test, expect } from '@playwright/test'
+import { test, expect } from "@playwright/test";
 
-test('inventory management flow', async ({ page }) => {
+test("inventory management flow", async ({ page }) => {
   // Login
-  await page.goto('/login')
-  await page.fill('[name="email"]', 'test@example.com')
-  await page.fill('[name="password"]', 'testpass123')
-  await page.click('button[type="submit"]')
-  
+  await page.goto("/login");
+  await page.fill('[name="email"]', "test@example.com");
+  await page.fill('[name="password"]', "testpass123");
+  await page.click('button[type="submit"]');
+
   // Navigate to inventory
-  await page.click('text=Inventario')
-  await expect(page).toHaveURL('/inventory')
-  
+  await page.click("text=Inventario");
+  await expect(page).toHaveURL("/inventory");
+
   // Add new vehicle
-  await page.click('text=Agregar Vehículo')
-  await page.fill('[name="make"]', 'Toyota')
-  await page.fill('[name="model"]', 'Camry')
-  await page.fill('[name="year"]', '2023')
-  await page.click('text=Guardar')
-  
+  await page.click("text=Agregar Vehículo");
+  await page.fill('[name="make"]', "Toyota");
+  await page.fill('[name="model"]', "Camry");
+  await page.fill('[name="year"]', "2023");
+  await page.click("text=Guardar");
+
   // Verify vehicle was added
-  await expect(page.locator('text=Toyota Camry')).toBeVisible()
-})
+  await expect(page.locator("text=Toyota Camry")).toBeVisible();
+});
 ```
 
 **Performance Testing:**
 
 ```javascript
 // k6-scripts/load-test.js
-import http from 'k6/http'
-import { check } from 'k6'
+import http from "k6/http";
+import { check } from "k6";
 
 export let options = {
   vus: 50, // 50 virtual users
-  duration: '2m',
-}
+  duration: "2m",
+};
 
-export default function() {
-  let response = http.get('https://api.dealaai.com/api/v1/vehicles/')
+export default function () {
+  let response = http.get("https://api.dealaai.com/api/v1/vehicles/");
   check(response, {
-    'status is 200': (r) => r.status === 200,
-    'response time < 500ms': (r) => r.timings.duration < 500,
-  })
+    "status is 200": (r) => r.status === 200,
+    "response time < 500ms": (r) => r.timings.duration < 500,
+  });
 }
 ```
 
@@ -599,7 +664,7 @@ erDiagram
         timestamp updated_at
         boolean is_active "Usuario activo/inactivo"
     }
-    
+
     CUSTOMERS {
         uuid id PK
         string first_name "Nombre del cliente"
@@ -612,7 +677,7 @@ erDiagram
         timestamp updated_at
         boolean is_active "Cliente activo"
     }
-    
+
     VEHICLES {
         uuid id PK
         string vin UK "Vehicle Identification Number"
@@ -631,7 +696,7 @@ erDiagram
         json features "Características adicionales JSON"
         json images "URLs de imágenes JSON array"
     }
-    
+
     LEADS {
         uuid id PK
         uuid customer_id FK "Referencia al cliente"
@@ -647,7 +712,7 @@ erDiagram
         timestamp updated_at
         timestamp last_contact "Último contacto"
     }
-    
+
     SALES {
         uuid id PK
         uuid customer_id FK "Cliente que compra"
@@ -662,7 +727,7 @@ erDiagram
         timestamp created_at
         text notes "Notas de la venta"
     }
-    
+
     CHAT_SESSIONS {
         uuid id PK
         uuid user_id FK "Usuario que inicia el chat"
@@ -671,7 +736,7 @@ erDiagram
         timestamp updated_at
         json metadata "Metadatos de sesión"
     }
-    
+
     CHAT_MESSAGES {
         uuid id PK
         uuid session_id FK "Sesión del mensaje"
@@ -681,7 +746,7 @@ erDiagram
         json metadata "Metadatos del mensaje"
         vector embedding "Vector embedding para búsqueda semántica"
     }
-    
+
     INVENTORY_MOVEMENTS {
         uuid id PK
         uuid vehicle_id FK "Vehículo afectado"
@@ -690,7 +755,7 @@ erDiagram
         timestamp movement_date "Fecha del movimiento"
         text notes "Notas del movimiento"
     }
-    
+
     LEAD_ACTIVITIES {
         uuid id PK
         uuid lead_id FK "Lead asociado"
@@ -700,7 +765,7 @@ erDiagram
         timestamp activity_date "Fecha/hora de la actividad"
         json metadata "Metadatos adicionales"
     }
-    
+
     CUSTOMERS ||--o{ LEADS : "generates"
     USERS ||--o{ LEADS : "assigned_to"
     CUSTOMERS ||--o{ SALES : "makes"
@@ -717,19 +782,21 @@ erDiagram
 ### **3.2. Descripción de entidades principales:**
 
 **USERS (Usuarios del sistema):**
+
 - **Propósito:** Gestión de usuarios internos del concesionario
 - **Atributos clave:**
   - `id` (UUID, PK): Identificador único inmutable
   - `email` (String, UK): Email único para login
   - `password_hash` (String): Hash bcrypt con salt rounds
   - `role` (Enum): Roles jerárquicos con permisos específicos
-- **Restricciones:** 
+- **Restricciones:**
   - `email` UNIQUE NOT NULL
   - `password_hash` NOT NULL (mínimo 60 chars bcrypt)
   - `role` CHECK IN ('admin', 'manager', 'sales', 'viewer')
 - **Índices:** email, role, created_at
 
 **CUSTOMERS (Clientes/Prospects):**
+
 - **Propósito:** Base de datos de clientes potenciales y existentes
 - **Atributos clave:**
   - `dni` (String, UK): Documento de identidad único
@@ -742,6 +809,7 @@ erDiagram
 - **Relaciones:** 1:N con LEADS y SALES
 
 **VEHICLES (Inventario de vehículos):**
+
 - **Propósito:** Catálogo completo de vehículos disponibles
 - **Atributos especiales:**
   - `vin` (String, UK): Vehicle Identification Number único
@@ -756,6 +824,7 @@ erDiagram
 - **Índices compuestos:** (make, model), (year, price), (status)
 
 **LEADS (Gestión de prospectos):**
+
 - **Propósito:** Pipeline de ventas y seguimiento de oportunidades
 - **Workflow de estados:**
   - `new` → `contacted` → `qualified` → `negotiating` → `closed_won`/`closed_lost`
@@ -768,6 +837,7 @@ erDiagram
   - `last_contact` NOT NULL cuando status != 'new'
 
 **SALES (Transacciones de venta):**
+
 - **Propósito:** Registro completo de ventas realizadas
 - **Campos críticos:**
   - `sale_price` vs `vehicle.price`: Permite descuentos/negociación
@@ -780,6 +850,7 @@ erDiagram
 - **Triggers:** Actualizar vehicle.status = 'sold' on INSERT
 
 **CHAT_SESSIONS & CHAT_MESSAGES (IA Conversacional):**
+
 - **Propósito:** Sistema de chat con IA y memoria de conversación
 - **Arquitectura RAG:**
   - `embedding` (vector): pgvector para similarity search
@@ -790,6 +861,7 @@ erDiagram
   - TTL automático para old sessions
 
 **INVENTORY_MOVEMENTS (Trazabilidad):**
+
 - **Propósito:** Auditoría completa de movimientos de inventario
 - **Tipos de movimiento:**
   - `entry`: Vehículo ingresa al concesionario
@@ -798,6 +870,7 @@ erDiagram
 - **Compliance:** Requerido para auditorías y reporting
 
 **LEAD_ACTIVITIES (CRM Activities):**
+
 - **Propósito:** Timeline completo de interacciones con leads
 - **Integración:** Con sistemas de email, calendar, phone
 - **Analytics:** Base para scoring de leads y performance vendedores
@@ -857,7 +930,7 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: "Lista paginada de vehículos"
           content:
             application/json:
@@ -877,7 +950,7 @@ paths:
                   results:
                     type: array
                     items:
-                      $ref: '#/components/schemas/Vehicle'
+                      $ref: "#/components/schemas/Vehicle"
 
     post:
       summary: "Crear nuevo vehículo"
@@ -888,22 +961,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/VehicleCreate'
+              $ref: "#/components/schemas/VehicleCreate"
       responses:
-        '201':
+        "201":
           description: "Vehículo creado exitosamente"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Vehicle'
-        '400':
+                $ref: "#/components/schemas/Vehicle"
+        "400":
           description: "Datos inválidos"
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                $ref: "#/components/schemas/Error"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
 
 components:
   schemas:
@@ -967,81 +1040,81 @@ components:
 ### **Endpoint 2: Chat IA con RAG**
 
 ```yaml
-  /api/v1/chat/sessions/{session_id}/messages/:
-    post:
-      summary: "Enviar mensaje al chatbot IA"
-      parameters:
-        - name: session_id
-          in: path
-          required: true
-          schema:
-            type: string
-            format: uuid
-      security:
-        - BearerAuth: []
-      requestBody:
+/api/v1/chat/sessions/{session_id}/messages/:
+  post:
+    summary: "Enviar mensaje al chatbot IA"
+    parameters:
+      - name: session_id
+        in: path
         required: true
+        schema:
+          type: string
+          format: uuid
+    security:
+      - BearerAuth: []
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: "¿Qué Toyota Camry tenemos disponibles bajo $30,000?"
+              context:
+                type: object
+                properties:
+                  include_inventory:
+                    type: boolean
+                    default: true
+                  include_leads:
+                    type: boolean
+                    default: false
+                  max_results:
+                    type: integer
+                    default: 5
+    responses:
+      "200":
+        description: "Respuesta del chatbot"
         content:
           application/json:
             schema:
               type: object
               properties:
-                message:
+                message_id:
                   type: string
-                  example: "¿Qué Toyota Camry tenemos disponibles bajo $30,000?"
-                context:
-                  type: object
-                  properties:
-                    include_inventory: 
-                      type: boolean
-                      default: true
-                    include_leads:
-                      type: boolean 
-                      default: false
-                    max_results:
-                      type: integer
-                      default: 5
-      responses:
-        '200':
-          description: "Respuesta del chatbot"
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message_id:
-                    type: string
-                    format: uuid
-                  content:
-                    type: string
-                    example: "Encontré 3 Toyota Camry disponibles bajo $30,000..."
-                  sources:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        type:
-                          type: string
-                          enum: [vehicle, lead, sale]
-                        id:
-                          type: string
-                        relevance_score:
-                          type: number
-                          format: float
-                          minimum: 0
-                          maximum: 1
-                  metadata:
+                  format: uuid
+                content:
+                  type: string
+                  example: "Encontré 3 Toyota Camry disponibles bajo $30,000..."
+                sources:
+                  type: array
+                  items:
                     type: object
                     properties:
-                      tokens_used:
-                        type: integer
-                      response_time:
+                      type:
+                        type: string
+                        enum: [vehicle, lead, sale]
+                      id:
+                        type: string
+                      relevance_score:
                         type: number
                         format: float
-                      model_version:
-                        type: string
-                      embedding_similarity:
-                        type: number
+                        minimum: 0
+                        maximum: 1
+                metadata:
+                  type: object
+                  properties:
+                    tokens_used:
+                      type: integer
+                    response_time:
+                      type: number
+                      format: float
+                    model_version:
+                      type: string
+                    embedding_similarity:
+                      type: number
 ```
 
 ### **Endpoint 3: Analytics y Reportes**
@@ -1135,7 +1208,7 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-      
+
   responses:
     Unauthorized:
       description: "No autorizado - Token inválido o expirado"
@@ -1143,7 +1216,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-            
+
   schemas:
     Error:
       type: object
@@ -1159,12 +1232,14 @@ components:
 **Ejemplos de peticiones y respuestas:**
 
 **Request - Búsqueda de vehículos:**
+
 ```bash
 curl -X GET "https://api.dealaai.com/api/v1/vehicles/?make=Toyota&price_max=35000&status=available" \
   -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
 ```
 
 **Response:**
+
 ```json
 {
   "count": 8,
@@ -1178,7 +1253,7 @@ curl -X GET "https://api.dealaai.com/api/v1/vehicles/?make=Toyota&price_max=3500
       "model": "Camry",
       "year": 2023,
       "color": "Blanco Perla",
-      "price": 28500.00,
+      "price": 28500.0,
       "mileage": 15000,
       "fuel_type": "hybrid",
       "transmission": "cvt",
@@ -1188,9 +1263,7 @@ curl -X GET "https://api.dealaai.com/api/v1/vehicles/?make=Toyota&price_max=3500
         "heated_seats": true,
         "backup_camera": true
       },
-      "images": [
-        "https://cdn.dealaai.com/vehicles/toyota-camry-2023-001.jpg"
-      ]
+      "images": ["https://cdn.dealaai.com/vehicles/toyota-camry-2023-001.jpg"]
     }
   ]
 }
@@ -1207,6 +1280,7 @@ curl -X GET "https://api.dealaai.com/api/v1/vehicles/?make=Toyota&price_max=3500
 **Para** poder ajustar precios o crear promociones específicas y optimizar la rotación del inventario
 
 **Criterios de Aceptación:**
+
 - ✅ El sistema identifica automáticamente vehículos con más de 60 días en inventario
 - ✅ Se envía notificación diaria por email con lista de vehículos "lentos"
 - ✅ La alerta incluye sugerencias de descuento basadas en análisis de mercado
@@ -1214,6 +1288,7 @@ curl -X GET "https://api.dealaai.com/api/v1/vehicles/?make=Toyota&price_max=3500
 - ✅ El dashboard muestra métricas de días promedio en lote por categoría de vehículo
 
 **Tareas técnicas:**
+
 - Crear job programado (Celery) para análisis diario de inventario
 - Implementar sistema de notificaciones por email con templates personalizados
 - Desarrollar algoritmo de sugerencia de precios basado en datos históricos
@@ -1221,6 +1296,7 @@ curl -X GET "https://api.dealaai.com/api/v1/vehicles/?make=Toyota&price_max=3500
 - Añadir métricas de rotación al dashboard analytics
 
 **Definición de Hecho:**
+
 - Tests unitarios y de integración con 90%+ cobertura
 - Documentación API actualizada
 - Feature flag para activar/desactivar funcionalidad
@@ -1233,6 +1309,7 @@ curl -X GET "https://api.dealaai.com/api/v1/vehicles/?make=Toyota&price_max=3500
 **Para** poder responder rápidamente a clientes sin navegar entre múltiples pantallas
 
 **Criterios de Aceptación:**
+
 - ✅ Puedo hacer preguntas como "¿Qué SUVs Toyota tenemos bajo $40,000?"
 - ✅ El chatbot responde con lista específica de vehículos que cumplen criterios
 - ✅ Las respuestas incluyen precios, ubicación en lote y disponibilidad actual
@@ -1241,6 +1318,7 @@ curl -X GET "https://api.dealaai.com/api/v1/vehicles/?make=Toyota&price_max=3500
 - ✅ Las respuestas incluyen links directos para ver detalles en el sistema
 
 **Escenarios de uso:**
+
 ```
 Usuario: "Necesito vehículos familiares con buena economía de combustible"
 IA: "Encontré 5 opciones ideales para familias con excelente eficiencia:
@@ -1261,6 +1339,7 @@ IA: "El Toyota RAV4 Hybrid 2023 (VIN: 2T3F1RFV5NW123456):
 ```
 
 **Implementación técnica:**
+
 - RAG (Retrieval-Augmented Generation) con embeddings de inventario
 - Context window para mantener estado de conversación
 - Integration con sistema de reservas
@@ -1273,6 +1352,7 @@ IA: "El Toyota RAV4 Hybrid 2023 (VIN: 2T3F1RFV5NW123456):
 **Para** maximizar las probabilidades de conversión y distribuir la carga de trabajo equitativamente
 
 **Criterios de Aceptación:**
+
 - ✅ Leads se asignan automáticamente basado en especialización del vendedor (tipo de vehículo)
 - ✅ Se considera la carga actual de trabajo de cada vendedor
 - ✅ Leads "hot" (alta puntuación) se asignan a vendedores top performers
@@ -1281,35 +1361,37 @@ IA: "El Toyota RAV4 Hybrid 2023 (VIN: 2T3F1RFV5NW123456):
 - ✅ Dashboard muestra distribución de leads y tasas de respuesta por vendedor
 
 **Reglas de negocio implementadas:**
+
 ```python
 def assign_lead(lead):
     # 1. Filtrar vendedores activos y disponibles
     available_salespeople = get_active_salespeople()
-    
+
     # 2. Scoring de compatibilidad
     for salesperson in available_salespeople:
         score = 0
-        
+
         # Especialización en tipo de vehículo (+30 puntos)
         if lead.preferred_vehicle_type in salesperson.specializations:
             score += 30
-            
+
         # Performance histórica (+20 puntos max)
         score += min(salesperson.conversion_rate * 20, 20)
-        
+
         # Carga de trabajo actual (-5 puntos por lead activo)
         score -= salesperson.active_leads_count * 5
-        
+
         # Disponibilidad horaria (+10 puntos si está online)
         if salesperson.is_online:
             score += 10
-    
+
     # 3. Asignar al vendedor con mayor puntuación
     best_salesperson = max(available_salespeople, key=lambda s: s.score)
     return assign_to_salesperson(lead, best_salesperson)
 ```
 
 **Métricas de éxito:**
+
 - Tiempo promedio de primera respuesta < 30 minutos
 - Distribución equitativa de leads (±15% entre vendedores)
 - Mejora en tasa de conversión general del 15%+
@@ -1332,6 +1414,7 @@ Implementar la infraestructura de embeddings vectoriales para el sistema de chat
 
 **Contexto técnico:**
 El chat IA necesita realizar búsquedas semánticas sobre el inventario, leads y datos de ventas para proporcionar respuestas contextuales. Esto requiere:
+
 1. Generar embeddings de texto usando modelos pre-entrenados
 2. Almacenar vectors en Supabase con extensión pgvector
 3. Implementar búsqueda por similaridad eficiente
@@ -1339,16 +1422,17 @@ El chat IA necesita realizar búsquedas semánticas sobre el inventario, leads y
 **Tareas específicas:**
 
 **Backend (Django):**
+
 ```python
 # 1. Crear servicio de embeddings
 class EmbeddingService:
     def __init__(self):
         self.model = SentenceTransformer('all-MiniLM-L6-v2')
-    
+
     def generate_embedding(self, text: str) -> List[float]:
         """Genera embedding de 384 dimensiones para texto"""
         return self.model.encode(text).tolist()
-    
+
     async def batch_generate(self, texts: List[str]) -> List[List[float]]:
         """Genera embeddings en lote para mejor performance"""
         pass
@@ -1360,7 +1444,7 @@ class ContentEmbedding(models.Model):
     text_content = models.TextField()
     embedding = VectorField(dimensions=384)  # pgvector field
     created_at = models.DateTimeField(auto_now_add=True)
-    
+
     class Meta:
         indexes = [
             GinIndex(fields=['embedding'], opclasses=['vector_cosine_ops'])
@@ -1383,6 +1467,7 @@ class Command(BaseCommand):
 ```
 
 **Base de datos (SQL):**
+
 ```sql
 -- Crear extensión pgvector si no existe
 CREATE EXTENSION IF NOT EXISTS vector;
@@ -1399,7 +1484,7 @@ CREATE TABLE content_embeddings (
 
 -- Índices para búsqueda eficiente
 CREATE INDEX idx_content_embeddings_type ON content_embeddings(content_type);
-CREATE INDEX idx_content_embeddings_vector ON content_embeddings 
+CREATE INDEX idx_content_embeddings_vector ON content_embeddings
     USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
 
 -- Función para búsqueda semántica
@@ -1416,7 +1501,7 @@ CREATE OR REPLACE FUNCTION search_similar_content(
 ) AS $$
 BEGIN
     RETURN QUERY
-    SELECT 
+    SELECT
         ce.content_type,
         ce.content_id,
         ce.text_content,
@@ -1431,21 +1516,22 @@ $$ LANGUAGE plpgsql;
 ```
 
 **API Endpoint:**
+
 ```python
 class SemanticSearchViewSet(ViewSet):
     @action(detail=False, methods=['post'])
     def search(self, request):
         query = request.data.get('query')
         content_types = request.data.get('content_types', ['vehicle'])
-        
+
         # Generar embedding de la consulta
         query_embedding = embedding_service.generate_embedding(query)
-        
+
         # Búsqueda en base de datos
         results = ContentEmbedding.objects.raw("""
             SELECT * FROM search_similar_content(%s, %s, 0.7, 10)
         """, [query_embedding, content_types])
-        
+
         return Response({
             'query': query,
             'results': [
@@ -1460,6 +1546,7 @@ class SemanticSearchViewSet(ViewSet):
 ```
 
 **Criterios de Aceptación:**
+
 - ✅ Servicio de embeddings genera vectores de 384 dimensiones
 - ✅ Comando de gestión procesa inventario existente sin errores
 - ✅ Búsqueda semántica retorna resultados relevantes (>0.7 similarity)
@@ -1468,6 +1555,7 @@ class SemanticSearchViewSet(ViewSet):
 - ✅ Monitoreo configurado para track de errores de embeddings
 
 **Definición de Hecho:**
+
 - Código revisado y aprobado por tech lead
 - Tests pasando en CI/CD pipeline
 - Documentación API actualizada con ejemplos
@@ -1486,6 +1574,7 @@ class SemanticSearchViewSet(ViewSet):
 Crear dashboard ejecutivo responsivo con métricas de negocio en tiempo real, gráficos interactivos y widgets personalizables para diferentes roles de usuario.
 
 **Diseño UX/UI:**
+
 - Layout tipo grid adaptable (desktop: 4 cols, tablet: 2 cols, mobile: 1 col)
 - Paleta de colores corporativa con modo dark/light
 - Micro-animaciones para feedback visual
@@ -1494,50 +1583,34 @@ Crear dashboard ejecutivo responsivo con métricas de negocio en tiempo real, gr
 **Componentes a desarrollar:**
 
 **1. Layout Principal (Dashboard):**
+
 ```typescript
 // components/dashboard/Dashboard.tsx
 interface DashboardProps {
-  userRole: 'admin' | 'manager' | 'sales' | 'viewer'
+  userRole: "admin" | "manager" | "sales" | "viewer";
 }
 
 export function Dashboard({ userRole }: DashboardProps) {
-  const { data: metrics, isLoading } = useDashboardMetrics(userRole)
-  const { layout, updateLayout } = useDashboardLayout(userRole)
-  
+  const { data: metrics, isLoading } = useDashboardMetrics(userRole);
+  const { layout, updateLayout } = useDashboardLayout(userRole);
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <DashboardHeader />
-      
+
       {/* Widget Grid */}
       <div className="p-6">
-        <GridLayout
-          layout={layout}
-          onLayoutChange={updateLayout}
-          responsive
-          breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480 }}
-          cols={{ lg: 4, md: 3, sm: 2, xs: 1 }}
-        >
+        <GridLayout layout={layout} onLayoutChange={updateLayout} responsive breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480 }} cols={{ lg: 4, md: 3, sm: 2, xs: 1 }}>
           {/* Métricas de ventas */}
           <div key="sales-metrics" data-grid={{ w: 2, h: 2, x: 0, y: 0 }}>
-            <MetricCard
-              title="Ventas del Mes"
-              value={metrics?.sales?.total_revenue}
-              format="currency"
-              trend={metrics?.sales?.growth_rate}
-              loading={isLoading}
-            />
+            <MetricCard title="Ventas del Mes" value={metrics?.sales?.total_revenue} format="currency" trend={metrics?.sales?.growth_rate} loading={isLoading} />
           </div>
-          
+
           {/* Gráfico de inventario */}
           <div key="inventory-chart" data-grid={{ w: 2, h: 3, x: 2, y: 0 }}>
-            <ChartCard
-              title="Estado del Inventario"
-              type="doughnut"
-              data={metrics?.inventory?.vehicles_by_status}
-              loading={isLoading}
-            />
+            <ChartCard title="Estado del Inventario" type="doughnut" data={metrics?.inventory?.vehicles_by_status} loading={isLoading} />
           </div>
-          
+
           {/* Pipeline de leads */}
           <div key="leads-pipeline" data-grid={{ w: 4, h: 2, x: 0, y: 3 }}>
             <LeadsPipelineWidget data={metrics?.leads} />
@@ -1545,157 +1618,145 @@ export function Dashboard({ userRole }: DashboardProps) {
         </GridLayout>
       </div>
     </div>
-  )
+  );
 }
 ```
 
 **2. Componente de Métrica Reutilizable:**
+
 ```typescript
 // components/dashboard/MetricCard.tsx
 interface MetricCardProps {
-  title: string
-  value: number | string
-  format?: 'currency' | 'number' | 'percentage'
-  trend?: number
-  loading?: boolean
-  icon?: React.ComponentType<{ className?: string }>
+  title: string;
+  value: number | string;
+  format?: "currency" | "number" | "percentage";
+  trend?: number;
+  loading?: boolean;
+  icon?: React.ComponentType<{ className?: string }>;
 }
 
-export function MetricCard({ 
-  title, 
-  value, 
-  format = 'number', 
-  trend, 
-  loading,
-  icon: Icon 
-}: MetricCardProps) {
+export function MetricCard({ title, value, format = "number", trend, loading, icon: Icon }: MetricCardProps) {
   const formattedValue = useMemo(() => {
-    if (loading) return null
-    
+    if (loading) return null;
+
     switch (format) {
-      case 'currency':
-        return new Intl.NumberFormat('es-ES', {
-          style: 'currency',
-          currency: 'EUR'
-        }).format(Number(value))
-      case 'percentage':
-        return `${value}%`
+      case "currency":
+        return new Intl.NumberFormat("es-ES", {
+          style: "currency",
+          currency: "EUR",
+        }).format(Number(value));
+      case "percentage":
+        return `${value}%`;
       default:
-        return value.toLocaleString()
+        return value.toLocaleString();
     }
-  }, [value, format, loading])
-  
+  }, [value, format, loading]);
+
   return (
     <Card className="p-6 hover:shadow-lg transition-shadow">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-            {title}
-          </p>
-          {loading ? (
-            <Skeleton className="h-8 w-24 mt-2" />
-          ) : (
-            <p className="text-3xl font-bold text-gray-900 dark:text-white">
-              {formattedValue}
-            </p>
-          )}
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
+          {loading ? <Skeleton className="h-8 w-24 mt-2" /> : <p className="text-3xl font-bold text-gray-900 dark:text-white">{formattedValue}</p>}
         </div>
-        
+
         {Icon && (
           <div className="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
             <Icon className="h-6 w-6 text-blue-600 dark:text-blue-300" />
           </div>
         )}
       </div>
-      
+
       {trend !== undefined && !loading && (
         <div className="flex items-center mt-4">
           <TrendIndicator value={trend} />
-          <span className="text-sm text-gray-600 dark:text-gray-400">
-            vs. período anterior
-          </span>
+          <span className="text-sm text-gray-600 dark:text-gray-400">vs. período anterior</span>
         </div>
       )}
     </Card>
-  )
+  );
 }
 ```
 
 **3. Hook para datos del dashboard:**
+
 ```typescript
 // hooks/useDashboardMetrics.ts
 export function useDashboardMetrics(userRole: string) {
   return useQuery({
-    queryKey: ['dashboard-metrics', userRole],
+    queryKey: ["dashboard-metrics", userRole],
     queryFn: async () => {
       const params = new URLSearchParams({
-        period: 'month',
-        compare_previous: 'true'
-      })
-      
-      const response = await api.get(`/api/v1/analytics/dashboard/?${params}`)
-      return response.data
+        period: "month",
+        compare_previous: "true",
+      });
+
+      const response = await api.get(`/api/v1/analytics/dashboard/?${params}`);
+      return response.data;
     },
     refetchInterval: 30000, // Actualizar cada 30 segundos
-    staleTime: 15000,       // Considerar stale después de 15 segundos
+    staleTime: 15000, // Considerar stale después de 15 segundos
     retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000)
-  })
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
 }
 ```
 
 **4. Componente de gráfico con Chart.js:**
+
 ```typescript
 // components/dashboard/ChartCard.tsx
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { Doughnut } from 'react-chartjs-2'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Doughnut } from "react-chartjs-2";
 
-ChartJS.register(ArcElement, Tooltip, Legend)
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface ChartCardProps {
-  title: string
-  type: 'doughnut' | 'bar' | 'line'
-  data: Record<string, number>
-  loading?: boolean
+  title: string;
+  type: "doughnut" | "bar" | "line";
+  data: Record<string, number>;
+  loading?: boolean;
 }
 
 export function ChartCard({ title, type, data, loading }: ChartCardProps) {
   const chartData = useMemo(() => {
-    if (!data) return null
-    
+    if (!data) return null;
+
     return {
       labels: Object.keys(data),
-      datasets: [{
-        data: Object.values(data),
-        backgroundColor: [
-          '#10B981', // green-500 - available
-          '#EF4444', // red-500 - sold  
-          '#F59E0B', // yellow-500 - reserved
-          '#6B7280'  // gray-500 - maintenance
-        ],
-        borderWidth: 0
-      }]
-    }
-  }, [data])
-  
+      datasets: [
+        {
+          data: Object.values(data),
+          backgroundColor: [
+            "#10B981", // green-500 - available
+            "#EF4444", // red-500 - sold
+            "#F59E0B", // yellow-500 - reserved
+            "#6B7280", // gray-500 - maintenance
+          ],
+          borderWidth: 0,
+        },
+      ],
+    };
+  }, [data]);
+
   const options = {
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: 'bottom' as const,
+        position: "bottom" as const,
         labels: {
           padding: 20,
-          usePointStyle: true
-        }
-      }
-    }
-  }
-  
+          usePointStyle: true,
+        },
+      },
+    },
+  };
+
   return (
     <Card className="p-6">
       <h3 className="text-lg font-semibold mb-4">{title}</h3>
-      
+
       <div className="relative h-64">
         {loading ? (
           <div className="flex items-center justify-center h-full">
@@ -1704,17 +1765,16 @@ export function ChartCard({ title, type, data, loading }: ChartCardProps) {
         ) : chartData ? (
           <Doughnut data={chartData} options={options} />
         ) : (
-          <div className="flex items-center justify-center h-full text-gray-500">
-            No hay datos disponibles
-          </div>
+          <div className="flex items-center justify-center h-full text-gray-500">No hay datos disponibles</div>
         )}
       </div>
     </Card>
-  )
+  );
 }
 ```
 
 **Responsive Design:**
+
 ```css
 /* globals.css - Responsive utilities */
 @media (max-width: 768px) {
@@ -1722,11 +1782,11 @@ export function ChartCard({ title, type, data, loading }: ChartCardProps) {
     grid-template-columns: 1fr;
     gap: 1rem;
   }
-  
+
   .metric-card {
     padding: 1rem;
   }
-  
+
   .chart-container {
     height: 200px;
   }
@@ -1741,6 +1801,7 @@ export function ChartCard({ title, type, data, loading }: ChartCardProps) {
 ```
 
 **Criterios de Aceptación:**
+
 - ✅ Dashboard se adapta correctamente a desktop, tablet y móvil
 - ✅ Métricas se actualizan automáticamente cada 30 segundos
 - ✅ Gráficos son interactivos (hover, click para detalles)
@@ -1751,6 +1812,7 @@ export function ChartCard({ title, type, data, loading }: ChartCardProps) {
 - ✅ Accesibilidad: cumple WCAG 2.1 AA (contraste, navegación por teclado)
 
 **Testing:**
+
 - Unit tests para todos los componentes con React Testing Library
 - Integration tests para flujo completo de datos
 - Visual regression tests con Chromatic
@@ -1769,12 +1831,14 @@ Optimizar performance de consultas críticas mediante índices compuestos, parti
 
 **Contexto del problema:**
 El crecimiento del dataset está causando degradación de performance:
+
 - Consultas de inventario con filtros: 800ms → objetivo <100ms
 - Dashboard analytics: 2.3s → objetivo <500ms
 - Búsquedas de leads: 1.2s → objetivo <200ms
 - Chat IA similarity search: 1.5s → objetivo <300ms
 
 **Análisis de queries problemáticas:**
+
 ```sql
 -- Query lenta #1: Filtros complejos en inventario
 EXPLAIN ANALYZE
@@ -1795,28 +1859,30 @@ ORDER BY v.created_at DESC;
 **Soluciones a implementar:**
 
 **1. Índices compuestos estratégicos:**
+
 ```sql
 -- Índice para filtros más comunes en búsqueda de inventario
-CREATE INDEX CONCURRENTLY idx_vehicles_search_optimized 
-ON vehicles (make, status, year, price) 
+CREATE INDEX CONCURRENTLY idx_vehicles_search_optimized
+ON vehicles (make, status, year, price)
 INCLUDE (model, color, mileage, fuel_type);
 
 -- Índice para ordenamiento temporal
-CREATE INDEX CONCURRENTLY idx_vehicles_created_status 
-ON vehicles (created_at DESC, status) 
+CREATE INDEX CONCURRENTLY idx_vehicles_created_status
+ON vehicles (created_at DESC, status)
 WHERE status IN ('available', 'reserved');
 
 -- Índice para búsquedas de texto completo
-CREATE INDEX CONCURRENTLY idx_vehicles_fulltext 
+CREATE INDEX CONCURRENTLY idx_vehicles_fulltext
 ON vehicles USING gin(to_tsvector('spanish', make || ' ' || model || ' ' || description));
 
 -- Índice para embeddings vectoriales (si no existe)
-CREATE INDEX CONCURRENTLY idx_chat_embeddings_cosine 
-ON chat_messages USING ivfflat (embedding vector_cosine_ops) 
+CREATE INDEX CONCURRENTLY idx_chat_embeddings_cosine
+ON chat_messages USING ivfflat (embedding vector_cosine_ops)
 WITH (lists = 100);
 ```
 
 **2. Particionamiento de tabla de actividades:**
+
 ```sql
 -- Particionamiento por rango de fechas para lead_activities
 -- (tabla que crece rápidamente con >100k registros)
@@ -1827,11 +1893,11 @@ CREATE TABLE lead_activities_partitioned (
 ) PARTITION BY RANGE (activity_date);
 
 -- Crear particiones mensuales
-CREATE TABLE lead_activities_2024_01 
+CREATE TABLE lead_activities_2024_01
 PARTITION OF lead_activities_partitioned
 FOR VALUES FROM ('2024-01-01') TO ('2024-02-01');
 
-CREATE TABLE lead_activities_2024_02 
+CREATE TABLE lead_activities_2024_02
 PARTITION OF lead_activities_partitioned
 FOR VALUES FROM ('2024-02-01') TO ('2024-03-01');
 
@@ -1846,8 +1912,8 @@ BEGIN
     start_date := date_trunc('month', CURRENT_DATE + interval '1 month');
     end_date := start_date + interval '1 month';
     table_name := 'lead_activities_' || to_char(start_date, 'YYYY_MM');
-    
-    EXECUTE format('CREATE TABLE IF NOT EXISTS %I 
+
+    EXECUTE format('CREATE TABLE IF NOT EXISTS %I
                    PARTITION OF lead_activities_partitioned
                    FOR VALUES FROM (%L) TO (%L)',
                    table_name, start_date, end_date);
@@ -1859,18 +1925,19 @@ SELECT cron.schedule('create-monthly-partitions', '0 0 1 * *', 'SELECT create_mo
 ```
 
 **3. Vista materializada para métricas de dashboard:**
+
 ```sql
 -- Vista materializada para KPIs del dashboard
 CREATE MATERIALIZED VIEW dashboard_metrics AS
 WITH sales_metrics AS (
-    SELECT 
+    SELECT
         DATE_TRUNC('month', sale_date) as month,
         COUNT(*) as total_sales,
         SUM(sale_price) as total_revenue,
         AVG(sale_price) as avg_sale_price,
         COUNT(*) FILTER (WHERE financing_type = 'cash') as cash_sales,
         COUNT(*) FILTER (WHERE financing_type = 'loan') as loan_sales
-    FROM sales 
+    FROM sales
     WHERE sale_date >= CURRENT_DATE - INTERVAL '12 months'
     GROUP BY DATE_TRUNC('month', sale_date)
 ),
@@ -1889,15 +1956,15 @@ leads_metrics AS (
         DATE_TRUNC('month', created_at) as month,
         COUNT(*) as total_leads,
         COUNT(*) FILTER (WHERE status = 'closed_won') as converted_leads,
-        AVG(CASE 
-            WHEN status = 'closed_won' THEN 
+        AVG(CASE
+            WHEN status = 'closed_won' THEN
                 EXTRACT(days FROM (updated_at - created_at))
             END) as avg_conversion_days
     FROM leads
     WHERE created_at >= CURRENT_DATE - INTERVAL '12 months'
     GROUP BY DATE_TRUNC('month', created_at)
 )
-SELECT 
+SELECT
     CURRENT_DATE as last_updated,
     json_build_object(
         'sales', json_build_object(
@@ -1912,14 +1979,14 @@ SELECT
         ),
         'leads', json_build_object(
             'total_leads', lm.total_leads,
-            'conversion_rate', 
-                CASE WHEN lm.total_leads > 0 
+            'conversion_rate',
+                CASE WHEN lm.total_leads > 0
                      THEN ROUND(lm.converted_leads::numeric / lm.total_leads * 100, 2)
                      ELSE 0 END
         )
     ) as metrics
 FROM sales_metrics sm
-CROSS JOIN inventory_metrics im  
+CROSS JOIN inventory_metrics im
 CROSS JOIN leads_metrics lm
 WHERE sm.month = DATE_TRUNC('month', CURRENT_DATE)
   AND lm.month = DATE_TRUNC('month', CURRENT_DATE);
@@ -1928,11 +1995,12 @@ WHERE sm.month = DATE_TRUNC('month', CURRENT_DATE)
 CREATE UNIQUE INDEX idx_dashboard_metrics_date ON dashboard_metrics (last_updated);
 
 -- Programar refresh cada 15 minutos
-SELECT cron.schedule('refresh-dashboard-metrics', '*/15 * * * *', 
+SELECT cron.schedule('refresh-dashboard-metrics', '*/15 * * * *',
     'REFRESH MATERIALIZED VIEW CONCURRENTLY dashboard_metrics;');
 ```
 
 **4. Consultas optimizadas en Django:**
+
 ```python
 # models.py - Managers optimizados
 class VehicleQuerySet(models.QuerySet):
@@ -1940,18 +2008,18 @@ class VehicleQuerySet(models.QuerySet):
         return self.annotate(
             movements_count=models.Count('inventory_movements')
         )
-    
+
     def available_with_details(self):
         return self.select_related().filter(
             status='available'
         ).prefetch_related(
             'inventory_movements'
         )
-    
+
     def search_optimized(self, filters):
         """Usar índices compuestos eficientemente"""
         qs = self
-        
+
         # Aprovechar índice idx_vehicles_search_optimized
         if filters.get('make'):
             qs = qs.filter(make=filters['make'])
@@ -1961,35 +2029,36 @@ class VehicleQuerySet(models.QuerySet):
             qs = qs.filter(year__range=[filters['year_min'], filters['year_max']])
         if filters.get('price_min') and filters.get('price_max'):
             qs = qs.filter(price__range=[filters['price_min'], filters['price_max']])
-            
+
         return qs.order_by('-created_at')
 
 class VehicleManager(models.Manager):
     def get_queryset(self):
         return VehicleQuerySet(self.model, using=self._db)
-    
+
     def available(self):
         return self.get_queryset().filter(status='available')
-    
+
     def search(self, **filters):
         return self.get_queryset().search_optimized(filters)
 ```
 
 **5. Monitoreo de performance:**
+
 ```sql
 -- Crear extension para monitoring
 CREATE EXTENSION IF NOT EXISTS pg_stat_statements;
 
 -- View para queries más lentas
 CREATE VIEW slow_queries AS
-SELECT 
+SELECT
     query,
     calls,
     total_time,
     mean_time,
     rows,
     100.0 * shared_blks_hit / nullif(shared_blks_hit + shared_blks_read, 0) AS hit_percent
-FROM pg_stat_statements 
+FROM pg_stat_statements
 WHERE mean_time > 100  -- queries > 100ms promedio
 ORDER BY total_time DESC
 LIMIT 20;
@@ -2000,7 +2069,7 @@ RETURNS void AS $$
 BEGIN
     IF EXISTS (SELECT 1 FROM slow_queries WHERE mean_time > 1000) THEN
         -- Notificar a equipo DevOps
-        PERFORM pg_notify('slow_query_alert', 
+        PERFORM pg_notify('slow_query_alert',
             'Queries con tiempo promedio > 1s detectadas');
     END IF;
 END;
@@ -2008,8 +2077,9 @@ $$ LANGUAGE plpgsql;
 ```
 
 **Criterios de Aceptación:**
+
 - ✅ Consulta de inventario con filtros: <100ms (vs 800ms actual)
-- ✅ Dashboard metrics load: <500ms (vs 2.3s actual)  
+- ✅ Dashboard metrics load: <500ms (vs 2.3s actual)
 - ✅ Lead search queries: <200ms (vs 1.2s actual)
 - ✅ Similarity search: <300ms (vs 1.5s actual)
 - ✅ Sin regresiones en funcionalidad existente
@@ -2018,6 +2088,7 @@ $$ LANGUAGE plpgsql;
 - ✅ Backup/restore procedures actualizados para nuevas estructuras
 
 **Plan de rollout:**
+
 1. **Phase 1:** Crear índices concurrentemente en producción (0 downtime)
 2. **Phase 2:** Implementar vista materializada con refresh programado
 3. **Phase 3:** Migrar a tabla particionada durante ventana de mantenimiento
@@ -2042,10 +2113,11 @@ Este PR implementa el sistema de Retrieval-Augmented Generation (RAG) para el ch
 **Cambios incluidos:**
 
 **🔧 Backend Changes:**
+
 ```python
 # Archivos modificados/añadidos:
 + apps/ai_chat/services/embedding_service.py     # Servicio de embeddings
-+ apps/ai_chat/services/rag_service.py          # Sistema RAG principal  
++ apps/ai_chat/services/rag_service.py          # Sistema RAG principal
 + apps/ai_chat/models.py                        # Modelos de chat y embeddings
 + apps/ai_chat/serializers.py                  # Serializers para API
 + apps/ai_chat/views.py                         # ViewSets para chat
@@ -2056,6 +2128,7 @@ Este PR implementa el sistema de Retrieval-Augmented Generation (RAG) para el ch
 ```
 
 **🎯 Funcionalidades implementadas:**
+
 - ✅ Generación de embeddings usando `sentence-transformers/all-MiniLM-L6-v2`
 - ✅ Almacenamiento vectorial en Supabase con extensión `pgvector`
 - ✅ Búsqueda semántica con threshold de similaridad configurable
@@ -2064,14 +2137,16 @@ Este PR implementa el sistema de Retrieval-Augmented Generation (RAG) para el ch
 - ✅ Fallback graceful cuando OpenAI API no está disponible
 
 **📊 Métricas de performance:**
+
 ```
 Embedding generation: ~50ms per document
-Similarity search: ~150ms for 10K vectors  
+Similarity search: ~150ms for 10K vectors
 End-to-end response: ~800ms average
 Context retention: 10 mensajes por sesión
 ```
 
 **🧪 Testing coverage:**
+
 - Unit tests: 94% coverage en nuevos módulos
 - Integration tests: Flujo completo E2E
 - Performance tests: Load testing con 100 usuarios concurrentes
@@ -2080,38 +2155,40 @@ Context retention: 10 mensajes por sesión
 **🔍 Code snippets principales:**
 
 **RAG Service Implementation:**
+
 ```python
 class RAGService:
     def __init__(self):
         self.embedding_service = EmbeddingService()
         self.openai_client = OpenAI(api_key=settings.OPENAI_API_KEY)
-    
+
     async def get_contextual_response(self, query: str, session_id: str) -> str:
         # 1. Generar embedding de la query
         query_embedding = self.embedding_service.generate_embedding(query)
-        
+
         # 2. Buscar contenido similar
         similar_content = await self.search_similar_content(
             embedding=query_embedding,
             threshold=0.7,
             max_results=5
         )
-        
+
         # 3. Construir contexto con historial
         conversation_history = await self.get_conversation_history(session_id)
         context = self.build_context(similar_content, conversation_history)
-        
+
         # 4. Generar respuesta con OpenAI
         response = await self.generate_response(query, context)
-        
+
         # 5. Guardar en historial
         await self.save_message(session_id, 'user', query)
         await self.save_message(session_id, 'assistant', response)
-        
+
         return response
 ```
 
 **Database Schema:**
+
 ```sql
 -- Nueva tabla para embeddings
 CREATE TABLE content_embeddings (
@@ -2123,23 +2200,26 @@ CREATE TABLE content_embeddings (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
-CREATE INDEX idx_content_embeddings_vector 
+CREATE INDEX idx_content_embeddings_vector
 ON content_embeddings USING ivfflat (embedding vector_cosine_ops);
 ```
 
 **🚀 Deployment notes:**
+
 - Requiere `OPENAI_API_KEY` en variables de entorno
 - Ejecutar `python manage.py generate_embeddings` después del deploy
 - Extensión `pgvector` debe estar habilitada en Supabase
 - Rate limits configurados: 100 requests/hora por usuario
 
-**🔄 Breaking changes:** 
+**🔄 Breaking changes:**
+
 - Ninguno - Funcionalidad completamente nueva
 - API endpoints nuevos bajo `/api/v1/chat/`
 
 **📋 Checklist pre-merge:**
+
 - [x] Tests pasando en CI/CD
-- [x] Code review completado por 2+ reviewers  
+- [x] Code review completado por 2+ reviewers
 - [x] Performance benchmarks dentro de objetivos
 - [x] Documentación API actualizada
 - [x] Security review aprobado (no se exponen secrets)
@@ -2154,6 +2234,7 @@ ON content_embeddings USING ivfflat (embedding vector_cosine_ops);
 **@jorge.martin:** "Gracias por el feedback! Implementé el caching con Redis (commit abc123) y agregué async batch processing. Los benchmarks mejoraron 40% para operaciones en lote."
 
 **🎯 Follow-up tickets creados:**
+
 - #128: Implementar caching de embeddings frecuentes
 - #129: Optimizar batch processing para generación inicial
 - #130: Añadir métricas de satisfaction rating para respuestas IA
@@ -2171,6 +2252,7 @@ ON content_embeddings USING ivfflat (embedding vector_cosine_ops);
 Hotfix crítico para resolver memory leak en conexiones WebSocket del sistema de notificaciones en tiempo real. El problema causaba degradación progresiva de performance en producción.
 
 **🔴 Incident summary:**
+
 ```
 Timestamp: 2024-03-22 03:45 UTC
 Alert: Memory usage >85% in production servers
@@ -2182,13 +2264,14 @@ Root cause: WebSocket connections no liberadas correctamente
 El código de manejo de WebSocket connections no limpiaba correctamente los event listeners y referencias cuando los usuarios desconectaban, causando acumulación de memoria.
 
 **📊 Impact metrics:**
+
 ```
 Before fix:
 - Memory growth: ~50MB per hour per server
 - Connection leaks: ~10-15 per hour
 - Server restart needed: Every 4-6 hours
 
-After fix:  
+After fix:
 - Memory stable: <1MB variance per hour
 - Connection leaks: 0
 - Server uptime: >48h stable
@@ -2197,82 +2280,84 @@ After fix:
 **🛠️ Changes made:**
 
 **Frontend WebSocket cleanup:**
+
 ```typescript
 // Before (problematic code)
 useEffect(() => {
-  const ws = new WebSocket(wsUrl)
-  
-  ws.onmessage = (event) => {
-    setNotifications(prev => [...prev, JSON.parse(event.data)])
-  }
-  
-  // Missing cleanup!
-}, [])
+  const ws = new WebSocket(wsUrl);
 
-// After (fixed)  
+  ws.onmessage = (event) => {
+    setNotifications((prev) => [...prev, JSON.parse(event.data)]);
+  };
+
+  // Missing cleanup!
+}, []);
+
+// After (fixed)
 useEffect(() => {
-  const ws = new WebSocket(wsUrl)
-  const abortController = new AbortController()
-  
+  const ws = new WebSocket(wsUrl);
+  const abortController = new AbortController();
+
   const handleMessage = (event: MessageEvent) => {
     if (!abortController.signal.aborted) {
-      setNotifications(prev => [...prev, JSON.parse(event.data)])
+      setNotifications((prev) => [...prev, JSON.parse(event.data)]);
     }
-  }
-  
+  };
+
   const handleClose = () => {
-    console.log('WebSocket closed')
-  }
-  
-  ws.addEventListener('message', handleMessage)
-  ws.addEventListener('close', handleClose)
-  
+    console.log("WebSocket closed");
+  };
+
+  ws.addEventListener("message", handleMessage);
+  ws.addEventListener("close", handleClose);
+
   // Proper cleanup
   return () => {
-    abortController.abort()
-    ws.removeEventListener('message', handleMessage)
-    ws.removeEventListener('close', handleClose)
+    abortController.abort();
+    ws.removeEventListener("message", handleMessage);
+    ws.removeEventListener("close", handleClose);
     if (ws.readyState === WebSocket.OPEN) {
-      ws.close(1000, 'Component unmount')
+      ws.close(1000, "Component unmount");
     }
-  }
-}, [wsUrl])
+  };
+}, [wsUrl]);
 ```
 
 **Backend connection management:**
+
 ```python
 # websocket_consumer.py - Fixed memory management
 class NotificationConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.user = self.scope["user"]
         self.group_name = f"user_{self.user.id}"
-        
+
         # Track connection
         cache.set(f"ws_conn_{self.channel_name}", {
             'user_id': str(self.user.id),
             'connected_at': timezone.now().isoformat()
         }, timeout=3600)
-        
+
         await self.channel_layer.group_add(self.group_name, self.channel_name)
         await self.accept()
-        
+
         logger.info(f"WebSocket connected: {self.channel_name}")
-    
+
     async def disconnect(self, close_code):
         # Proper cleanup - This was missing!
         await self.channel_layer.group_discard(self.group_name, self.channel_name)
-        
+
         # Remove from cache
         cache.delete(f"ws_conn_{self.channel_name}")
-        
+
         # Cancel any pending tasks
         if hasattr(self, '_background_tasks'):
             for task in self._background_tasks:
                 if not task.done():
                     task.cancel()
-        
+
         logger.info(f"WebSocket disconnected: {self.channel_name} (code: {close_code})")
-    
+
     async def receive(self, text_data):
         try:
             data = json.loads(text_data)
@@ -2283,18 +2368,19 @@ class NotificationConsumer(AsyncWebsocketConsumer):
 ```
 
 **Connection monitoring:**
+
 ```python
 # management/commands/monitor_websockets.py
 class Command(BaseCommand):
     def handle(self, *args, **options):
         """Monitor WebSocket connections and detect leaks"""
-        
+
         # Get active connections from cache
         pattern = "ws_conn_*"
         keys = cache.keys(pattern)
-        
+
         active_connections = len(keys)
-        
+
         # Check for stale connections
         stale_count = 0
         for key in keys:
@@ -2304,10 +2390,10 @@ class Command(BaseCommand):
                 if timezone.now() - connected_at > timedelta(hours=2):
                     stale_count += 1
                     cache.delete(key)  # Cleanup stale entry
-        
+
         # Log metrics
         logger.info(f"WebSocket monitoring - Active: {active_connections}, Cleaned: {stale_count}")
-        
+
         # Alert if too many connections
         if active_connections > 500:
             # Send alert to monitoring system
@@ -2315,6 +2401,7 @@ class Command(BaseCommand):
 ```
 
 **🧪 Testing added:**
+
 ```python
 # tests/test_websocket_cleanup.py
 @pytest.mark.asyncio
@@ -2323,48 +2410,50 @@ class TestWebSocketCleanup:
         """Test that disconnection properly cleans up resources"""
         consumer = NotificationConsumer()
         consumer.scope = {"user": self.user}
-        
+
         # Connect
         await consumer.connect()
         initial_count = len(cache.keys("ws_conn_*"))
-        
+
         # Disconnect
         await consumer.disconnect(1000)
-        
+
         # Verify cleanup
         final_count = len(cache.keys("ws_conn_*"))
         assert final_count == initial_count - 1
-    
+
     async def test_memory_usage_stable(self):
         """Test that memory doesn't grow with connect/disconnect cycles"""
         import psutil
         process = psutil.Process()
-        
+
         initial_memory = process.memory_info().rss
-        
+
         # Simulate 100 connect/disconnect cycles
         for i in range(100):
             consumer = NotificationConsumer()
             await consumer.connect()
             await consumer.disconnect(1000)
-        
+
         final_memory = process.memory_info().rss
         memory_growth = final_memory - initial_memory
-        
+
         # Should not grow more than 10MB
         assert memory_growth < 10 * 1024 * 1024
 ```
 
 **📋 Deployment checklist:**
+
 - [x] Hotfix probado en staging environment
-- [x] Memory profiling pre/post fix confirmado  
+- [x] Memory profiling pre/post fix confirmado
 - [x] Rollback plan preparado
 - [x] Monitoring adicional configurado
 - [x] Postmortem programado para review process
 
 **🚀 Deployment steps:**
+
 1. Deploy a servidor staging → ✅
-2. Load testing por 30 mins → ✅  
+2. Load testing por 30 mins → ✅
 3. Memory profiling confirmado → ✅
 4. Deploy a producción con blue/green → ✅
 5. Monitor por 2 horas → ✅
@@ -2377,9 +2466,10 @@ class TestWebSocketCleanup:
 **@tech.lead:** "Excelente respuesta rápida. Como follow-up, deberíamos implementar tests de memory profiling en nuestro CI para prevenir regresiones similares."
 
 **📈 Monitoring results (48h post-deploy):**
+
 ```
 Memory usage: Stable ~2.1GB (vs 4.2GB pre-fix)
-WebSocket connections: Clean disconnects 100%  
+WebSocket connections: Clean disconnects 100%
 Server uptime: 48h+ (vs 4-6h pre-fix)
 User complaints: 0 (vs 15+ daily pre-fix)
 ```
@@ -2396,9 +2486,10 @@ User complaints: 0 (vs 15+ daily pre-fix)
 Refactor comprehensivo para migrar components de clase legacy a React Hooks, mejorando performance, reduciendo bundle size y modernizando la codebase del frontend.
 
 **📊 Impact metrics:**
+
 ```
 Bundle size reduction: -23KB (-12%)
-Components migrated: 15 class → functional  
+Components migrated: 15 class → functional
 Performance improvement: ~15% faster renders
 Code reduction: -340 lines total
 TypeScript coverage: 100% maintained
@@ -2409,193 +2500,179 @@ TypeScript coverage: 100% maintained
 **1. VehicleList Component (el más complejo):**
 
 **Before (Class Component - 89 lines):**
+
 ```typescript
 // components/inventory/VehicleList.tsx (old)
 interface VehicleListState {
-  vehicles: Vehicle[]
-  loading: boolean
-  filters: FilterState
-  page: number
+  vehicles: Vehicle[];
+  loading: boolean;
+  filters: FilterState;
+  page: number;
 }
 
 class VehicleList extends React.Component<VehicleListProps, VehicleListState> {
   constructor(props: VehicleListProps) {
-    super(props)
+    super(props);
     this.state = {
       vehicles: [],
       loading: false,
       filters: this.props.initialFilters || {},
-      page: 1
-    }
+      page: 1,
+    };
   }
-  
+
   componentDidMount() {
-    this.loadVehicles()
+    this.loadVehicles();
   }
-  
+
   componentDidUpdate(prevProps: VehicleListProps, prevState: VehicleListState) {
     if (prevState.filters !== this.state.filters) {
-      this.loadVehicles()
+      this.loadVehicles();
     }
   }
-  
+
   loadVehicles = async () => {
-    this.setState({ loading: true })
+    this.setState({ loading: true });
     try {
       const vehicles = await vehicleApi.list({
         ...this.state.filters,
-        page: this.state.page
-      })
-      this.setState({ vehicles, loading: false })
+        page: this.state.page,
+      });
+      this.setState({ vehicles, loading: false });
     } catch (error) {
-      console.error(error)
-      this.setState({ loading: false })
+      console.error(error);
+      this.setState({ loading: false });
     }
-  }
-  
+  };
+
   handleFilterChange = (filters: FilterState) => {
-    this.setState({ filters, page: 1 })
-  }
-  
+    this.setState({ filters, page: 1 });
+  };
+
   render() {
-    const { vehicles, loading, filters } = this.state
-    
+    const { vehicles, loading, filters } = this.state;
+
     return (
       <div>
-        <VehicleFilters 
-          filters={filters} 
-          onChange={this.handleFilterChange} 
-        />
-        {loading ? (
-          <LoadingSpinner />
-        ) : (
-          <VehicleGrid vehicles={vehicles} />
-        )}
+        <VehicleFilters filters={filters} onChange={this.handleFilterChange} />
+        {loading ? <LoadingSpinner /> : <VehicleGrid vehicles={vehicles} />}
       </div>
-    )
+    );
   }
 }
 ```
 
 **After (Functional Component - 51 lines):**
+
 ```typescript
 // components/inventory/VehicleList.tsx (new)
 interface VehicleListProps {
-  initialFilters?: FilterState
+  initialFilters?: FilterState;
 }
 
 export function VehicleList({ initialFilters = {} }: VehicleListProps) {
-  const [filters, setFilters] = useState<FilterState>(initialFilters)
-  const [page, setPage] = useState(1)
-  
+  const [filters, setFilters] = useState<FilterState>(initialFilters);
+  const [page, setPage] = useState(1);
+
   // Custom hook for data fetching
   const {
     data: vehicles = [],
     isLoading,
-    error
+    error,
   } = useVehicles({
     ...filters,
-    page
-  })
-  
+    page,
+  });
+
   // Memoized filter handler
   const handleFilterChange = useCallback((newFilters: FilterState) => {
-    setFilters(newFilters)
-    setPage(1) // Reset pagination
-  }, [])
-  
+    setFilters(newFilters);
+    setPage(1); // Reset pagination
+  }, []);
+
   // Error boundary handling
   if (error) {
-    return <ErrorFallback error={error} />
+    return <ErrorFallback error={error} />;
   }
-  
+
   return (
     <div>
-      <VehicleFilters 
-        filters={filters} 
-        onChange={handleFilterChange} 
-      />
-      {isLoading ? (
-        <LoadingSpinner />
-      ) : (
-        <VehicleGrid vehicles={vehicles} />
-      )}
+      <VehicleFilters filters={filters} onChange={handleFilterChange} />
+      {isLoading ? <LoadingSpinner /> : <VehicleGrid vehicles={vehicles} />}
     </div>
-  )
+  );
 }
 ```
 
 **2. Custom Hook para data fetching:**
+
 ```typescript
 // hooks/useVehicles.ts (nuevo)
 interface UseVehiclesOptions {
-  make?: string
-  model?: string
-  yearMin?: number
-  yearMax?: number
-  page?: number
+  make?: string;
+  model?: string;
+  yearMin?: number;
+  yearMax?: number;
+  page?: number;
 }
 
 export function useVehicles(options: UseVehiclesOptions = {}) {
   return useQuery({
-    queryKey: ['vehicles', options],
+    queryKey: ["vehicles", options],
     queryFn: () => vehicleApi.list(options),
     keepPreviousData: true, // Para mejor UX en paginación
     staleTime: 5 * 60 * 1000, // 5 minutos
     cacheTime: 10 * 60 * 1000, // 10 minutos
     retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000)
-  })
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
 }
 ```
 
 **3. Lead Management Dashboard migrado:**
 
 **Before (Class - 156 lines) vs After (Hooks - 92 lines):**
+
 ```typescript
 // Eliminado: componentDidMount, componentDidUpdate, componentWillUnmount
 // Reemplazado por: useEffect con cleanup automático
 
 export function LeadsDashboard() {
-  const { user } = useAuth()
-  const [selectedStatus, setSelectedStatus] = useState<LeadStatus>('all')
-  
+  const { user } = useAuth();
+  const [selectedStatus, setSelectedStatus] = useState<LeadStatus>("all");
+
   // Multiple custom hooks para diferentes data sources
-  const { data: leads } = useLeads({ status: selectedStatus, assignedTo: user.id })
-  const { data: analytics } = useLeadAnalytics({ period: 'month' })
-  const { mutate: updateLead } = useUpdateLead()
-  
+  const { data: leads } = useLeads({ status: selectedStatus, assignedTo: user.id });
+  const { data: analytics } = useLeadAnalytics({ period: "month" });
+  const { mutate: updateLead } = useUpdateLead();
+
   // WebSocket para updates en tiempo real
   useWebSocket(`/ws/leads/${user.id}/`, {
     onMessage: (data) => {
       // Auto-invalidate cache when lead updates received
-      queryClient.invalidateQueries(['leads'])
-    }
-  })
-  
+      queryClient.invalidateQueries(["leads"]);
+    },
+  });
+
   // Drag and drop functionality
   const { handleDragEnd } = useDragDrop({
     onDrop: (leadId, newStatus) => {
-      updateLead({ id: leadId, status: newStatus })
-    }
-  })
-  
+      updateLead({ id: leadId, status: newStatus });
+    },
+  });
+
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <LeadsKanbanBoard 
-        leads={leads}
-        analytics={analytics}
-        selectedStatus={selectedStatus}
-        onStatusChange={setSelectedStatus}
-      />
+      <LeadsKanbanBoard leads={leads} analytics={analytics} selectedStatus={selectedStatus} onStatusChange={setSelectedStatus} />
     </DragDropContext>
-  )
+  );
 }
 ```
 
 **🚀 Performance improvements:**
 
 **1. Eliminación de re-renders innecesarios:**
+
 ```typescript
 // Antes: Re-render en cada cambio de props/state
 // Después: Memoización estratégica
@@ -2607,14 +2684,15 @@ const VehicleCard = memo(({ vehicle, onEdit }: VehicleCardProps) => {
       <VehicleDetails vehicle={vehicle} />
       <ActionButtons onEdit={() => onEdit(vehicle.id)} />
     </Card>
-  )
-})
+  );
+});
 
 // Custom comparison para memo
-VehicleCard.displayName = 'VehicleCard'
+VehicleCard.displayName = "VehicleCard";
 ```
 
 **2. Lazy loading implementation:**
+
 ```typescript
 // Componentes pesados con lazy loading
 const LeadAnalytics = lazy(() => import('./LeadAnalytics'))
@@ -2630,78 +2708,77 @@ const SalesCharts = lazy(() => import('./SalesCharts'))
 **🧪 Testing strategy:**
 
 **1. Migration testing:**
+
 ```typescript
 // __tests__/VehicleList.test.tsx
-describe('VehicleList migration', () => {
+describe("VehicleList migration", () => {
   beforeEach(() => {
     // Reset React Query cache
-    queryClient.clear()
-  })
-  
-  it('maintains same functionality as class component', async () => {
-    const { getByTestId, findByText } = render(
-      <VehicleList initialFilters={{ make: 'Toyota' }} />
-    )
-    
+    queryClient.clear();
+  });
+
+  it("maintains same functionality as class component", async () => {
+    const { getByTestId, findByText } = render(<VehicleList initialFilters={{ make: "Toyota" }} />);
+
     // Verify loading state
-    expect(getByTestId('loading-spinner')).toBeInTheDocument()
-    
+    expect(getByTestId("loading-spinner")).toBeInTheDocument();
+
     // Verify data loading
     await waitFor(() => {
-      expect(findByText('Toyota Camry')).toBeInTheDocument()
-    })
-  })
-  
-  it('handles filter changes correctly', async () => {
-    const { getByTestId } = render(<VehicleList />)
-    
-    const makeFilter = getByTestId('make-filter')
-    fireEvent.change(makeFilter, { target: { value: 'Honda' } })
-    
+      expect(findByText("Toyota Camry")).toBeInTheDocument();
+    });
+  });
+
+  it("handles filter changes correctly", async () => {
+    const { getByTestId } = render(<VehicleList />);
+
+    const makeFilter = getByTestId("make-filter");
+    fireEvent.change(makeFilter, { target: { value: "Honda" } });
+
     // Verify API called with correct filters
     await waitFor(() => {
-      expect(mockVehicleApi.list).toHaveBeenCalledWith(
-        expect.objectContaining({ make: 'Honda' })
-      )
-    })
-  })
-})
+      expect(mockVehicleApi.list).toHaveBeenCalledWith(expect.objectContaining({ make: "Honda" }));
+    });
+  });
+});
 ```
 
 **2. Performance testing:**
+
 ```typescript
 // __tests__/performance.test.tsx
-describe('Performance improvements', () => {
-  it('reduces re-renders with memoization', async () => {
-    const renderSpy = jest.fn()
-    
+describe("Performance improvements", () => {
+  it("reduces re-renders with memoization", async () => {
+    const renderSpy = jest.fn();
+
     const TestComponent = memo(() => {
-      renderSpy()
-      return <VehicleCard vehicle={mockVehicle} />
-    })
-    
-    const { rerender } = render(<TestComponent />)
-    
+      renderSpy();
+      return <VehicleCard vehicle={mockVehicle} />;
+    });
+
+    const { rerender } = render(<TestComponent />);
+
     // Same props should not trigger re-render
-    rerender(<TestComponent />)
-    
-    expect(renderSpy).toHaveBeenCalledTimes(1)
-  })
-})
+    rerender(<TestComponent />);
+
+    expect(renderSpy).toHaveBeenCalledTimes(1);
+  });
+});
 ```
 
 **📋 Code quality improvements:**
 
 **1. TypeScript strictness:**
+
 ```typescript
 // Eliminado: any types y type assertions inseguras
 // Añadido: Strict typing para todos los hooks
 
 interface UseLeadsResult {
-  leads: Lead[]
-  isLoading: boolean
-  error: Error | null
-  refetch: () => Promise<void>
+  leads: Lead[];
+  isLoading: boolean;
+  error: Error | null;
+  refetch: () => Promise<void>;
 }
 
 export function useLeads(filters: LeadFilters): UseLeadsResult {
@@ -2710,26 +2787,28 @@ export function useLeads(filters: LeadFilters): UseLeadsResult {
 ```
 
 **2. Error boundaries mejorados:**
+
 ```typescript
 // hooks/useErrorBoundary.ts
 export function useErrorBoundary() {
   return useCallback((error: Error, errorInfo: ErrorInfo) => {
     // Log to monitoring service
-    logger.error('Component error boundary triggered', {
+    logger.error("Component error boundary triggered", {
       error: error.message,
       stack: error.stack,
-      componentStack: errorInfo.componentStack
-    })
-    
+      componentStack: errorInfo.componentStack,
+    });
+
     // Show user-friendly error message
-    toast.error('Algo salió mal. Nuestro equipo ha sido notificado.')
-  }, [])
+    toast.error("Algo salió mal. Nuestro equipo ha sido notificado.");
+  }, []);
 }
 ```
 
 **🔄 Migration checklist completado:**
+
 - [x] 15 class components → functional components
-- [x] Custom hooks extraídos para lógica reutilizable  
+- [x] Custom hooks extraídos para lógica reutilizable
 - [x] Performance optimizations aplicadas
 - [x] Tests migrados y actualizados
 - [x] TypeScript errors resueltos (0 errors)
@@ -2739,9 +2818,10 @@ export function useErrorBoundary() {
 - [x] Cross-browser testing (Chrome, Firefox, Safari, Edge)
 
 **📈 Results summary:**
+
 ```
 ✅ Bundle size: 192KB → 169KB (-12%)
-✅ First contentful paint: 1.2s → 1.0s  
+✅ First contentful paint: 1.2s → 1.0s
 ✅ Time to interactive: 2.8s → 2.4s
 ✅ Memory usage: -15% average
 ✅ Developer experience: Significantly improved
@@ -2755,7 +2835,8 @@ export function useErrorBoundary() {
 **@ui.designer:** "The new loading states and error handling feel much more polished. Great attention to UX details during the refactor."
 
 **🔮 Follow-up planned:**
-- #147: Implement additional custom hooks for common patterns  
+
+- #147: Implement additional custom hooks for common patterns
 - #148: Add Storybook stories for all migrated components
 - #149: Performance monitoring dashboard for component render times
 - #150: Team training session on React Hooks best practices
