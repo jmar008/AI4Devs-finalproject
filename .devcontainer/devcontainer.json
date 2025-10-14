@@ -174,7 +174,8 @@
       "extensions": [
         "buildwithlayer.django-integration-expert-Gus30",
         "openai.chatgpt",
-        "GitHub.copilot-chat"
+        "GitHub.copilot-chat",
+        "GitHub.copilot"
       ]
     }
   }
