@@ -18,7 +18,7 @@
   },
 
   // Extensiones de VS Code a instalar automáticamente
-  "customizations": {
+  "customizatioiona el siguente errorns": {
     "vscode": {
       "extensions": [
         // Python
@@ -135,8 +135,8 @@
   "forwardPorts": [
     3000, // Frontend Next.js
     8000, // Backend Django
-    5432, // PostgreSQL
-    6379 // Redis (cache/celery)
+    5433, // PostgreSQL (cambiado para evitar conflicto)
+    6380 // Redis (cache/celery) (cambiado para evitar conflicto)
   ],
 
   "portsAttributes": {
@@ -148,11 +148,11 @@
       "label": "Backend API",
       "onAutoForward": "notify"
     },
-    "5432": {
+    "5433": {
       "label": "PostgreSQL",
       "onAutoForward": "silent"
     },
-    "6379": {
+    "6380": {
       "label": "Redis",
       "onAutoForward": "silent"
     }
@@ -163,10 +163,19 @@
     "WORKSPACE_DIR": "/workspace",
     "PYTHONPATH": "/workspace/backend",
     "NODE_ENV": "development",
-    "DATABASE_URL": "postgresql://postgres:postgres@localhost:5432/dealaai_dev",
-    "REDIS_URL": "redis://localhost:6379/0"
+    "DATABASE_URL": "postgresql://postgres:postgres@db:5432/dealaai_dev",
+    "REDIS_URL": "redis://redis:6379/0"
   },
 
   // Usuario remoto
-  "remoteUser": "vscode"
+  "remoteUser": "vscode",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "buildwithlayer.django-integration-expert-Gus30",
+        "openai.chatgpt",
+        "GitHub.copilot-chat"
+      ]
+    }
+  }
 }

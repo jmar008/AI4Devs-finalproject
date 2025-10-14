@@ -10,20 +10,9 @@ indent_size = 2
 
 [*.py]
 indent_size = 4
-max_line_length = 100
-
-[*.{js,jsx,ts,tsx}]
-indent_size = 2
 
 [*.md]
 trim_trailing_whitespace = false
-max_line_length = off
-
-[*.{yml,yaml}]
-indent_size = 2
 
 [Makefile]
 indent_style = tab
-
-[*.sql]
-indent_size = 2
