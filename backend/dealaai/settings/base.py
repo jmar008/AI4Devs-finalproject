@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
 
     # Local apps (se crearán después)
-    # 'apps.authentication',
+    'apps.authentication',
     # 'apps.inventory',
     # 'apps.leads',
     # 'apps.sales',
@@ -143,3 +143,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+AUTH_USER_MODEL = 'authentication.User'
