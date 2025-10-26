@@ -24,7 +24,7 @@ RUN groupadd -r django && useradd -r -g django django
 # Instalar dependencias Python - Etapa de construcción
 FROM base AS builder
 
-COPY requirements/production.txt requirements.txt
+COPY requirements.txt requirements.txt
 RUN pip install --user -r requirements.txt
 
 # Imagen de producción
