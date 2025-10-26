@@ -1,8 +1,5 @@
 # Docker Compose para Producción - EasyPanel
 # Configuración optimizada para deployment en EasyPanel con Nginx reverse proxy
-
-version: "3.8"
-
 services:
   # Nginx Reverse Proxy
   nginx:
