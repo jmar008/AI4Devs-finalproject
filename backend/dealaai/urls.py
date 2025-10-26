@@ -46,7 +46,10 @@ urlpatterns = [
     path("api/", include([
         # Autenticación
         path("auth/", include("apps.authentication.urls")),
-        
+
+        # Stock
+        path("", include("apps.stock.urls")),
+
         # Documentación
         path("schema/", SpectacularAPIView.as_view(), name="schema"),
         path("docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),

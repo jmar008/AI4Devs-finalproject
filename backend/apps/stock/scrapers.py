@@ -76,20 +76,35 @@ def generar_datos_faltantes() -> Dict:
     dias_stock = random.randint(1, 365)
     precio = Decimal(str(random.randint(5000, 150000)))
 
+    # Datos técnicos
+    combustibles = ['Gasolina', 'Diésel', 'Híbrido', 'Eléctrico', 'GLP']
+    transmisiones = ['Manual', 'Automática', 'CVT']
+    tipos_vehiculos = ['Berlina', 'SUV', 'Coupé', 'Monvolumen', 'Pickup', 'Furgoneta']
+
     return {
         'marca': marca,
         'modelo': modelo,
         'modelo_comercial': modelo,
+        'version': f"{modelo} {random.choice(['1.0', '1.6', '2.0', '2.5', '3.0'])}",
         'anio_matricula': fecha_matricula.year,
         'color': random.choice(COLORES),
         'color_secundario': random.choice(COLORES),
-        'kilom­etros': random.randint(1000, 250000),
+        'kilometros': random.randint(1000, 250000),
         'precio_venta': precio,
         'importe_compra': Decimal(str(float(precio) * random.uniform(0.5, 0.8))),
         'importe_costo': Decimal(str(float(precio) * random.uniform(0.4, 0.7))),
         'dias_stock': dias_stock,
         'fecha_matriculacion': fecha_matricula.date(),
         'fecha_recepcion': fecha_matricula.date() + timedelta(days=random.randint(0, 30)),
+        # Nuevos campos técnicos
+        'combustible': random.choice(combustibles),
+        'transmision': random.choice(transmisiones),
+        'tipo_vehiculo': random.choice(tipos_vehiculos),
+        'cilindrada': random.randint(1000, 5000),
+        'potencia': random.randint(75, 500),
+        'peso': random.randint(1000, 2500),
+        'puertas': random.choice([3, 5]),
+        'plazas': random.choice([5, 7]),
     }
 
 
