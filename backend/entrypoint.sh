@@ -16,6 +16,11 @@ echo "Running migrations..."
 python manage.py migrate --noinput
 echo "✓ Migrations completed"
 
+# Crear tabla de cache
+echo "Creating cache table..."
+python manage.py createcachetable || true
+echo "✓ Cache table created"
+
 # Recopilar archivos estáticos
 echo "Collecting static files..."
 python manage.py collectstatic --noinput --clear || true
