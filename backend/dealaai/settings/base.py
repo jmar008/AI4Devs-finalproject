@@ -152,7 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'authentication.User'
 
 # OpenRouter AI Configuration (compatible con OpenAI SDK)
-DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY', default='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')
+DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY', default='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')
 DEEPSEEK_API_BASE = 'https://openrouter.ai/api/v1'  # OpenRouter endpoint
 DEEPSEEK_MODEL = 'deepseek/deepseek-r1:free'  # Modelo principal - DeepSeek R1 (más potente)
 
