@@ -290,24 +290,26 @@ services:
       - dealaai_network
 
   # Prometheus para métricas (opcional)
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: dealaai_prometheus_prod
-    restart: unless-stopped
-    expose:
-      - "9090"
-    volumes:
-      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - prometheus_data:/prometheus
-    command:
-      - "--config.file=/etc/prometheus/prometheus.yml"
-      - "--storage.tsdb.path=/prometheus"
-      - "--web.console.libraries=/etc/prometheus/console_libraries"
-      - "--web.console.templates=/etc/prometheus/consoles"
-      - "--storage.tsdb.retention.time=200h"
-      - "--web.enable-lifecycle"
-    networks:
-      - dealaai_network
+  # Prometheus para métricas (opcional - comentado para MVP)
+  # Descomentar cuando se necesite monitoreo avanzado
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   container_name: dealaai_prometheus_prod
+  #   restart: unless-stopped
+  #   expose:
+  #     - "9090"
+  #   volumes:
+  #     - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+  #     - prometheus_data:/prometheus
+  #   command:
+  #     - "--config.file=/etc/prometheus/prometheus.yml"
+  #     - "--storage.tsdb.path=/prometheus"
+  #     - "--web.console.libraries=/etc/prometheus/console_libraries"
+  #     - "--web.console.templates=/etc/prometheus/consoles"
+  #     - "--storage.tsdb.retention.time=200h"
+  #     - "--web.enable-lifecycle"
+  #   networks:
+  #     - dealaai_network
 
 volumes:
   postgres_data:
@@ -326,8 +328,8 @@ volumes:
     driver: local
   postgres_backups:
     driver: local
-  prometheus_data:
-    driver: local
+  # prometheus_data:
+  #   driver: local
 
 networks:
   dealaai_network:
