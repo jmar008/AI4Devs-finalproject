@@ -157,7 +157,7 @@ export default function DashboardPage() {
           </h2>
           <div className="space-y-2">
             <Button
-              onClick={() => router.push('/dashboard/stock')}
+              onClick={() => router.push('/stock')}
               className="w-full justify-start bg-indigo-600 hover:bg-indigo-700"
             >
               <Car size={18} className="mr-2" />

@@ -169,7 +169,7 @@ export default function StockPage() {
   }, [authLoading, isAuthenticated, router])
 
   const handleViewDetails = (bastidor: string) => {
-    router.push(`/dashboard/stock/${bastidor}`)
+    router.push(`/stock/${bastidor}`)
   }
 
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE)
@@ -466,6 +466,74 @@ export default function StockPage() {
                   </div>
                 )
             )}
+
+            {/* Legend */}
+            <div className="border-t border-gray-200 bg-gray-50 px-6 py-4">
+              <div className="mb-3">
+                <p className="mb-2 text-sm font-semibold text-gray-700">
+                  📋 Leyenda:
+                </p>
+                <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-4">
+                  {/* Stock Types */}
+                  <div className="flex items-center gap-2">
+                    <span className="rounded bg-blue-100 px-2 py-0.5 text-xs font-semibold text-blue-800">
+                      PROMO
+                    </span>
+                    <span className="text-xs text-gray-600">
+                      Vehículos en promoción
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="rounded bg-purple-100 px-2 py-0.5 text-xs font-semibold text-purple-800">
+                      SPECI
+                    </span>
+                    <span className="text-xs text-gray-600">
+                      Vehículos especiales
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="rounded bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-800">
+                      NORMA
+                    </span>
+                    <span className="text-xs text-gray-600">
+                      Stock normal/regular
+                    </span>
+                  </div>
+
+                  {/* Estado */}
+                  <div className="flex items-center gap-2">
+                    <span className="rounded bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-800">
+                      🔒
+                    </span>
+                    <span className="text-xs text-gray-600">
+                      Vehículo reservado
+                    </span>
+                  </div>
+
+                  {/* Publicado */}
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-green-600">✓</span>
+                    <span className="text-xs text-gray-600">
+                      Publicado en internet
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-red-600">✗</span>
+                    <span className="text-xs text-gray-600">No publicado</span>
+                  </div>
+
+                  {/* Diferencia de precio */}
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-green-600">+€</span>
+                    <span className="text-xs text-gray-600">Precio subió</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-red-600">-€</span>
+                    <span className="text-xs text-gray-600">Precio bajó</span>
+                  </div>
+                </div>
+              </div>
+            </div>
 
             {/* Pagination */}
             <div className="flex items-center justify-between border-t border-gray-200 px-6 py-4">

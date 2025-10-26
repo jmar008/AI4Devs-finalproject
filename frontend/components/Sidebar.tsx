@@ -21,18 +21,18 @@ const menuItems = [
   },
   {
     label: 'Stock',
-    href: '/dashboard/stock',
+    href: '/stock',
     icon: Car,
   },
   {
     label: 'Leads',
-    href: '/dashboard/leads',
+    href: '/leads',
     icon: Users,
     badge: 'Próx',
   },
   {
     label: 'Chat IA',
-    href: '/dashboard/chat',
+    href: '/chat',
     icon: MessageSquare,
     badge: 'Próx',
   },

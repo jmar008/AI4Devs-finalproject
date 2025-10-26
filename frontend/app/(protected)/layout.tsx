@@ -6,7 +6,17 @@ import useAuthStore from '@/store/authStore'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-export default function DashboardLayout({
+// Lista de rutas que requieren layout protegido
+const PROTECTED_ROUTES = [
+  '/dashboard',
+  '/stock',
+  '/profile',
+  '/settings',
+  '/leads',
+  '/chat',
+]
+
+export default function ProtectedLayout({
   children,
 }: {
   children: React.ReactNode
@@ -14,25 +24,29 @@ export default function DashboardLayout({
   const router = useRouter()
   const { isAuthenticated, token } = useAuthStore()
   const [mounted, setMounted] = useState(false)
+  const [currentPath, setCurrentPath] = useState('')
 
   useEffect(() => {
     setMounted(true)
+    setCurrentPath(window.location.pathname)
   }, [])
 
-  // Si no está montado, mostrar loading
+  const isProtectedRoute = PROTECTED_ROUTES.some((route) =>
+    currentPath.startsWith(route)
+  )
+
+  // Si no está montado, no renderizar nada
   if (!mounted) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <div className="animate-spin">
-          <div className="h-12 w-12 rounded-full border-4 border-indigo-600 border-t-transparent" />
-        </div>
-      </div>
-    )
+    return children
+  }
+
+  // Si no es una ruta protegida, renderizar sin layout
+  if (!isProtectedRoute) {
+    return children
   }
 
   // Si no hay token, redirigir a login
   if (!token || !isAuthenticated) {
-    // Solo redirigir una vez
     if (mounted) {
       router.push('/login')
     }
@@ -45,7 +59,7 @@ export default function DashboardLayout({
     )
   }
 
-  // Mostrar el dashboard
+  // Mostrar el layout protegido
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}

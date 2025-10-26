@@ -1,11 +1,11 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
+import { stockAPI } from '@/lib/api'
+import { useAuthStore } from '@/store/authStore'
+import { ChevronLeft } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { useAuthStore } from '@/store/authStore'
-import { stockAPI } from '@/lib/api'
-import { Button } from '@/components/ui/button'
-import { ChevronLeft } from 'lucide-react'
 
 interface Stock {
   bastidor: string
@@ -156,7 +156,9 @@ export default function StockDetailPage() {
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {/* Información básica */}
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow">
-          <h2 className="mb-4 text-lg font-bold text-gray-900">Información Básica</h2>
+          <h2 className="mb-4 text-lg font-bold text-gray-900">
+            Información Básica
+          </h2>
           <div className="space-y-3">
             <DetailRow label="Matrícula" value={vehicle.matricula} />
             <DetailRow label="Bastidor" value={vehicle.bastidor} />
@@ -173,19 +175,31 @@ export default function StockDetailPage() {
             <DetailRow
               label="Precio Venta"
               value={formatPrice(vehicle.precio_venta)}
-              className="text-indigo-600 font-semibold"
+              className="font-semibold text-indigo-600"
             />
             <DetailRow
               label="Precio Anterior"
-              value={vehicle.precio_anterior ? formatPrice(vehicle.precio_anterior) : '-'}
+              value={
+                vehicle.precio_anterior
+                  ? formatPrice(vehicle.precio_anterior)
+                  : '-'
+              }
             />
             <DetailRow
               label="Precio Compra"
-              value={vehicle.importe_compra ? formatPrice(vehicle.importe_compra) : '-'}
+              value={
+                vehicle.importe_compra
+                  ? formatPrice(vehicle.importe_compra)
+                  : '-'
+              }
             />
             <DetailRow
               label="Beneficio Estimado"
-              value={vehicle.stock_benef_estimado ? formatPrice(vehicle.stock_benef_estimado) : '-'}
+              value={
+                vehicle.stock_benef_estimado
+                  ? formatPrice(vehicle.stock_benef_estimado)
+                  : '-'
+              }
             />
           </div>
         </div>
@@ -194,7 +208,10 @@ export default function StockDetailPage() {
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow">
           <h2 className="mb-4 text-lg font-bold text-gray-900">Stock</h2>
           <div className="space-y-3">
-            <DetailRow label="Kilómetros" value={vehicle.kilometros.toLocaleString()} />
+            <DetailRow
+              label="Kilómetros"
+              value={vehicle.kilometros.toLocaleString()}
+            />
             <DetailRow label="Días en Stock" value={vehicle.dias_stock} />
             <DetailRow label="Tipo de Stock" value={vehicle.tipo_stock} />
             <DetailRow
@@ -212,7 +229,10 @@ export default function StockDetailPage() {
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow">
           <h2 className="mb-4 text-lg font-bold text-gray-900">Ubicación</h2>
           <div className="space-y-3">
-            <DetailRow label="Concesionario" value={vehicle.nom_concesionario} />
+            <DetailRow
+              label="Concesionario"
+              value={vehicle.nom_concesionario}
+            />
             <DetailRow label="Provincia" value={vehicle.provincia} />
             <DetailRow label="Ubicación" value={vehicle.ubicacion} />
           </div>
@@ -256,7 +276,10 @@ export default function StockDetailPage() {
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow">
           <h2 className="mb-4 text-lg font-bold text-gray-900">Fechas</h2>
           <div className="space-y-3">
-            <DetailRow label="Matriculación" value={vehicle.fecha_matriculacion} />
+            <DetailRow
+              label="Matriculación"
+              value={vehicle.fecha_matriculacion}
+            />
             <DetailRow label="Recepción" value={vehicle.fecha_recepcion} />
             <DetailRow label="Informe" value={vehicle.fecha_informe} />
           </div>
@@ -278,7 +301,9 @@ function DetailRow({
   return (
     <div className="flex items-center justify-between border-b border-gray-100 pb-2">
       <span className="text-sm font-medium text-gray-600">{label}</span>
-      <span className={`text-sm text-gray-900 ${className}`}>{value || '-'}</span>
+      <span className={`text-sm text-gray-900 ${className}`}>
+        {value || '-'}
+      </span>
     </div>
   )
 }

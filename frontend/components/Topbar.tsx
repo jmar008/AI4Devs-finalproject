@@ -88,15 +88,11 @@ export function Topbar() {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => router.push('/dashboard/profile')}
-              >
+              <DropdownMenuItem onClick={() => router.push('/profile')}>
                 <Settings size={16} className="mr-2" />
                 Mi perfil
               </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => router.push('/dashboard/settings')}
-              >
+              <DropdownMenuItem onClick={() => router.push('/settings')}>
                 <Settings size={16} className="mr-2" />
                 Configuración
               </DropdownMenuItem>
