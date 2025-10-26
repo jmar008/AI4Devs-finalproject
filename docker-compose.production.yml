@@ -1,24 +1,41 @@
-# Docker Compose para Producción - EasyPanel (SIMPLIFICADO v2)
-# Configuración minimalista MVP - Replica desarrollo exitoso
-# SIN HEALTHCHECKS en backend/frontend para evitar problemas
+# Docker Compose para Producción - EasyPanel (EXACTAMENTE IGUAL QUE DESARROLLO)
+# Configuración idéntica a desarrollo que funciona perfectamente
 services:
-  # PostgreSQL con pgvector
+  # Base de datos PostgreSQL con pgvector
   db:
-    image: ankane/pgvector:v0.5.1
+    image: ankane/pgvector:latest
     container_name: dealaai_db_prod
     restart: unless-stopped
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_DB: dealaai_prod
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./database/init:/docker-entrypoint-initdb.d:ro
+      - ./database/init:/docker-entrypoint-initdb.d
+    networks:
+      - dealaai_network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d dealaai_prod"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis para cache y Celery
+  redis:
+    image: redis:7-alpine
+    container_name: dealaai_redis_prod
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - dealaai_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -27,76 +44,134 @@ services:
   backend:
     build:
       context: ./backend
-      dockerfile: ../docker/backend/Dockerfile.prod
-      args:
-        - DJANGO_SETTINGS_MODULE=dealaai.settings.production
+      dockerfile: ../docker/backend/Dockerfile
     container_name: dealaai_backend_prod
     restart: unless-stopped
-    ports:
-      - "8000:8000"
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
+      - ./backend:/app
       - backend_media:/app/media
       - backend_static:/app/staticfiles
-      - backend_logs:/app/logs
-    environment:
-      - DJANGO_SETTINGS_MODULE=dealaai.settings.production
-      - DATABASE_URL=postgresql://postgres:${DB_PASSWORD}@db:5432/dealaai_prod
-      - SECRET_KEY=${SECRET_KEY}
-      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
-      - ALLOWED_HOSTS=mcp.jorgemg.es,backend,localhost,127.0.0.1
-      - CORS_ALLOWED_ORIGINS=https://mcp.jorgemg.es
-      - DEBUG=False
-      - USE_CELERY=false
-      - USE_REDIS=false
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env.production
     depends_on:
       db:
         condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - dealaai_network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   # Frontend Next.js
   frontend:
     build:
       context: ./frontend
-      dockerfile: ../docker/frontend/Dockerfile.prod
-      args:
-        - NODE_ENV=production
-        - NEXT_PUBLIC_API_URL=https://mcp.jorgemg.es/api/v1
-        - NEXT_PUBLIC_WS_URL=wss://mcp.jorgemg.es/ws
+      dockerfile: ../docker/frontend/Dockerfile
     container_name: dealaai_frontend_prod
     restart: unless-stopped
+    command: npm run dev
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
     ports:
-      - "3001:3000" # Cambiado de 3000 a 3001 para evitar conflicto
-    environment:
-      - NODE_ENV=production
-      - NEXT_PUBLIC_API_URL=https://mcp.jorgemg.es/api/v1
-      - NEXT_PUBLIC_WS_URL=wss://mcp.jorgemg.es/ws
-      - NEXT_PUBLIC_DOMAIN=mcp.jorgemg.es
+      - "3000:3000"
+    env_file:
+      - ./frontend/.env.local.production
     depends_on:
       - backend
+    networks:
+      - dealaai_network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://localhost:3000",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
-  # pgAdmin - Cliente web de PostgreSQL (Opcional)
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: dealaai_pgadmin_prod
+  # Celery Worker (para tareas asíncronas)
+  celery_worker:
+    build:
+      context: ./backend
+      dockerfile: ../docker/backend/Dockerfile
+    container_name: dealaai_celery_worker_prod
+    restart: unless-stopped
+    command: celery -A dealaai worker -l info
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./backend/.env.production
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - dealaai_network
+
+  # Celery Beat (para tareas programadas)
+  celery_beat:
+    build:
+      context: ./backend
+      dockerfile: ../docker/backend/Dockerfile
+    container_name: dealaai_celery_beat_prod
+    restart: unless-stopped
+    command: celery -A dealaai beat -l info
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./backend/.env.production
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - dealaai_network
+
+  # Nginx (reverse proxy para desarrollo)
+  nginx:
+    image: nginx:alpine
+    container_name: dealaai_nginx_prod
     restart: unless-stopped
     ports:
-      - "5050:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@mcp.jorgemg.es
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: "True"
+      - "80:80"
     volumes:
-      - pgadmin_data:/var/lib/pgadmin
+      - ./docker/nginx/nginx.dev.conf:/etc/nginx/nginx.conf:ro
+      - backend_static:/var/www/static
+      - backend_media:/var/www/media
     depends_on:
-      - db
+      - backend
+      - frontend
+    networks:
+      - dealaai_network
 
 volumes:
   postgres_data:
+    driver: local
+  redis_data:
     driver: local
   backend_media:
     driver: local
   backend_static:
     driver: local
-  backend_logs:
-    driver: local
-  pgadmin_data:
-    driver: local
+
+networks:
+  dealaai_network:
+    driver: bridge
