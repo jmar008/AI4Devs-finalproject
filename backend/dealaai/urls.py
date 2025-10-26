@@ -20,6 +20,24 @@ from django.http import JsonResponse
 from django.conf import settings
 from rest_framework import permissions
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
+from django.db import connection
+
+
+def health_check(request):
+    """Health check endpoint para verificar estado del sistema."""
+    try:
+        # Verificar conexión a base de datos
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT 1")
+        db_status = "healthy"
+    except Exception:
+        db_status = "unhealthy"
+
+    return JsonResponse({
+        "status": "healthy" if db_status == "healthy" else "unhealthy",
+        "database": db_status,
+        "timestamp": settings.TIME_ZONE
+    }, status=200 if db_status == "healthy" else 503)
 
 
 def api_root(request):
@@ -44,6 +62,9 @@ urlpatterns = [
     path("", api_root, name="api-root"),
     path("admin/", admin.site.urls),
     path("api/", include([
+        # Health check
+        path("health/", health_check, name="health-check"),
+
         # Autenticación
         path("auth/", include("apps.authentication.urls")),
 
