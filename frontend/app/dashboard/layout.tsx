@@ -4,7 +4,7 @@ import { Sidebar } from '@/components/Sidebar'
 import { Topbar } from '@/components/Topbar'
 import useAuthStore from '@/store/authStore'
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function DashboardLayout({
   children,
@@ -12,21 +12,15 @@ export default function DashboardLayout({
   children: React.ReactNode
 }) {
   const router = useRouter()
-  const { isAuthenticated, isLoading, checkAuth } = useAuthStore()
+  const { isAuthenticated, token } = useAuthStore()
+  const [mounted, setMounted] = useState(false)
 
-  // Verificar autenticación al montar
   useEffect(() => {
-    checkAuth()
-  }, [checkAuth])
+    setMounted(true)
+  }, [])
 
-  // Redirigir a login si no está autenticado
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push('/login')
-    }
-  }, [isLoading, isAuthenticated, router])
-
-  if (isLoading) {
+  // Si no está montado, mostrar loading
+  if (!mounted) {
     return (
       <div className="flex min-h-screen items-center justify-center">
         <div className="animate-spin">
@@ -36,6 +30,22 @@ export default function DashboardLayout({
     )
   }
 
+  // Si no hay token, redirigir a login
+  if (!token || !isAuthenticated) {
+    // Solo redirigir una vez
+    if (mounted) {
+      router.push('/login')
+    }
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="animate-spin">
+          <div className="h-12 w-12 rounded-full border-4 border-indigo-600 border-t-transparent" />
+        </div>
+      </div>
+    )
+  }
+
+  // Mostrar el dashboard
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}

@@ -169,7 +169,7 @@ export default function StockPage() {
   }, [authLoading, isAuthenticated, router])
 
   const handleViewDetails = (bastidor: string) => {
-    router.push(`/dashboard/stock/${bastidor}`)
+    router.push(`/stock/${bastidor}`)
   }
 
   const totalPages = Math.ceil(totalCount / ITEMS_PER_PAGE)

@@ -47,8 +47,6 @@ class StockViewSet(viewsets.ReadOnlyModelViewSet):
     filterset_fields = {
         'marca': ['exact', 'icontains'],
         'modelo': ['exact', 'icontains'],
-        'combustible': ['exact'],
-        'transmision': ['exact'],
         'tipo_vehiculo': ['exact'],
         'anio_matricula': ['exact', 'gte', 'lte'],
         'precio_venta': ['gte', 'lte'],
@@ -121,7 +119,7 @@ class StockViewSet(viewsets.ReadOnlyModelViewSet):
         - Total de vehículos
         - Precio promedio
         - Vehículos por marca
-        - Vehículos por tipo de combustible
+        - Vehículos por tipo de vehículo
         """
         total = self.queryset.count()
         disponibles = self.queryset.filter(reservado=False).count()
@@ -135,7 +133,6 @@ class StockViewSet(viewsets.ReadOnlyModelViewSet):
             'precio_minimo': None,
             'precio_maximo': None,
             'por_marca': {},
-            'por_combustible': {},
             'por_tipo': {},
             'km_promedio': None,
         }
@@ -157,10 +154,6 @@ class StockViewSet(viewsets.ReadOnlyModelViewSet):
         # Contar por marca
         marcas = self.queryset.values('marca').annotate(count=Count('id')).order_by('-count')
         stats['por_marca'] = {m['marca']: m['count'] for m in marcas[:10]}
-
-        # Contar por combustible
-        combustibles = self.queryset.values('combustible').annotate(count=Count('id'))
-        stats['por_combustible'] = {c['combustible']: c['count'] for c in combustibles if c['combustible']}
 
         # Contar por tipo
         tipos = self.queryset.values('tipo_vehiculo').annotate(count=Count('id'))
@@ -191,7 +184,7 @@ class StockViewSet(viewsets.ReadOnlyModelViewSet):
             # Headers
             headers = [
                 'Bastidor', 'Marca', 'Modelo', 'Año', 'Precio', 'Km',
-                'Color', 'Combustible', 'Transmisión', 'Estado'
+                'Color', 'Tipo Vehículo', 'Estado'
             ]
             ws.append(headers)
 
@@ -205,8 +198,7 @@ class StockViewSet(viewsets.ReadOnlyModelViewSet):
                     vehicle.precio_venta,
                     vehicle.kilometros,
                     vehicle.color,
-                    vehicle.combustible,
-                    vehicle.transmision,
+                    vehicle.tipo_vehiculo,
                     vehicle.descripcion_estado,
                 ])
 
@@ -227,7 +219,7 @@ class StockViewSet(viewsets.ReadOnlyModelViewSet):
             writer = csv.writer(response)
             writer.writerow([
                 'Bastidor', 'Marca', 'Modelo', 'Año', 'Precio', 'Km',
-                'Color', 'Combustible', 'Transmisión', 'Estado'
+                'Color', 'Tipo Vehículo', 'Estado'
             ])
 
             for vehicle in queryset[:5000]:
@@ -239,8 +231,7 @@ class StockViewSet(viewsets.ReadOnlyModelViewSet):
                     vehicle.precio_venta,
                     vehicle.kilometros,
                     vehicle.color,
-                    vehicle.combustible,
-                    vehicle.transmision,
+                    vehicle.tipo_vehiculo,
                     vehicle.descripcion_estado,
                 ])
 

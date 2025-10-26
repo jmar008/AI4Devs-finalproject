@@ -32,7 +32,11 @@ export default function LoginPage() {
     try {
       await login(data.username, data.password)
       toast.success('¡Sesión iniciada correctamente!')
-      router.push('/dashboard')
+
+      // Delay para asegurar que el token se guarda en localStorage antes de redirigir
+      setTimeout(() => {
+        router.push('/dashboard')
+      }, 500)
     } catch (err) {
       toast.error(error || 'Error al iniciar sesión')
     }

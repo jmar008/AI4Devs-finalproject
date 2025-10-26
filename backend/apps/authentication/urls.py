@@ -10,4 +10,6 @@ router.register(r'perfiles', PerfilViewSet, basename='perfil')
 
 urlpatterns = [
     path('', include(router.urls)),
+    # Alias de login para compatibilidad
+    path('login/', UserViewSet.as_view({'post': 'login'}), name='login-alias'),
 ]

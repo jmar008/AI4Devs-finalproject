@@ -10,7 +10,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
-import { useAuthStore, User } from '@/store/authStore'
+import useAuthStore, { type User } from '@/store/authStore'
 import { Bell, ChevronDown, LogOut, Search, Settings } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 

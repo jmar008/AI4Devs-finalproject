@@ -33,7 +33,7 @@ class UserBasicSerializer(serializers.ModelSerializer):
     nombre_completo = serializers.ReadOnlyField()
     profile_info = serializers.SerializerMethodField()
 
-    def get_profile_info(self, obj):
+    def get_profile_info(self, obj) -> dict:
         if obj.profile:
             return {"id": obj.profile.id, "codigo": obj.profile.codigo, "nombre": obj.profile.nombre}
         return None
@@ -64,7 +64,12 @@ class UserSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['id', 'date_joined', 'last_login', 'subordinados_count']
 
-    def get_subordinados_count(self, obj):
+    def get_profile_info(self, obj) -> dict:
+        if obj.profile:
+            return {"id": obj.profile.id, "codigo": obj.profile.codigo, "nombre": obj.profile.nombre}
+        return None
+
+    def get_subordinados_count(self, obj) -> int:
         """Devuelve el número de subordinados"""
         return obj.subordinados.count()
 

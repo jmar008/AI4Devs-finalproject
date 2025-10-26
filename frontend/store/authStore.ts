@@ -15,21 +15,57 @@ export interface User {
   email: string
   first_name: string
   last_name: string
+  nombre_completo?: string
   phone?: string
   avatar?: string
-  perfil?: {
+  profile?: number
+  profile_info?: {
     id: number
-    nombre: string
-    descripcion: string
-  }
-  concesionario?: {
-    id: number
+    codigo: string
     nombre: string
   }
-  provincia?: {
+  jefe?: number
+  jefe_info?: {
+    id: number
+    username: string
+    nombre_completo: string
+    profile: number
+    profile_info: {
+      id: number
+      codigo: string
+      nombre: string
+    }
+  }
+  concesionario?: number
+  concesionario_info?: {
     id: number
     nombre: string
+    direccion: string | null
+    telefono: string | null
+    email: string | null
+    provincia: number
+    provincia_nombre: string
+    activo: boolean
+    fecha_creacion: string
+    fecha_actualizacion: string
   }
+  provincia?: number
+  provincia_info?: {
+    id: number
+    nombre: string
+    codigo: string
+  }
+  chat_ai_activo?: boolean
+  movil?: string
+  fecha_nacimiento?: string
+  fecha_incorporacion?: string
+  activo?: boolean
+  fecha_baja?: string | null
+  is_active?: boolean
+  is_staff?: boolean
+  date_joined?: string
+  last_login?: string | null
+  subordinados_count?: number
 }
 
 interface AuthState {
@@ -53,7 +89,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   user: null,
   token: null,
   isAuthenticated: false,
-  isLoading: true,
+  isLoading: false,
   error: null,
 
   login: async (username: string, password: string) => {
@@ -69,7 +105,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       const { data } = response as any
 
       if (data?.token && data?.user) {
+        console.log('✅ Login exitoso para:', data.user.username)
         setToken(data.token)
+
         set({
           token: data.token,
           user: data.user,
@@ -111,16 +149,21 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     try {
       // Obtener token del localStorage
       const tokenFromStorage = localStorage.getItem('auth_token')
+      console.log('🔍 checkAuth: token en storage?', !!tokenFromStorage)
 
       if (!tokenFromStorage) {
+        console.log('❌ checkAuth: sin token')
         set({ isAuthenticated: false, isLoading: false })
         return
       }
 
-      // Verificar si el token sigue siendo válido
+      // Verificar si el token sigue siendo válido llamando al endpoint /me
+      console.log('📡 checkAuth: llamando a /me')
       const response = await authAPI.me()
+      console.log('📡 checkAuth: respuesta de /me:', response)
 
       if (response.error) {
+        console.error('❌ checkAuth error:', response.error)
         clearToken()
         set({
           isAuthenticated: false,
@@ -132,14 +175,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
 
       const { data } = response as any
+      const userData = data?.user || data
+      console.log('✅ checkAuth: autenticado como', userData?.username)
+
       set({
         token: tokenFromStorage,
-        user: data?.user || data,
+        user: userData,
         isAuthenticated: true,
         isLoading: false,
       })
     } catch (error) {
-      console.error('Error al verificar autenticación:', error)
+      console.error('❌ checkAuth exception:', error)
       clearToken()
       set({ isAuthenticated: false, isLoading: false })
     }

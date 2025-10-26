@@ -49,25 +49,11 @@ class Stock(models.Model):
     kilometros = models.IntegerField(null=True, blank=True)
     ubicacion = models.CharField(max_length=100, null=True, blank=True)
 
-
-    # Datos técnicos adicionales para API
-    version = models.CharField(max_length=255, null=True, blank=True)
-    combustible = models.CharField(max_length=50, null=True, blank=True, db_index=True)
-    transmision = models.CharField(max_length=50, null=True, blank=True)
-    cilindrada = models.IntegerField(null=True, blank=True)
-    potencia = models.IntegerField(null=True, blank=True)
-    peso = models.IntegerField(null=True, blank=True)
-    puertas = models.IntegerField(null=True, blank=True)
-    plazas = models.IntegerField(null=True, blank=True)
-    
-    # Multimedia
-    imagen_principal = models.URLField(null=True, blank=True)
-    imagenes = models.JSONField(default=list, null=True, blank=True)
-    descripcion = models.TextField(null=True, blank=True)
-
     # Datos de tipo de vehículo y estado
     id_tipo_vo = models.CharField(max_length=50, null=True, blank=True)
     descripcion_tipo_vo = models.CharField(max_length=100, null=True, blank=True)
+    # Tipo de vehículo (sedan, suv, compacto, etc.) - añadido para filtros y estadísticas
+    tipo_vehiculo = models.CharField(max_length=100, null=True, blank=True, db_index=True)
     id_estado = models.CharField(max_length=50, null=True, blank=True, db_index=True)
     descripcion_estado = models.CharField(max_length=100, null=True, blank=True)
     tipo_stock = models.CharField(max_length=50, null=True, blank=True)
@@ -248,6 +234,8 @@ class StockHistorico(models.Model):
     # Datos de tipo de vehículo y estado
     id_tipo_vo = models.CharField(max_length=50, null=True, blank=True)
     descripcion_tipo_vo = models.CharField(max_length=100, null=True, blank=True)
+    # Tipo de vehículo (sedan, suv, compacto, etc.) - añadido para filtros y estadísticas
+    tipo_vehiculo = models.CharField(max_length=100, null=True, blank=True, db_index=True)
     id_estado = models.CharField(max_length=50, null=True, blank=True, db_index=True)
     descripcion_estado = models.CharField(max_length=100, null=True, blank=True)
     tipo_stock = models.CharField(max_length=50, null=True, blank=True)

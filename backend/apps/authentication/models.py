@@ -152,7 +152,7 @@ class User(AbstractUser):
         return f"{self.username} ({profile_label})"
 
     @property
-    def nombre_completo(self):
+    def nombre_completo(self) -> str:
         """Devuelve el nombre completo del usuario"""
         return f"{self.first_name} {self.last_name}".strip() or self.username
 

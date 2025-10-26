@@ -126,9 +126,13 @@ REST_FRAMEWORK = {
 # CORS
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:3000',
+    # Habilitar orígenes locales comunes para desarrollo (puertos 3000/3001/3003)
+    default='http://localhost:3000,http://localhost:3001,http://localhost:3003',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
+
+# Permitir credentials de CORS (cookies / autenticación) en desarrollo
+CORS_ALLOW_CREDENTIALS = True
 
 # Internationalization
 LANGUAGE_CODE = 'es-es'  # Español de España

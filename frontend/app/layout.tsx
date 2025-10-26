@@ -1,12 +1,14 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { Providers } from './providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'DealaAI - Sistema de Gestión para Concesionarios',
-  description: 'Sistema de gestión integral para concesionarios con IA, desarrollado con Next.js, Django y PostgreSQL',
+  description:
+    'Sistema de gestión integral para concesionarios con IA, desarrollado con Next.js, Django y PostgreSQL',
   keywords: 'concesionario, gestión, IA, vehículos, CRM, inventario',
   authors: [{ name: 'Jorge Martín García' }],
   viewport: 'width=device-width, initial-scale=1',
@@ -27,9 +29,9 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={inter.className}>
-        <div id="root">
-          {children}
-        </div>
+        <Providers>
+          <div id="root">{children}</div>
+        </Providers>
       </body>
     </html>
   )

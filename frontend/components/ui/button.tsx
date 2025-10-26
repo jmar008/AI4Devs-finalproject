@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import * as React from 'react'
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?:
@@ -16,18 +17,18 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         className={cn(
-          'inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
+          'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
           {
-            'bg-primary text-primary-foreground hover:bg-primary/90':
+            'bg-indigo-600 text-white hover:bg-indigo-700 focus:ring-indigo-500':
               variant === 'default',
-            'bg-destructive text-destructive-foreground hover:bg-destructive/90':
+            'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500':
               variant === 'destructive',
-            'border border-input bg-background hover:bg-accent hover:text-accent-foreground':
+            'border border-gray-300 bg-white hover:bg-gray-50 focus:ring-indigo-500':
               variant === 'outline',
-            'bg-secondary text-secondary-foreground hover:bg-secondary/80':
+            'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-400':
               variant === 'secondary',
-            'hover:bg-accent hover:text-accent-foreground': variant === 'ghost',
-            'text-primary underline-offset-4 hover:underline':
+            'hover:bg-gray-100 focus:ring-gray-400': variant === 'ghost',
+            'text-indigo-600 underline-offset-4 hover:underline focus:ring-indigo-500':
               variant === 'link',
           },
           {

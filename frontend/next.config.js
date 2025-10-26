@@ -1,9 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
-  
   // Configuración para desarrollo
   env: {
     CUSTOM_KEY: 'value',
@@ -22,7 +18,7 @@ const nextConfig = {
         source: '/api/:path*',
         destination: process.env.NEXT_PUBLIC_API_URL + '/api/:path*',
       },
-    ];
+    ]
   },
 
   // Headers de seguridad
@@ -45,7 +41,7 @@ const nextConfig = {
           },
         ],
       },
-    ];
+    ]
   },
 
   // Configuración de webpack para optimización
@@ -54,11 +50,11 @@ const nextConfig = {
     if (process.env.ANALYZE === 'true') {
       const withBundleAnalyzer = require('@next/bundle-analyzer')({
         enabled: true,
-      });
-      return withBundleAnalyzer({});
+      })
+      return withBundleAnalyzer({})
     }
 
-    return config;
+    return config
   },
 
   // Configuración de compilación
@@ -81,6 +77,6 @@ const nextConfig = {
     // Ignorar errores de ESLint durante build en desarrollo
     ignoreDuringBuilds: process.env.NODE_ENV === 'development',
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

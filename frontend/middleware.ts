@@ -1,6 +1,6 @@
 /**
  * Middleware - Proteger rutas y gestionar autenticación
- * Redirige a /login si no está autenticado
+ * Nota: La autenticación real se valida en el cliente con el token guardado en localStorage
  */
 
 import type { NextRequest } from 'next/server'
@@ -17,17 +17,10 @@ export function middleware(request: NextRequest) {
     return NextResponse.next()
   }
 
-  // Obtener el token de la cookie o header
-  const token = request.cookies.get('auth_token')?.value
+  // Permitir acceso a rutas protegidas (la validación de token se hace en el cliente)
+  // El middleware no puede acceder a localStorage (lado del servidor)
+  // Por eso la protección real está en el lado del cliente
 
-  // Si no hay token y la ruta requiere autenticación, redirigir a login
-  if (!token && !publicPaths.includes(pathname)) {
-    const loginUrl = new URL('/login', request.url)
-    loginUrl.searchParams.set('from', pathname)
-    return NextResponse.redirect(loginUrl)
-  }
-
-  // Permitir acceso a la ruta
   return NextResponse.next()
 }
 
