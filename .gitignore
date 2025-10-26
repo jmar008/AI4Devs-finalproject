@@ -40,7 +40,7 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
-package-lock.json
+# package-lock.json (necesario para Docker builds)
 yarn.lock
 
 # Next.js
