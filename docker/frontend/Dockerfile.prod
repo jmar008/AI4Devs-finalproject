@@ -9,8 +9,8 @@ RUN apk add --no-cache wget
 # Copiar archivos de dependencias
 COPY package*.json ./
 
-# Instalar dependencias de producción
-RUN npm ci --only=production
+# Instalar TODAS las dependencias (necesarias para build)
+RUN npm ci
 
 # Copiar código fuente
 COPY . .
@@ -29,6 +29,9 @@ ENV NEXT_TELEMETRY_DISABLED=1
 
 # Build de la aplicación
 RUN npm run build
+
+# Limpiar devDependencies después del build para reducir tamaño
+RUN npm prune --production
 
 # Exponer puerto
 EXPOSE 3000
