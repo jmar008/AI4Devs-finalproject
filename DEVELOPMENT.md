@@ -10,6 +10,15 @@
 4. Esperar a que el contenedor se construya e inicialice
 5. ¡Listo! El entorno está configurado automáticamente
 
+**Servicios disponibles en DevContainer:**
+
+- Frontend: http://localhost:3000
+- Backend API: http://localhost:8000
+- Admin: http://localhost:8000/admin
+- Nginx (desarrollo): http://localhost
+- PostgreSQL: localhost:5432
+- Redis: localhost:6379
+
 ### Opción 2: Usando Docker Compose
 
 ```bash
@@ -21,13 +30,31 @@ cd dealaai-concesionario
 chmod +x scripts/setup.sh
 ./scripts/setup.sh
 
-# 3. Iniciar servicios
+# 3. Iniciar servicios con Nginx
 docker-compose up -d
 
 # 4. Acceder a los servicios
-# Frontend: http://localhost:3000
-# Backend:  http://localhost:8000
-# Admin:    http://localhost:8000/admin
+# Nginx (proxy): http://localhost
+# Frontend directo: http://localhost:3000
+# Backend directo: http://localhost:8000
+# Admin: http://localhost/admin
+```
+
+### Opción 3: Producción con EasyPanel
+
+```bash
+# 1. Configurar variables de entorno en EasyPanel
+# Usar como base el archivo .env.production
+
+# 2. Desplegar con docker-compose.production.yml
+docker-compose -f docker-compose.production.yml up -d
+
+# 3. Acceder a los servicios en producción
+# Aplicación: https://mcp.jorgemg.es
+# API: https://mcp.jorgemg.es/api/v1
+# Admin: https://mcp.jorgemg.es/admin
+# pgAdmin: https://mcp.jorgemg.es/pgadmin
+# Supabase Studio: https://mcp.jorgemg.es/studio
 ```
 
 ## 📦 Estructura del Proyecto
@@ -135,14 +162,16 @@ AI4Devs-finalproject/
 - **React Query** - Data fetching
 - **Chart.js** - Visualización de datos
 
-### DevOps
+### DevOps y Deployment
 
 - **Docker & Docker Compose** - Containerización
 - **VS Code DevContainers** - Entorno de desarrollo
 - **GitHub Actions** - CI/CD
-- **Nginx** - Reverse proxy
-- **PostgreSQL** - Base de datos
-- **Redis** - Cache
+- **Nginx** - Reverse proxy y load balancer
+- **PostgreSQL + pgvector** - Base de datos con vectores
+- **Redis** - Cache y message broker
+- **EasyPanel** - Plataforma de deployment
+- **Let's Encrypt** - Certificados SSL automáticos
 
 ## 💻 Comandos de Desarrollo
 
@@ -174,13 +203,19 @@ psql -h localhost -U postgres -d dealaai_dev
 ### Usando Docker Compose
 
 ```bash
-# Iniciar todos los servicios
+# Desarrollo con Nginx proxy
 docker-compose up -d
+# Acceso: http://localhost (nginx) o http://localhost:3000 (directo)
+
+# Producción (EasyPanel)
+docker-compose -f docker-compose.production.yml up -d
+# Acceso: https://mcp.jorgemg.es
 
 # Ver logs
 docker-compose logs -f
 docker-compose logs -f backend
 docker-compose logs -f frontend
+docker-compose logs -f nginx
 
 # Ejecutar comandos en contenedores
 docker-compose exec backend python manage.py migrate

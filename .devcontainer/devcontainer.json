@@ -18,7 +18,7 @@
   },
 
   // Extensiones de VS Code a instalar automáticamente
-  "customizatioiona el siguente errorns": {
+  "customizations": {
     "vscode": {
       "extensions": [
         // Python
@@ -62,7 +62,13 @@
         "streetsidesoftware.code-spell-checker",
         "wayou.vscode-todo-highlight",
         "gruntfuggly.todo-tree",
-        "usernamehw.errorlens"
+        "usernamehw.errorlens",
+
+        // AI Development
+        "buildwithlayer.django-integration-expert-Gus30",
+        "openai.chatgpt",
+        "GitHub.copilot-chat",
+        "GitHub.copilot"
       ],
 
       "settings": {
@@ -133,6 +139,7 @@
 
   // Puertos a exponer
   "forwardPorts": [
+    80, // Nginx proxy
     3000, // Frontend Next.js
     8000, // Backend Django
     5433, // PostgreSQL (cambiado para evitar conflicto)
@@ -140,6 +147,10 @@
   ],
 
   "portsAttributes": {
+    "80": {
+      "label": "Nginx Proxy",
+      "onAutoForward": "notify"
+    },
     "3000": {
       "label": "Frontend",
       "onAutoForward": "notify"
@@ -168,15 +179,5 @@
   },
 
   // Usuario remoto
-  "remoteUser": "vscode",
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "buildwithlayer.django-integration-expert-Gus30",
-        "openai.chatgpt",
-        "GitHub.copilot-chat",
-        "GitHub.copilot"
-      ]
-    }
-  }
+  "remoteUser": "vscode"
 }

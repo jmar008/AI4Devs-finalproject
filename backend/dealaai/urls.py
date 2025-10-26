@@ -44,11 +44,26 @@ urlpatterns = [
     path("", api_root, name="api-root"),
     path("admin/", admin.site.urls),
     path("api/", include([
+        # Autenticación
+        path("auth/", include("apps.authentication.urls")),
+        
+        # Documentación
         path("schema/", SpectacularAPIView.as_view(), name="schema"),
         path("docs/", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),
         path("redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"),
     ])),
 ]
+
+# Django Debug Toolbar URLs (solo en desarrollo)
+from django.conf import settings
+if settings.DEBUG:
+    try:
+        import debug_toolbar
+        urlpatterns = [
+            path('__debug__/', include(debug_toolbar.urls)),
+        ] + urlpatterns
+    except ImportError:
+        pass
 
 # Debug Toolbar URLs (solo en desarrollo)
 if settings.DEBUG and 'debug_toolbar' in settings.INSTALLED_APPS:

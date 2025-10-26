@@ -1,0 +1,64 @@
+# Dockerfile para Backend Django - Producción
+FROM python:3.11-slim AS base
+
+# Variables de entorno para Python
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONHASHSEED=random \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpq-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Crear directorio de trabajo
+WORKDIR /app
+
+# Crear usuario no-root
+RUN groupadd -r django && useradd -r -g django django
+
+# Instalar dependencias Python - Etapa de construcción
+FROM base AS builder
+
+COPY requirements/production.txt requirements.txt
+RUN pip install --user -r requirements.txt
+
+# Imagen de producción
+FROM base AS production
+
+# Copiar dependencias instaladas
+COPY --from=builder /root/.local /root/.local
+
+# Asegurar que los scripts están en el PATH
+ENV PATH=/root/.local/bin:$PATH
+
+# Copiar código de la aplicación
+COPY . /app/
+
+# Crear directorios necesarios
+RUN mkdir -p /app/staticfiles /app/media /app/logs
+
+# Configurar permisos
+RUN chown -R django:django /app
+USER django
+
+# Variables de entorno para Django
+ARG DJANGO_SETTINGS_MODULE=dealaai.settings.production
+ENV DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+
+# Recopilar archivos estáticos
+RUN python manage.py collectstatic --noinput --clear
+
+# Exponer puerto
+EXPOSE 8000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+  CMD curl -f http://localhost:8000/api/health/ || exit 1
+
+# Comando por defecto
+CMD ["gunicorn", "dealaai.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3", "--worker-class", "gevent", "--worker-connections", "1000", "--max-requests", "1000", "--preload", "--access-logfile", "-", "--error-logfile", "-"]

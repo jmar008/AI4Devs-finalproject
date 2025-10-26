@@ -9,23 +9,39 @@
 
 ## 📋 Inicio Rápido
 
+**Servicios en EasyPanel:**
+
+| Servicio               | Local (Dev Container)         | Producción (EasyPanel)          | Descripción               |
+| ---------------------- | ----------------------------- | ------------------------------- | ------------------------- |
+| **Frontend (Next.js)** | http://localhost:3000/        | https://mcp.jorgemg.es/         | Interfaz principal        |
+| **API (Django MCP)**   | http://localhost:8000/api/v1/ | https://mcp.jorgemg.es/api/v1/  | Endpoints del backend     |
+| **Django Admin**       | http://localhost:8000/admin/  | https://mcp.jorgemg.es/admin/   | Panel administrativo      |
+| **Supabase Auth**      | http://localhost:9999/auth/   | https://mcp.jorgemg.es/auth/    | API de autenticación JWT  |
+| **pgAdmin**            | http://localhost:5050/        | https://mcp.jorgemg.es/pgadmin/ | Cliente web de PostgreSQL |
+| **Supabase Studio**    | http://localhost:3001/        | https://mcp.jorgemg.es/studio/  | Panel oficial de Supabase |
+| **PostgreSQL**         | localhost:5432                | supabase-db:5432 (interno)      | Motor de base de datos    |
+| **Nginx Proxy**        | http://localhost/             | https://mcp.jorgemg.es/         | Proxy inverso unificado   |
+
 ```bash
 # Opción 1: DevContainer (Recomendado)
 # 1. Abrir en VS Code
 # 2. F1 -> "Dev Containers: Reopen in Container"
 # 3. ¡Listo! Todo configurado automáticamente
 
-# Opción 2: Docker Compose
+# Opción 2: Docker Compose Local
 ./scripts/setup.sh
 docker-compose up -d
 
+# Opción 3: Producción EasyPanel
+chmod +x scripts/deploy-easypanel.sh
+./scripts/deploy-easypanel.sh
+
 # Acceder a los servicios
-# Frontend: http://localhost:3000
-# Backend:  http://localhost:8000
-# Admin:    http://localhost:8000/admin
+# Desarrollo: http://localhost (Nginx proxy)
+# Producción: https://mcp.jorgemg.es
 ```
 
-📖 **[Guía Completa de Desarrollo](DEVELOPMENT.md)** | 💻 **[Comandos Útiles](COMMANDS.md)**
+📖 **[Guía EasyPanel](EASYPANEL_SETUP.md)** | 🚀 **[Quick Start](QUICKSTART_EASYPANEL.md)** | 💻 **[Comandos Útiles](COMMANDS.md)**
 
 ---
 
@@ -244,7 +260,8 @@ El sistema sigue una **arquitectura de microservicios orientada a APIs** con sep
           ▼                          ▼
 ┌─────────────────────────────────────────────────┐
 │              Nginx Load Balancer                │
-│                (Port 80/443)                    │
+│             (EasyPanel - Port 80/443)           │
+│        https://mcp.jorgemg.es/*                 │
 └─────────────────┬───────────────────────────────┘
                   │
                   ▼
@@ -266,7 +283,7 @@ El sistema sigue una **arquitectura de microservicios orientada a APIs** con sep
                   │
                   ▼
 ┌─────────────────────────────────────────────────┐
-│         Supabase (PostgreSQL + pgvector)       │
+│        PostgreSQL + pgvector (Port 5432)       │
 ├─────────────────┬───────────────┬───────────────┤
 │ Relational Data │ Vector Store  │ Real-time API │
 └─────────────────┴───────────────┴───────────────┘
@@ -424,13 +441,20 @@ Developer Machine
 **Infraestructura de Producción:**
 
 ```
-Cloud Infrastructure
-├── Frontend: Vercel (Edge Network + CDN)
-├── Backend: Railway (Container Platform)
-├── Database: Supabase (Managed PostgreSQL)
-├── Files: Cloudinary (Image/Video CDN)
-├── Monitoring: Sentry + LogRocket
-└── CI/CD: GitHub Actions
+EasyPanel Infrastructure (mcp.jorgemg.es)
+├── Nginx Reverse Proxy (Port 80/443)
+│   ├── / → Frontend (Next.js)
+│   ├── /api/v1/ → Backend (Django)
+│   ├── /admin/ → Django Admin
+│   ├── /auth/ → Supabase Auth
+│   ├── /pgadmin/ → pgAdmin
+│   └── /studio/ → Supabase Studio
+├── Application Layer
+│   ├── Frontend: Next.js (Port 3000)
+│   ├── Backend: Django (Port 8000)
+│   └── Database: PostgreSQL + pgvector (Port 5432)
+├── Monitoring: Sentry + Custom Metrics
+└── CI/CD: GitHub Actions → EasyPanel
 ```
 
 **Proceso de Despliegue:**
@@ -1600,15 +1624,32 @@ export function Dashboard({ userRole }: DashboardProps) {
 
       {/* Widget Grid */}
       <div className="p-6">
-        <GridLayout layout={layout} onLayoutChange={updateLayout} responsive breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480 }} cols={{ lg: 4, md: 3, sm: 2, xs: 1 }}>
+        <GridLayout
+          layout={layout}
+          onLayoutChange={updateLayout}
+          responsive
+          breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480 }}
+          cols={{ lg: 4, md: 3, sm: 2, xs: 1 }}
+        >
           {/* Métricas de ventas */}
           <div key="sales-metrics" data-grid={{ w: 2, h: 2, x: 0, y: 0 }}>
-            <MetricCard title="Ventas del Mes" value={metrics?.sales?.total_revenue} format="currency" trend={metrics?.sales?.growth_rate} loading={isLoading} />
+            <MetricCard
+              title="Ventas del Mes"
+              value={metrics?.sales?.total_revenue}
+              format="currency"
+              trend={metrics?.sales?.growth_rate}
+              loading={isLoading}
+            />
           </div>
 
           {/* Gráfico de inventario */}
           <div key="inventory-chart" data-grid={{ w: 2, h: 3, x: 2, y: 0 }}>
-            <ChartCard title="Estado del Inventario" type="doughnut" data={metrics?.inventory?.vehicles_by_status} loading={isLoading} />
+            <ChartCard
+              title="Estado del Inventario"
+              type="doughnut"
+              data={metrics?.inventory?.vehicles_by_status}
+              loading={isLoading}
+            />
           </div>
 
           {/* Pipeline de leads */}
@@ -1635,7 +1676,14 @@ interface MetricCardProps {
   icon?: React.ComponentType<{ className?: string }>;
 }
 
-export function MetricCard({ title, value, format = "number", trend, loading, icon: Icon }: MetricCardProps) {
+export function MetricCard({
+  title,
+  value,
+  format = "number",
+  trend,
+  loading,
+  icon: Icon,
+}: MetricCardProps) {
   const formattedValue = useMemo(() => {
     if (loading) return null;
 
@@ -1656,8 +1704,16 @@ export function MetricCard({ title, value, format = "number", trend, loading, ic
     <Card className="p-6 hover:shadow-lg transition-shadow">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
-          {loading ? <Skeleton className="h-8 w-24 mt-2" /> : <p className="text-3xl font-bold text-gray-900 dark:text-white">{formattedValue}</p>}
+          <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
+            {title}
+          </p>
+          {loading ? (
+            <Skeleton className="h-8 w-24 mt-2" />
+          ) : (
+            <p className="text-3xl font-bold text-gray-900 dark:text-white">
+              {formattedValue}
+            </p>
+          )}
         </div>
 
         {Icon && (
@@ -1670,7 +1726,9 @@ export function MetricCard({ title, value, format = "number", trend, loading, ic
       {trend !== undefined && !loading && (
         <div className="flex items-center mt-4">
           <TrendIndicator value={trend} />
-          <span className="text-sm text-gray-600 dark:text-gray-400">vs. período anterior</span>
+          <span className="text-sm text-gray-600 dark:text-gray-400">
+            vs. período anterior
+          </span>
         </div>
       )}
     </Card>
@@ -1765,7 +1823,9 @@ export function ChartCard({ title, type, data, loading }: ChartCardProps) {
         ) : chartData ? (
           <Doughnut data={chartData} options={options} />
         ) : (
-          <div className="flex items-center justify-center h-full text-gray-500">No hay datos disponibles</div>
+          <div className="flex items-center justify-center h-full text-gray-500">
+            No hay datos disponibles
+          </div>
         )}
       </div>
     </Card>
@@ -2642,7 +2702,10 @@ export function LeadsDashboard() {
   const [selectedStatus, setSelectedStatus] = useState<LeadStatus>("all");
 
   // Multiple custom hooks para diferentes data sources
-  const { data: leads } = useLeads({ status: selectedStatus, assignedTo: user.id });
+  const { data: leads } = useLeads({
+    status: selectedStatus,
+    assignedTo: user.id,
+  });
   const { data: analytics } = useLeadAnalytics({ period: "month" });
   const { mutate: updateLead } = useUpdateLead();
 
@@ -2663,7 +2726,12 @@ export function LeadsDashboard() {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <LeadsKanbanBoard leads={leads} analytics={analytics} selectedStatus={selectedStatus} onStatusChange={setSelectedStatus} />
+      <LeadsKanbanBoard
+        leads={leads}
+        analytics={analytics}
+        selectedStatus={selectedStatus}
+        onStatusChange={setSelectedStatus}
+      />
     </DragDropContext>
   );
 }
@@ -2680,7 +2748,10 @@ export function LeadsDashboard() {
 const VehicleCard = memo(({ vehicle, onEdit }: VehicleCardProps) => {
   return (
     <Card>
-      <VehicleImage src={vehicle.images[0]} alt={`${vehicle.make} ${vehicle.model}`} />
+      <VehicleImage
+        src={vehicle.images[0]}
+        alt={`${vehicle.make} ${vehicle.model}`}
+      />
       <VehicleDetails vehicle={vehicle} />
       <ActionButtons onEdit={() => onEdit(vehicle.id)} />
     </Card>
@@ -2718,7 +2789,9 @@ describe("VehicleList migration", () => {
   });
 
   it("maintains same functionality as class component", async () => {
-    const { getByTestId, findByText } = render(<VehicleList initialFilters={{ make: "Toyota" }} />);
+    const { getByTestId, findByText } = render(
+      <VehicleList initialFilters={{ make: "Toyota" }} />
+    );
 
     // Verify loading state
     expect(getByTestId("loading-spinner")).toBeInTheDocument();
@@ -2737,7 +2810,9 @@ describe("VehicleList migration", () => {
 
     // Verify API called with correct filters
     await waitFor(() => {
-      expect(mockVehicleApi.list).toHaveBeenCalledWith(expect.objectContaining({ make: "Honda" }));
+      expect(mockVehicleApi.list).toHaveBeenCalledWith(
+        expect.objectContaining({ make: "Honda" })
+      );
     });
   });
 });
