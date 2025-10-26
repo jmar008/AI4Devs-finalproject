@@ -1,5 +1,5 @@
-# Docker Compose para Producción - EasyPanel (EXACTAMENTE IGUAL QUE DESARROLLO)
-# Configuración idéntica a desarrollo que funciona perfectamente
+# Docker Compose para Producción
+# Mismos servicios que desarrollo, solo cambian nombres de contenedores y archivos .env
 services:
   # Base de datos PostgreSQL con pgvector
   db:
@@ -7,8 +7,8 @@ services:
     container_name: dealaai_db_prod
     restart: unless-stopped
     environment:
-      POSTGRES_DB: dealaai_prod
-      POSTGRES_USER: postgres
+      POSTGRES_DB: ${DB_NAME:-dealaai_prod}
+      POSTGRES_USER: ${DB_USER:-postgres}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
@@ -105,7 +105,7 @@ services:
       retries: 3
       start_period: 40s
 
-  # Celery Worker (para tareas asíncronas)
+  # Celery Worker
   celery_worker:
     build:
       context: ./backend
@@ -125,7 +125,7 @@ services:
     networks:
       - dealaai_network
 
-  # Celery Beat (para tareas programadas)
+  # Celery Beat
   celery_beat:
     build:
       context: ./backend
@@ -145,7 +145,7 @@ services:
     networks:
       - dealaai_network
 
-  # Nginx (reverse proxy para desarrollo)
+  # Nginx
   nginx:
     image: nginx:alpine
     container_name: dealaai_nginx_prod
