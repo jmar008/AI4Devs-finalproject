@@ -42,16 +42,15 @@ COPY . /app/
 # Crear directorios necesarios
 RUN mkdir -p /app/staticfiles /app/media /app/logs
 
+# Recopilar archivos estáticos ANTES de cambiar usuario
+# (necesita que Python esté en PATH)
+ARG DJANGO_SETTINGS_MODULE=dealaai.settings.production
+ENV DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
+RUN python manage.py collectstatic --noinput --clear || true
+
 # Configurar permisos
 RUN chown -R django:django /app
 USER django
-
-# Variables de entorno para Django
-ARG DJANGO_SETTINGS_MODULE=dealaai.settings.production
-ENV DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
-
-# Recopilar archivos estáticos
-RUN python manage.py collectstatic --noinput --clear
 
 # Exponer puerto
 EXPOSE 8000
