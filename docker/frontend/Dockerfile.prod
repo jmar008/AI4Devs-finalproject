@@ -1,25 +1,18 @@
-# Dockerfile para Frontend Next.js - Producción
-FROM node:18-alpine AS base
+# Dockerfile para Frontend Next.js - Producción (SIMPLIFICADO)
+FROM node:18-alpine
 
-# Instalar dependencias solo cuando sea necesario
-FROM base AS deps
-# Verificar https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine
-RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Instalar dependencias basadas en el package manager preferido
-COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  elif [ -f package-lock.json ]; then npm ci; \
-  elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i --frozen-lockfile; \
-  else echo "Lockfile not found." && exit 1; \
-  fi
+# Instalar wget para health checks
+RUN apk add --no-cache wget
 
-# Rebuild solo cuando sea necesario
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Copiar archivos de dependencias
+COPY package*.json ./
+
+# Instalar dependencias de producción
+RUN npm ci --only=production
+
+# Copiar código fuente
 COPY . .
 
 # Variables de entorno para build
@@ -35,29 +28,9 @@ ENV NEXT_PUBLIC_DOMAIN=${NEXT_PUBLIC_DOMAIN}
 ENV NEXT_TELEMETRY_DISABLED=1
 
 # Build de la aplicación
-RUN yarn build
+RUN npm run build
 
-# Imagen de producción, copia todos los archivos y ejecuta next start
-FROM base AS runner
-WORKDIR /app
-
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
-
-# Copiar archivos necesarios para producción
-# Crear directorio public vacío (Next.js lo necesita)
-RUN mkdir -p ./public
-COPY --from=builder /app/package.json ./package.json
-
-# Utilizar prebuilt standalone output para reducir tamaño de imagen
-COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
-COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
-
-USER nextjs
-
+# Exponer puerto
 EXPOSE 3000
 
 ENV PORT=3000
@@ -67,4 +40,5 @@ ENV HOSTNAME="0.0.0.0"
 HEALTHCHECK --interval=30s --timeout=3s --start-period=30s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3000/health || exit 1
 
-CMD ["node", "server.js"]
+# Iniciar aplicación
+CMD ["npm", "start"]
