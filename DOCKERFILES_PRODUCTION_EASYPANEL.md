@@ -32,6 +32,7 @@
 **Ubicación:** `/workspace/docker/backend/Dockerfile.prod`
 
 **Características principales:**
+
 - ✅ Multi-stage build (menor tamaño de imagen)
 - ✅ Python 3.11-slim
 - ✅ Usuario no-root (`django`)
@@ -41,14 +42,17 @@
 - ✅ Logs a stdout/stderr
 
 **Puertos:**
+
 - `8000` - HTTP
 
-**Comando:** 
+**Comando:**
+
 ```bash
 gunicorn dealaai.wsgi:application --bind 0.0.0.0:8000 --workers 3 --worker-class gevent
 ```
 
 **Variables de entorno necesarias:**
+
 ```
 DJANGO_SETTINGS_MODULE=dealaai.settings.production
 ALLOWED_HOSTS=mcp.jorgemg.es
@@ -59,6 +63,7 @@ REDIS_URL=redis://...
 ```
 
 **Requisitos:**
+
 - Python 3.11
 - PostgreSQL client libraries
 - Build tools
@@ -70,6 +75,7 @@ REDIS_URL=redis://...
 **Ubicación:** `/workspace/docker/frontend/Dockerfile.prod`
 
 **Características principales:**
+
 - ✅ Multi-stage build (distroless-like)
 - ✅ Node 18-alpine (muy ligero)
 - ✅ Build optimization (standalone output)
@@ -78,14 +84,17 @@ REDIS_URL=redis://...
 - ✅ Soporta yarn/npm/pnpm
 
 **Puertos:**
+
 - `3000` - HTTP
 
-**Comando:** 
+**Comando:**
+
 ```bash
 node server.js
 ```
 
 **Variables de entorno en build:**
+
 ```
 NODE_ENV=production
 NEXT_PUBLIC_API_URL=https://mcp.jorgemg.es/api
@@ -95,6 +104,7 @@ NEXT_TELEMETRY_DISABLED=1
 ```
 
 **Requisitos:**
+
 - Node 18+
 - Build tools para libc
 
@@ -105,14 +115,17 @@ NEXT_TELEMETRY_DISABLED=1
 **Ubicación:** `/workspace/docker/database/Dockerfile`
 
 **Características principales:**
+
 - ✅ Base: `ankane/pgvector:latest` (PostgreSQL + extensión pgvector)
 - ✅ Soporte para búsquedas vectoriales
 - ✅ Scripts de inicialización
 
 **Puertos:**
+
 - `5432` - PostgreSQL
 
 **Variables de entorno:**
+
 ```
 POSTGRES_DB=dealaai_dev
 POSTGRES_USER=postgres
@@ -120,6 +133,7 @@ POSTGRES_PASSWORD=<segura>
 ```
 
 **Scripts de inicialización:**
+
 - Ubicación: `/docker-entrypoint-initdb.d/`
 - Se ejecutan automáticamente en primer inicio
 
@@ -155,6 +169,7 @@ scp -r /workspace/docker/* usuario@servidor:/opt/dealaai/docker/
 ### Paso 3: Crear servicios en EasyPanel
 
 **Para Backend:**
+
 ```yaml
 service: backend
 dockerfile: ./docker/backend/Dockerfile.prod
@@ -166,6 +181,7 @@ environment:
 ```
 
 **Para Frontend:**
+
 ```yaml
 service: frontend
 dockerfile: ./docker/frontend/Dockerfile.prod
@@ -177,6 +193,7 @@ build_args:
 ```
 
 **Para Database:**
+
 ```yaml
 service: db
 dockerfile: ./docker/database/Dockerfile
@@ -190,15 +207,15 @@ environment:
 
 ## 📊 Comparación: Desarrollo vs Producción
 
-| Característica | Dockerfile | Dockerfile.prod |
-|---|---|---|
-| **Imagen base** | Full | Slim/Alpine |
-| **Tamaño** | ~1-2GB | ~200-500MB |
-| **User** | Root | No-root |
-| **Gunicorn** | ❌ | ✅ (3 workers) |
-| **Health check** | ❌ | ✅ |
-| **Multi-stage** | ❌ | ✅ |
-| **DEBUG** | True | False |
+| Característica   | Dockerfile          | Dockerfile.prod  |
+| ---------------- | ------------------- | ---------------- |
+| **Imagen base**  | Full                | Slim/Alpine      |
+| **Tamaño**       | ~1-2GB              | ~200-500MB       |
+| **User**         | Root                | No-root          |
+| **Gunicorn**     | ❌                  | ✅ (3 workers)   |
+| **Health check** | ❌                  | ✅               |
+| **Multi-stage**  | ❌                  | ✅               |
+| **DEBUG**        | True                | False            |
 | **Static files** | Servidos por Django | Pre-recolectados |
 
 ---
@@ -206,17 +223,20 @@ environment:
 ## 🔐 Seguridad en Dockerfiles
 
 ### Backend (Dockerfile.prod):
+
 - ✅ Usuario `django` (no-root)
 - ✅ Directorio de trabajo protegido
 - ✅ Permisos correctos (`chown`)
 - ✅ No ejecuta como root
 
 ### Frontend (Dockerfile.prod):
+
 - ✅ Usuario `nextjs` (no-root)
 - ✅ GID 1001, UID 1001 fijos
 - ✅ Standalone build (sin fuentes)
 
 ### Database (Dockerfile):
+
 - ✅ Basado en imagen oficial de pgvector
 - ✅ Contraseña en variables de entorno
 - ✅ No tiene credenciales hardcodeadas
@@ -226,6 +246,7 @@ environment:
 ## 🏗️ Proceso de Build en EasyPanel
 
 ### Backend:
+
 1. **Base stage**: Python 3.11-slim
 2. **Builder stage**: Instala dependencias de `requirements/production.txt`
 3. **Production stage**: Copia solo lo necesario
@@ -235,6 +256,7 @@ environment:
 **Tiempo**: ~3-5 minutos (primera vez), ~1-2 min (cached)
 
 ### Frontend:
+
 1. **Base stage**: Node 18-alpine
 2. **Deps stage**: Instala dependencias
 3. **Builder stage**: Build de Next.js
@@ -244,6 +266,7 @@ environment:
 **Tiempo**: ~4-8 minutos (primera vez), ~2-3 min (cached)
 
 ### Database:
+
 1. **Base**: pgvector preinstalado
 2. **Init scripts**: Copia scripts
 3. **Ready**: Listo para usar
@@ -255,12 +278,14 @@ environment:
 ## 🔍 Verificación de Dockerfiles
 
 ### Validar Dockerfile syntax:
+
 ```bash
 docker build --dry-run -f /workspace/docker/backend/Dockerfile.prod /workspace
 docker build --dry-run -f /workspace/docker/frontend/Dockerfile.prod /workspace/frontend
 ```
 
 ### Build local para testing:
+
 ```bash
 # Backend
 cd /workspace
@@ -275,6 +300,7 @@ docker build -f docker/database/Dockerfile -t dealaai-db:prod docker/database
 ```
 
 ### Verificar imagen:
+
 ```bash
 docker inspect dealaai-backend:prod
 docker inspect dealaai-frontend:prod
@@ -286,12 +312,14 @@ docker inspect dealaai-db:prod
 ## 📝 Variables de Entorno en Dockerfiles
 
 ### Backend:
+
 ```dockerfile
 ARG DJANGO_SETTINGS_MODULE=dealaai.settings.production
 ENV DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE}
 ```
 
 ### Frontend:
+
 ```dockerfile
 ARG NODE_ENV=production
 ARG NEXT_PUBLIC_API_URL
@@ -314,13 +342,13 @@ ENV NEXT_TELEMETRY_DISABLED=1
 Usa automáticamente los Dockerfile.prod:
 
 ```yaml
-version: '3.8'
+version: "3.8"
 
 services:
   backend:
     build:
       context: .
-      dockerfile: docker/backend/Dockerfile.prod    # ← Usa .prod
+      dockerfile: docker/backend/Dockerfile.prod # ← Usa .prod
     environment:
       - DJANGO_SETTINGS_MODULE=dealaai.settings.production
     ports:
@@ -332,7 +360,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: ../docker/frontend/Dockerfile.prod  # ← Usa .prod
+      dockerfile: ../docker/frontend/Dockerfile.prod # ← Usa .prod
       args:
         NEXT_PUBLIC_API_URL: https://mcp.jorgemg.es/api
     ports:
@@ -373,13 +401,13 @@ docker-compose -f docker-compose.production.yml logs -f
 
 ## 📚 Referencias
 
-| Archivo | Propósito | Ubicación |
-|---------|----------|----------|
-| **Dockerfile.prod (Backend)** | Build Django producción | `/workspace/docker/backend/Dockerfile.prod` |
+| Archivo                        | Propósito                | Ubicación                                    |
+| ------------------------------ | ------------------------ | -------------------------------------------- |
+| **Dockerfile.prod (Backend)**  | Build Django producción  | `/workspace/docker/backend/Dockerfile.prod`  |
 | **Dockerfile.prod (Frontend)** | Build Next.js producción | `/workspace/docker/frontend/Dockerfile.prod` |
-| **Dockerfile (DB)** | PostgreSQL + pgvector | `/workspace/docker/database/Dockerfile` |
-| **nginx.conf** | Config Nginx producción | `/workspace/docker/nginx/nginx.conf` |
-| **docker-compose.prod.yml** | Orquestación servicios | `/workspace/docker-compose.production.yml` |
+| **Dockerfile (DB)**            | PostgreSQL + pgvector    | `/workspace/docker/database/Dockerfile`      |
+| **nginx.conf**                 | Config Nginx producción  | `/workspace/docker/nginx/nginx.conf`         |
+| **docker-compose.prod.yml**    | Orquestación servicios   | `/workspace/docker-compose.production.yml`   |
 
 ---
 
