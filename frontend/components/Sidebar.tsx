@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import useAuthStore from '@/store/authStore'
+import { useChatStore } from '@/store/chatStore'
 import {
   BarChart3,
   Car,
@@ -13,7 +14,15 @@ import {
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 
-const menuItems = [
+interface MenuItem {
+  label: string
+  href: string
+  icon: any
+  badge?: string
+  isAction?: boolean
+}
+
+const menuItems: MenuItem[] = [
   {
     label: 'Dashboard',
     href: '/dashboard',
@@ -34,7 +43,7 @@ const menuItems = [
     label: 'Chat IA',
     href: '/chat',
     icon: MessageSquare,
-    badge: 'Próx',
+    isAction: true, // Nueva propiedad para identificar que es una acción, no una ruta
   },
 ]
 
@@ -42,10 +51,18 @@ export function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const { logout } = useAuthStore()
+  const { openChat } = useChatStore()
 
   const handleLogout = async () => {
     await logout()
     router.push('/login')
+  }
+
+  const handleMenuClick = (item: MenuItem) => {
+    if (item.isAction && item.label === 'Chat IA') {
+      console.log('🤖 Abriendo chat...')
+      openChat()
+    }
   }
 
   return (
@@ -63,6 +80,32 @@ export function Sidebar() {
           const isActive =
             pathname === item.href || pathname.startsWith(item.href + '/')
 
+          // Si es una acción (como Chat IA), renderizar como botón
+          if (item.isAction) {
+            return (
+              <button
+                key={item.label}
+                onClick={() => handleMenuClick(item)}
+                className={`flex w-full items-center justify-between rounded-lg px-4 py-2 transition-colors ${
+                  isActive
+                    ? 'border-l-4 border-indigo-600 bg-indigo-50 text-indigo-600'
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <Icon size={20} />
+                  <span className="font-medium">{item.label}</span>
+                </div>
+                {item.badge && (
+                  <span className="rounded bg-yellow-100 px-2 py-1 text-xs text-yellow-800">
+                    {item.badge}
+                  </span>
+                )}
+              </button>
+            )
+          }
+
+          // Renderizar como Link normal
           return (
             <Link
               key={item.href}

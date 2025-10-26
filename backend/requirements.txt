@@ -36,6 +36,9 @@ redis==5.0.1
 # APScheduler for background tasks
 apscheduler==3.10.4
 
+# AI / LLM
+openai==1.55.0
+
 # Production Server
 gunicorn==21.2.0
 

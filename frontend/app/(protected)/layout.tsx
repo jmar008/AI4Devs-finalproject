@@ -1,5 +1,6 @@
 'use client'
 
+import { ChatWidget } from '@/components/ChatWidget'
 import { Sidebar } from '@/components/Sidebar'
 import { Topbar } from '@/components/Topbar'
 import useAuthStore from '@/store/authStore'
@@ -75,6 +76,9 @@ export default function ProtectedLayout({
           <div className="container mx-auto px-4 py-8">{children}</div>
         </main>
       </div>
+
+      {/* Chat Widget flotante */}
+      <ChatWidget />
     </div>
   )
 }

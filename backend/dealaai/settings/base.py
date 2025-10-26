@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     # Local apps (se crearán después)
     'apps.authentication',
     'apps.stock',
+    'apps.ai_chat',
     # 'apps.inventory',
     # 'apps.leads',
     # 'apps.sales',
-    # 'apps.ai_chat',
     # 'apps.analytics',
 ]
 
@@ -150,3 +150,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'authentication.User'
+
+# DeepSeek AI Configuration
+DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY', default='')
+DEEPSEEK_API_BASE = 'https://api.deepseek.com'
+DEEPSEEK_MODEL = 'deepseek-chat'
