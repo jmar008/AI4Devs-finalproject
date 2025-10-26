@@ -64,7 +64,7 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
   CMD curl -f http://localhost:8000/api/health/ || exit 1
 
 # Entrypoint
-ENTRYPOINT ["/app/docker/backend/entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
 
 # Comando por defecto
 CMD ["gunicorn", "dealaai.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3", "--worker-class", "sync", "--max-requests", "1000", "--timeout", "60", "--access-logfile", "-", "--error-logfile", "-"]
