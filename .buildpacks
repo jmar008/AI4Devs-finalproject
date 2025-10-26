@@ -1,0 +1,15 @@
+# Buildpacks Configuration
+
+# Especifica qué buildpacks usar y en qué orden
+
+# 1. Python para Django backend
+
+https://github.com/heroku/heroku-buildpack-python.git
+
+# 2. Node.js para Next.js frontend
+
+https://github.com/heroku/heroku-buildpack-nodejs.git
+
+# 3. PostgreSQL (cliente)
+
+https://github.com/heroku/heroku-buildpack-apt.git

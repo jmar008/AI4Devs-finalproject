@@ -1,0 +1,17 @@
+# APT packages para el buildpack apt
+# Instala dependencias del sistema necesarias
+
+# PostgreSQL client
+postgresql-client
+
+# Herramientas de desarrollo
+build-essential
+libpq-dev
+
+# Para pgvector
+postgresql-server-dev-all
+
+# Herramientas útiles
+curl
+wget
+git
