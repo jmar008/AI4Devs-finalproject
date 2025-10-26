@@ -9,9 +9,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Input } from '@/components/ui/input'
 import useAuthStore, { type User } from '@/store/authStore'
-import { Bell, ChevronDown, LogOut, Search, Settings } from 'lucide-react'
+import { Bell, ChevronDown, LogOut, Settings } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 export function Topbar() {
@@ -34,19 +33,9 @@ export function Topbar() {
   return (
     <header className="border-b border-gray-200 bg-white shadow-sm">
       <div className="flex items-center justify-between px-6 py-4">
-        {/* Search Bar */}
-        <div className="max-w-md flex-1">
-          <div className="relative">
-            <Search
-              size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            />
-            <Input
-              type="text"
-              placeholder="Buscar vehículos..."
-              className="pl-10 pr-4"
-            />
-          </div>
+        {/* Logo/Brand */}
+        <div className="flex items-center">
+          <h1 className="text-xl font-bold text-gray-900">DealaAI</h1>
         </div>
 
         {/* Right Section */}
