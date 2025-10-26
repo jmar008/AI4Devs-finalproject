@@ -11,6 +11,7 @@ from django.utils import timezone
 
 from apps.stock.models import Stock, StockHistorico
 from apps.stock.scrapers import scrape_coches_net, crear_registro_stock
+from apps.stock.ai_vehicle_generator import generar_vehiculos_con_ia
 
 logger = logging.getLogger(__name__)
 
@@ -32,6 +33,11 @@ class Command(BaseCommand):
             help='Número de vehículos a crear (si scraping falla) (default: 50)'
         )
         parser.add_argument(
+            '--usar-ia',
+            action='store_true',
+            help='Usar IA para generar datos de vehículos más realistas (requiere configuración OpenRouter)'
+        )
+        parser.add_argument(
             '--debug',
             action='store_true',
             help='Habilita modo debug'
@@ -43,6 +49,7 @@ class Command(BaseCommand):
         debug = options.get('debug', False)
         paginas = options.get('paginas', 5)
         cantidad = options.get('cantidad', 50)
+        usar_ia = options.get('usar_ia', False)
 
         self.stdout.write(
             self.style.SUCCESS('=' * 60)
@@ -50,6 +57,14 @@ class Command(BaseCommand):
         self.stdout.write(
             self.style.SUCCESS(f'Iniciando migración de Stock - {datetime.now().strftime("%Y-%m-%d %H:%M:%S")}')
         )
+        if usar_ia:
+            self.stdout.write(
+                self.style.SUCCESS('🤖 Modo: Generación con IA (datos realistas)')
+            )
+        else:
+            self.stdout.write(
+                self.style.SUCCESS('📊 Modo: Scraping tradicional')
+            )
         self.stdout.write(
             self.style.SUCCESS('=' * 60)
         )
@@ -67,11 +82,17 @@ class Command(BaseCommand):
             )
             self._limpiar_stock(debug)
 
-            # Paso 3: Scrapeiar nuevos datos de coches.net
-            self.stdout.write(
-                self.style.WARNING('\n🔍 PASO 3: Scrapeando nuevos vehículos de coches.net...')
-            )
-            vehiculos_scrapeados = self._scrapeiar_vehiculos(paginas, debug)
+            # Paso 3: Scrapeiar nuevos datos de coches.net o generar con IA
+            if usar_ia:
+                self.stdout.write(
+                    self.style.WARNING('\n🤖 PASO 3: Generando vehículos con IA...')
+                )
+                vehiculos_scrapeados = self._generar_vehiculos_ia(cantidad, debug)
+            else:
+                self.stdout.write(
+                    self.style.WARNING('\n🔍 PASO 3: Scrapeando nuevos vehículos de coches.net...')
+                )
+                vehiculos_scrapeados = self._scrapeiar_vehiculos(paginas, debug)
 
             # Paso 4: Insertar nuevos datos en Stock
             self.stdout.write(
@@ -274,6 +295,27 @@ class Command(BaseCommand):
             logger.warning(f"Error scrapeando coches.net: {str(e)}")
             self.stdout.write(
                 self.style.WARNING(f'⚠️  Error en scraping: {str(e)}. Generando datos aleatorios.')
+            )
+            return []
+
+    def _generar_vehiculos_ia(self, cantidad, debug=False):
+        """Genera vehículos usando IA"""
+        try:
+            self.stdout.write(
+                f'🤖 Generando {cantidad} vehículos con IA...'
+            )
+            vehiculos = generar_vehiculos_con_ia(num_vehiculos=cantidad)
+            self.stdout.write(
+                self.style.SUCCESS(f'✅ {len(vehiculos)} vehículos generados con IA')
+            )
+            return vehiculos
+        except Exception as e:
+            logger.error(f"Error generando vehículos con IA: {str(e)}", exc_info=True)
+            self.stdout.write(
+                self.style.ERROR(f'❌ Error generando con IA: {str(e)}')
+            )
+            self.stdout.write(
+                self.style.WARNING('⚠️  Revirtiendo a generación aleatoria tradicional...')
             )
             return []
 

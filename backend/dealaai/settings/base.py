@@ -151,7 +151,31 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'authentication.User'
 
-# DeepSeek AI Configuration
-DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY', default='')
-DEEPSEEK_API_BASE = 'https://api.deepseek.com/v1'  # Compatible con OpenAI SDK
-DEEPSEEK_MODEL = 'deepseek-chat'
+# OpenRouter AI Configuration (compatible con OpenAI SDK)
+DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY', default='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')
+DEEPSEEK_API_BASE = 'https://openrouter.ai/api/v1'  # OpenRouter endpoint
+DEEPSEEK_MODEL = 'deepseek/deepseek-r1:free'  # Modelo principal - DeepSeek R1 (más potente)
+
+# Lista de modelos de fallback (se intentarán en orden si el principal falla)
+# Solo modelos verificados como disponibles en OpenRouter
+DEEPSEEK_FALLBACK_MODELS = [
+    'meta-llama/llama-3.3-70b-instruct:free',
+    'deepseek/deepseek-r1-distill-llama-70b:free',
+    'qwen/qwen-2.5-72b-instruct:free',
+    'nousresearch/hermes-3-llama-3.1-405b:free',
+    'qwen/qwen-2.5-coder-32b-instruct:free',
+    'mistralai/mistral-small-3.2-24b-instruct:free',
+    'cognitivecomputations/dolphin-mistral-24b-venice-edition:free',
+    'deepseek/deepseek-chat-v3-0324:free',
+    'deepseek/deepseek-r1-0528:free',
+    'google/gemini-2.0-flash-exp:free',
+    'qwen/qwen3-coder:free',
+    'minimax/minimax-m2:free',
+    'meta-llama/llama-3.3-8b-instruct:free',
+    'mistralai/mistral-nemo:free',
+    'google/gemma-3-12b-it:free',
+    'qwen/qwen3-14b:free',
+    'google/gemma-2-9b-it:free',
+    'meta-llama/llama-3.2-3b-instruct:free',
+    'mistralai/mistral-7b-instruct:free',
+]
