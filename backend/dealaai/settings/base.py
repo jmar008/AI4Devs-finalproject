@@ -153,5 +153,5 @@ AUTH_USER_MODEL = 'authentication.User'
 
 # DeepSeek AI Configuration
 DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY', default='')
-DEEPSEEK_API_BASE = 'https://api.deepseek.com'
+DEEPSEEK_API_BASE = 'https://api.deepseek.com/v1'  # Compatible con OpenAI SDK
 DEEPSEEK_MODEL = 'deepseek-chat'
