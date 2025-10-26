@@ -1,0 +1,200 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║       🚀 DealaAI v1.0.0-MVP - GUÍA RÁPIDA DE DESPLIEGUE A PRODUCCIÓN     ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+📍 EMPEZAR AQUÍ (en orden):
+═══════════════════════════════════════════════════════════════════════════
+
+  1️⃣  DEPLOYMENT_START_HERE.md        ← Lee esto PRIMERO (3 min)
+  2️⃣  DEPLOYMENT_SUMMARY.md            ← Resumen ejecutivo (5 min)  
+  3️⃣  DEPLOYMENT_CHECKLIST.md          ← Sigue paso a paso (2 horas)
+  4️⃣  DEPLOYMENT_GUIDE_PRODUCTION.md   ← Referencia detallada (consult.)
+  5️⃣  deploy-production.sh             ← Script automático (opcional)
+
+═══════════════════════════════════════════════════════════════════════════
+
+⚡ COMANDO RÁPIDO (si sabes lo que haces):
+═══════════════════════════════════════════════════════════════════════════
+
+LOCAL:
+  git commit -am "MVP 1.0.0"
+  git tag v1.0.0-mvp
+  git push origin main v1.0.0-mvp
+  
+  # Crear .env.production con variables
+
+SERVIDOR:
+  ssh usuario@mcp.jorgemg.es
+  cd /opt/dealaai && git clone <repo> && cd AI4Devs-finalproject
+  git checkout v1.0.0-mvp
+  # Copiar .env.production
+  sudo certbot certonly --standalone -d mcp.jorgemg.es
+  docker-compose -f docker-compose.production.yml up -d
+  sleep 60
+  docker-compose -f docker-compose.production.yml exec backend \
+    python manage.py migrate --noinput
+  docker-compose -f docker-compose.production.yml exec backend \
+    python manage.py createsuperuser
+  docker-compose -f docker-compose.production.yml exec backend \
+    python manage.py collectstatic --noinput
+
+VERIFICAR:
+  https://mcp.jorgemg.es/login   ← Probar login
+
+═══════════════════════════════════════════════════════════════════════════
+
+✅ CHECKLIST MÍNIMO:
+═══════════════════════════════════════════════════════════════════════════
+
+  ☐ Código en main
+  ☐ Tag v1.0.0-mvp creado
+  ☐ .env.production con todas las variables
+  ☐ SSL certificados generados
+  ☐ docker-compose.production.yml validado
+  ☐ Servicios UP (docker-compose ps)
+  ☐ Migraciones ejecutadas
+  ☐ Superusuario creado
+  ☐ Static files recolectados
+  ☐ Frontend carga en https://mcp.jorgemg.es/
+  ☐ Login funciona
+  ☐ Sesión persiste (F5)
+  ☐ Stock table carga datos
+  ☐ Logout funciona
+  ☐ Backups configurados (cron)
+  ☐ Healthcheck configurado (cron)
+
+═══════════════════════════════════════════════════════════════════════════
+
+🌐 URLS FINALES:
+═══════════════════════════════════════════════════════════════════════════
+
+  Frontend:    https://mcp.jorgemg.es/
+  Login:       https://mcp.jorgemg.es/login
+  Dashboard:   https://mcp.jorgemg.es/dashboard
+  Stock:       https://mcp.jorgemg.es/stock
+  Admin:       https://mcp.jorgemg.es/admin/
+  API Health:  https://mcp.jorgemg.es/api/health/
+
+═══════════════════════════════════════════════════════════════════════════
+
+🔐 CREDENCIALES:
+═══════════════════════════════════════════════════════════════════════════
+
+  Django Admin User:  admin
+  Django Admin Email: admin@mcp.jorgemg.es
+  Password:           [Crear durante deployment]
+
+  SSH:                usuario@mcp.jorgemg.es
+  Directorio:         /opt/dealaai/AI4Devs-finalproject
+
+═══════════════════════════════════════════════════════════════════════════
+
+⏱️  TIMELINE:
+═══════════════════════════════════════════════════════════════════════════
+
+  Local Setup:       30 minutos
+  Server Setup:      45 minutos
+  Docker Deploy:     30 minutos
+  Testing:           20 minutos
+  Monitoring Setup:  15 minutos
+  ─────────────────
+  TOTAL:           ~2.5 horas (primera vez)
+
+═══════════════════════════════════════════════════════════════════════════
+
+🆘 TROUBLESHOOTING RÁPIDO:
+═══════════════════════════════════════════════════════════════════════════
+
+  502 Bad Gateway?
+    → docker-compose restart backend
+    
+  Frontend no carga?
+    → docker-compose logs frontend | tail -50
+    
+  BD no conecta?
+    → docker-compose exec db pg_isready
+    
+  Static files no cargan?
+    → docker-compose exec backend python manage.py collectstatic --noinput
+
+═══════════════════════════════════════════════════════════════════════════
+
+📊 ESTADO:
+═══════════════════════════════════════════════════════════════════════════
+
+  Version:            1.0.0-mvp
+  Release Date:       26 de Octubre, 2025
+  Status:             ✅ LISTO PARA PRODUCCIÓN
+  Domain:             https://mcp.jorgemg.es
+  
+  Features MVP:
+    ✅ Autenticación JWT
+    ✅ Rutas protegidas
+    ✅ Dashboard
+    ✅ Stock system (tabla + detalle)
+    ✅ User profile
+    ✅ Persistencia de sesión
+    ✅ Nginx reverse proxy
+    ✅ SSL/HTTPS
+    ✅ PostgreSQL + Redis
+    ✅ Backups automáticos
+    ✅ Health checks
+
+═══════════════════════════════════════════════════════════════════════════
+
+💡 TIPS:
+═══════════════════════════════════════════════════════════════════════════
+
+  1. Mantén los logs abiertos durante testing
+     docker-compose -f docker-compose.production.yml logs -f
+
+  2. Prueba TODO manualmente:
+     - Login/logout
+     - F5 recarga (sesión debe persistir)
+     - Stock table
+     - Diferentes rutas
+
+  3. Configura backups Y healthchecks - SON CRÍTICOS
+
+  4. Documenta credenciales de forma segura
+
+  5. Monitorea los primeros días en producción
+
+═══════════════════════════════════════════════════════════════════════════
+
+�� PRÓXIMOS PASOS:
+═══════════════════════════════════════════════════════════════════════════
+
+  Inmediato:
+    1. Lee DEPLOYMENT_START_HERE.md
+    2. Prepara variables de entorno
+    3. Sigue DEPLOYMENT_CHECKLIST.md paso a paso
+
+  Después de deploy:
+    1. Monitorea logs (1-2 horas)
+    2. Prueba con usuarios
+    3. Recolecta feedback
+
+  Próxima versión (v1.1.0):
+    - Sistema completo de leads
+    - Chat con IA
+    - Reportes avanzados
+
+═══════════════════════════════════════════════════════════════════════════
+
+¿DUDAS?
+
+  Ver sección "Troubleshooting" en DEPLOYMENT_GUIDE_PRODUCTION.md
+  O revisar logs: docker-compose logs -f
+
+═══════════════════════════════════════════════════════════════════════════
+
+🚀 ¡A DESPLEGAR!
+
+  Versión:      v1.0.0-mvp
+  Último update: 26 de Octubre, 2025
+  Status:       ✅ PRODUCCIÓN READY
+
+═══════════════════════════════════════════════════════════════════════════

@@ -1,0 +1,119 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🚀 Iniciar Backend (Django)",
+      "type": "shell",
+      "command": "docker-compose exec backend python manage.py runserver 0.0.0.0:8000",
+      "problemMatcher": [],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "⚛️ Iniciar Frontend (Next.js)",
+      "type": "shell",
+      "command": "cd frontend && npm run dev",
+      "problemMatcher": [],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "🐳 Docker: Iniciar todos los servicios",
+      "type": "shell",
+      "command": "docker-compose up -d",
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "🛑 Docker: Detener servicios",
+      "type": "shell",
+      "command": "docker-compose down",
+      "problemMatcher": []
+    },
+    {
+      "label": "📊 Docker: Ver logs",
+      "type": "shell",
+      "command": "docker-compose logs -f",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "🔄 Django: Ejecutar migraciones",
+      "type": "shell",
+      "command": "docker-compose exec backend python manage.py migrate",
+      "problemMatcher": []
+    },
+    {
+      "label": "📝 Django: Crear migraciones",
+      "type": "shell",
+      "command": "docker-compose exec backend python manage.py makemigrations",
+      "problemMatcher": []
+    },
+    {
+      "label": "👤 Django: Crear superusuario",
+      "type": "shell",
+      "command": "docker-compose exec backend python manage.py createsuperuser",
+      "problemMatcher": []
+    },
+    {
+      "label": "🧪 Backend: Ejecutar tests",
+      "type": "shell",
+      "command": "docker-compose exec backend pytest",
+      "problemMatcher": [],
+      "group": "test"
+    },
+    {
+      "label": "🧪 Frontend: Ejecutar tests",
+      "type": "shell",
+      "command": "cd frontend && npm test",
+      "problemMatcher": [],
+      "group": "test"
+    },
+    {
+      "label": "🎨 Backend: Formatear código (Black)",
+      "type": "shell",
+      "command": "docker-compose exec backend black .",
+      "problemMatcher": []
+    },
+    {
+      "label": "🎨 Frontend: Formatear código (Prettier)",
+      "type": "shell",
+      "command": "cd frontend && npm run format",
+      "problemMatcher": []
+    },
+    {
+      "label": "🗄️ PostgreSQL: Conectar",
+      "type": "shell",
+      "command": "docker-compose exec db psql -U postgres -d dealaai_dev",
+      "problemMatcher": [],
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      }
+    },
+    {
+      "label": "🧹 Limpiar contenedores y volúmenes",
+      "type": "shell",
+      "command": "docker-compose down -v && docker system prune -f",
+      "problemMatcher": []
+    },
+    {
+      "label": "🔨 Rebuild completo",
+      "type": "shell",
+      "command": "docker-compose down -v && docker-compose build --no-cache && docker-compose up -d",
+      "problemMatcher": []
+    }
+  ]
+}

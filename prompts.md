@@ -936,8 +936,6 @@ Deliverables:
 Include before/after performance metrics y monitoring setup.
 ```
 
----
-
 ## 7. Pull Requests
 
 **Prompt 1:**

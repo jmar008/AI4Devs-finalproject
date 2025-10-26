@@ -1,0 +1,183 @@
+{
+  "name": "DealaAI - Sistema de Gestión para Concesionarios",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspace",
+
+  // Configuración de características y herramientas
+  "features": {
+    "ghcr.io/devcontainers/features/node:1": {
+      "version": "18"
+    },
+    "ghcr.io/devcontainers/features/python:1": {
+      "version": "3.11"
+    },
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+  },
+
+  // Extensiones de VS Code a instalar automáticamente
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        // Python
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "ms-python.black-formatter",
+        "ms-python.isort",
+        "ms-python.flake8",
+
+        // JavaScript/TypeScript
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "ms-vscode.vscode-typescript-next",
+
+        // React/Next.js
+        "dsznajder.es7-react-js-snippets",
+        "styled-components.vscode-styled-components",
+
+        // Database
+        "mtxr.sqltools",
+        "mtxr.sqltools-driver-pg",
+        "ckolkman.vscode-postgres",
+
+        // Docker
+        "ms-azuretools.vscode-docker",
+
+        // Git
+        "eamodio.gitlens",
+        "github.vscode-pull-request-github",
+
+        // REST Client
+        "humao.rest-client",
+
+        // Markdown
+        "yzhang.markdown-all-in-one",
+        "bierner.markdown-mermaid",
+
+        // Utils
+        "EditorConfig.EditorConfig",
+        "streetsidesoftware.code-spell-checker",
+        "wayou.vscode-todo-highlight",
+        "gruntfuggly.todo-tree",
+        "usernamehw.errorlens",
+
+        // AI Development
+        "buildwithlayer.django-integration-expert-Gus30",
+        "openai.chatgpt",
+        "GitHub.copilot-chat",
+        "GitHub.copilot"
+      ],
+
+      "settings": {
+        // Python
+        "python.defaultInterpreterPath": "/opt/python-dev/bin/python",
+        "python.testing.pytestEnabled": true,
+        "python.testing.unittestEnabled": false,
+
+        // Python - Linting y Formatting (nuevas configuraciones)
+        "[python]": {
+          "editor.defaultFormatter": "ms-python.black-formatter",
+          "editor.formatOnSave": true,
+          "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit"
+          }
+        },
+
+        // Flake8
+        "flake8.args": ["--max-line-length=88"],
+
+        // Black formatter
+        "black-formatter.args": ["--line-length=88"],
+        "black-formatter.path": ["/opt/python-dev/bin/black"],
+
+        // isort
+        "isort.args": ["--profile=black"],
+        "isort.path": ["/opt/python-dev/bin/isort"], // Editor
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+          "source.organizeImports": "explicit",
+          "source.fixAll.eslint": "explicit"
+        },
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+
+        // JavaScript/TypeScript
+        "[javascript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescript]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+        "[typescriptreact]": {
+          "editor.defaultFormatter": "esbenp.prettier-vscode"
+        },
+
+        // Files
+        "files.exclude": {
+          "**/__pycache__": true,
+          "**/*.pyc": true,
+          "**/node_modules": true,
+          "**/.next": true
+        },
+
+        // Terminal
+        "terminal.integrated.defaultProfile.linux": "bash",
+
+        // Tailwind CSS
+        "tailwindCSS.experimental.classRegex": [
+          ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+          ["cn\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"]
+        ]
+      }
+    }
+  },
+
+  // Comandos a ejecutar después de crear el contenedor
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
+
+  // Puertos a exponer
+  "forwardPorts": [
+    80, // Nginx proxy
+    3000, // Frontend Next.js
+    8000, // Backend Django
+    5433, // PostgreSQL (cambiado para evitar conflicto)
+    6380 // Redis (cache/celery) (cambiado para evitar conflicto)
+  ],
+
+  "portsAttributes": {
+    "80": {
+      "label": "Nginx Proxy",
+      "onAutoForward": "notify"
+    },
+    "3000": {
+      "label": "Frontend",
+      "onAutoForward": "notify"
+    },
+    "8000": {
+      "label": "Backend API",
+      "onAutoForward": "notify"
+    },
+    "5433": {
+      "label": "PostgreSQL",
+      "onAutoForward": "silent"
+    },
+    "6380": {
+      "label": "Redis",
+      "onAutoForward": "silent"
+    }
+  },
+
+  // Variables de entorno
+  "remoteEnv": {
+    "WORKSPACE_DIR": "/workspace",
+    "PYTHONPATH": "/workspace/backend",
+    "NODE_ENV": "development",
+    "DATABASE_URL": "postgresql://postgres:postgres@db:5432/dealaai_dev",
+    "REDIS_URL": "redis://redis:6379/0"
+  },
+
+  // Usuario remoto
+  "remoteUser": "vscode"
+}
