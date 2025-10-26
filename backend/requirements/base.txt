@@ -23,3 +23,15 @@ Pillow==10.1.0
 
 # Date/Time
 pytz==2023.3
+
+# Web Scraping
+requests==2.31.0
+beautifulsoup4==4.12.2
+
+# Scheduled Tasks
+celery==5.3.4
+redis==5.0.1
+
+# APScheduler for background tasks
+apscheduler==3.10.4
+

@@ -27,7 +27,7 @@ if (Get-Command docker -ErrorAction SilentlyContinue) {
     try {
         $dockerVersion = docker --version
         Show-Success "Docker está instalado: $dockerVersion"
-        
+
         # Verificar que Docker esté corriendo
         docker ps | Out-Null
         if ($LASTEXITCODE -eq 0) {
@@ -78,7 +78,7 @@ Write-Host "`n📂 Verificando estructura de directorios..." -ForegroundColor Bl
 
 $directories = @(
     "backend",
-    "frontend", 
+    "frontend",
     "database",
     "docker",
     "scripts",

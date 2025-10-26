@@ -3,6 +3,7 @@
 ## 🚀 Inicio Rápido
 
 ### 1. Abrir en DevContainer
+
 1. Abre VS Code
 2. Instala la extensión "Dev Containers" si no la tienes
 3. Abre este proyecto en VS Code
@@ -10,12 +11,15 @@
 5. Si no aparece, usa `Ctrl+Shift+P` → "Dev Containers: Reopen in Container"
 
 ### 2. Configuración Automática
+
 Una vez en el DevContainer, ejecuta:
+
 ```bash
 ./scripts/devcontainer-setup.sh
 ```
 
 Este script:
+
 - ✅ Instala dependencias del backend (Python/Django)
 - ✅ Instala dependencias del frontend (Node.js/Next.js)
 - ✅ Inicia servicios de base de datos (PostgreSQL + Redis)
@@ -25,32 +29,35 @@ Este script:
 ### 3. Iniciar Desarrollo
 
 **Opción A: Usar tareas de VS Code**
+
 - `Ctrl+Shift+P` → "Tasks: Run Task"
 - Selecciona: "🚀 Iniciar Frontend (Next.js)" o "🐍 Iniciar Backend (Django)"
 
 **Opción B: Terminal manual**
+
 ```bash
 # Terminal 1 - Backend
 cd backend
 python manage.py runserver 0.0.0.0:8000
 
-# Terminal 2 - Frontend  
+# Terminal 2 - Frontend
 cd frontend
 npm run dev
 ```
 
 ## 🌐 URLs de Desarrollo
 
-| Servicio | URL | Descripción |
-|----------|-----|-------------|
-| Frontend | http://localhost:3000 | Aplicación Next.js |
-| Backend API | http://localhost:8000 | API Django REST |
-| Admin Django | http://localhost:8000/admin | Panel administrativo |
-| PgAdmin | http://localhost:5050 | Administrador PostgreSQL |
+| Servicio     | URL                         | Descripción              |
+| ------------ | --------------------------- | ------------------------ |
+| Frontend     | http://localhost:3000       | Aplicación Next.js       |
+| Backend API  | http://localhost:8000       | API Django REST          |
+| Admin Django | http://localhost:8000/admin | Panel administrativo     |
+| PgAdmin      | http://localhost:5050       | Administrador PostgreSQL |
 
 ## 🛠️ Herramientas Disponibles
 
 ### Backend (Python/Django)
+
 ```bash
 # Migraciones
 python manage.py makemigrations
@@ -71,6 +78,7 @@ isort .
 ```
 
 ### Frontend (Node.js/Next.js)
+
 ```bash
 # Desarrollo
 npm run dev
@@ -86,6 +94,7 @@ npm run build
 ```
 
 ### Docker Services
+
 ```bash
 # Ver servicios corriendo
 docker-compose ps
@@ -103,6 +112,7 @@ docker-compose down
 ## 🐛 Debug
 
 ### Debug con VS Code
+
 1. Ve a la pestaña "Run and Debug" (`Ctrl+Shift+D`)
 2. Selecciona una configuración:
    - "🐍 Debug Django Backend"
@@ -110,6 +120,7 @@ docker-compose down
    - "🚀 Full Stack Debug" (ambos)
 
 ### Logs y Troubleshooting
+
 ```bash
 # Ver logs de servicios
 docker-compose logs backend
@@ -175,11 +186,14 @@ mkdir nuevo-componente
 ## 🔧 Configuración Avanzada
 
 ### Variables de Entorno
+
 - Las variables están configuradas en `.devcontainer/devcontainer.json`
 - Para producción, ver `docker-compose.production.yml`
 
 ### Extensiones VS Code
+
 El DevContainer incluye automáticamente:
+
 - Python
 - JavaScript/TypeScript
 - Docker
@@ -188,7 +202,9 @@ El DevContainer incluye automáticamente:
 - Thunder Client (testing API)
 
 ### Personalizar DevContainer
+
 Edita `.devcontainer/devcontainer.json` para:
+
 - Agregar más extensiones
 - Cambiar configuración de VS Code
 - Agregar más herramientas
@@ -196,6 +212,7 @@ Edita `.devcontainer/devcontainer.json` para:
 ## 🆘 Solución de Problemas
 
 ### Error: Puerto ya en uso
+
 ```bash
 # Ver qué proceso usa el puerto
 lsof -i :3000  # o :8000
@@ -204,6 +221,7 @@ docker-compose down
 ```
 
 ### Error: Base de datos no conecta
+
 ```bash
 # Verificar que PostgreSQL esté corriendo
 docker-compose ps db
@@ -212,6 +230,7 @@ docker-compose restart db
 ```
 
 ### Error: Dependencias no instaladas
+
 ```bash
 # Reinstalar dependencias
 cd backend && pip install -r requirements/development.txt
@@ -219,6 +238,7 @@ cd frontend && npm install
 ```
 
 ### DevContainer no inicia
+
 1. Verifica que Docker Desktop esté corriendo
 2. Actualiza la extensión "Dev Containers"
 3. Intenta: `Ctrl+Shift+P` → "Dev Containers: Rebuild Container"

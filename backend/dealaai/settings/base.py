@@ -37,6 +37,7 @@ INSTALLED_APPS = [
 
     # Local apps (se crearán después)
     'apps.authentication',
+    'apps.stock',
     # 'apps.inventory',
     # 'apps.leads',
     # 'apps.sales',
