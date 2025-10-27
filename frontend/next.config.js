@@ -13,10 +13,11 @@ const nextConfig = {
 
   // Configuración de rewrites para API en desarrollo
   async rewrites() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://backend:8000'
     return [
       {
         source: '/api/:path*',
-        destination: process.env.NEXT_PUBLIC_API_URL + '/api/:path*',
+        destination: `${apiUrl}/api/:path*`,
       },
     ]
   },
@@ -62,6 +63,9 @@ const nextConfig = {
     // Remove console logs in production
     removeConsole: process.env.NODE_ENV === 'production',
   },
+
+  // Deshabilitar optimización de fuentes para evitar problemas de SSL en Docker
+  optimizeFonts: false,
 
   // Configuración de output para deployment
   output: 'standalone',
