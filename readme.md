@@ -249,11 +249,45 @@ OPENAI_API_KEY=sk-...
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_KEY=eyJ...
 
-# Frontend (.env.local)
-NEXT_PUBLIC_API_URL=http://localhost:8000
-NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJ...
+# Frontend (.env.local) - URLs dinámicas por entorno
+# Desarrollo local con Docker: http://localhost:8080
+# Servidor remoto: http://tu-servidor:8080 o https://tu-dominio.com
+NEXT_PUBLIC_API_URL=http://localhost:8080
+NEXT_PUBLIC_WS_URL=ws://localhost:8080/ws
+
+# Producción: https://tu-dominio.com
+NEXT_PUBLIC_API_URL=https://tu-dominio.com
+NEXT_PUBLIC_WS_URL=wss://tu-dominio.com/ws
 ```
+
+**🔧 Configuración de URLs del Backend:**
+
+El frontend detecta automáticamente la URL correcta del backend según el entorno:
+
+- **Desarrollo local:** `http://localhost:8080` (a través de Nginx)
+- **Servidor remoto:** Detecta automáticamente el host actual
+- **Producción:** Configurar `NEXT_PUBLIC_API_URL` con el dominio completo
+
+**Ejemplos de configuración:**
+
+```bash
+# Desarrollo local
+NEXT_PUBLIC_API_URL=http://localhost:8080
+
+# Servidor de desarrollo/testing
+NEXT_PUBLIC_API_URL=http://192.168.1.100:8080
+
+# Producción
+NEXT_PUBLIC_API_URL=https://mi-concesionario.com
+```
+
+**📋 Checklist de configuración:**
+
+- [ ] Verificar que `NEXT_PUBLIC_API_URL` apunte al servidor correcto
+- [ ] Confirmar que Nginx esté corriendo en el puerto 8080
+- [ ] Probar conectividad: `curl http://tu-servidor:8080/api/health/`
+- [ ] Verificar que no haya problemas de CORS
+- [ ] Probar login y funcionalidades básicas
 
 ---
 
