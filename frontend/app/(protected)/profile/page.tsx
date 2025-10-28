@@ -71,6 +71,13 @@ export default function ProfilePage() {
     window.location.href = '/admin/'
   }
 
+  const handleChangePassword = () => {
+    if (user?.id) {
+      // Redirigir a /admin/authentication/user/{id_usuario}/password/
+      window.location.href = `/admin/authentication/user/${user.id}/password/`
+    }
+  }
+
   if (authLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -207,7 +214,11 @@ export default function ProfilePage() {
           >
             ✏️ Editar Perfil
           </Button>
-          <Button variant="outline" className="text-red-600">
+          <Button
+            onClick={handleChangePassword}
+            variant="outline"
+            className="text-red-600"
+          >
             Cambiar Contraseña
           </Button>
         </div>
