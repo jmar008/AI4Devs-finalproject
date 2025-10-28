@@ -113,53 +113,19 @@ class StockViewSet(viewsets.ReadOnlyModelViewSet):
     @action(detail=False, methods=['get'])
     def stats(self, request):
         """
-        Obtener estadísticas del stock
+        Estadísticas básicas del stock
 
-        Devuelve:
-        - Total de vehículos
-        - Precio promedio
-        - Vehículos por marca
-        - Vehículos por tipo de vehículo
+        Devuelve conteos básicos del stock actual
         """
-        total = self.queryset.count()
-        disponibles = self.queryset.filter(reservado=False).count()
-        reservados = self.queryset.filter(reservado=True).count()
+        total_vehiculos = self.queryset.count()
+        vehiculos_disponibles = self.queryset.filter(reservado=False).count()
+        vehiculos_publicados = self.queryset.filter(publicado=True).count()
 
-        stats = {
-            'total': total,
-            'disponibles': disponibles,
-            'reservados': reservados,
-            'precio_promedio': None,
-            'precio_minimo': None,
-            'precio_maximo': None,
-            'por_marca': {},
-            'por_tipo': {},
-            'km_promedio': None,
-        }
-
-        # Calcular precios
-        from django.db.models import Avg, Min, Max
-        precio_stats = self.queryset.aggregate(
-            avg_price=Avg('precio_venta'),
-            min_price=Min('precio_venta'),
-            max_price=Max('precio_venta'),
-            avg_km=Avg('kilometros'),
-        )
-
-        stats['precio_promedio'] = precio_stats['avg_price']
-        stats['precio_minimo'] = precio_stats['min_price']
-        stats['precio_maximo'] = precio_stats['max_price']
-        stats['km_promedio'] = precio_stats['avg_km']
-
-        # Contar por marca
-        marcas = self.queryset.values('marca').annotate(count=Count('id')).order_by('-count')
-        stats['por_marca'] = {m['marca']: m['count'] for m in marcas[:10]}
-
-        # Contar por tipo
-        tipos = self.queryset.values('tipo_vehiculo').annotate(count=Count('id'))
-        stats['por_tipo'] = {t['tipo_vehiculo']: t['count'] for t in tipos if t['tipo_vehiculo']}
-
-        return Response(stats)
+        return Response({
+            'total_vehiculos': total_vehiculos,
+            'vehiculos_disponibles': vehiculos_disponibles,
+            'vehiculos_publicados': vehiculos_publicados,
+        })
 
     @action(detail=False, methods=['get'])
     def export(self, request):
