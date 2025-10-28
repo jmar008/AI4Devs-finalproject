@@ -28,9 +28,9 @@ ports:
 ports:
   - "8000:8000"
 
-# Nginx: 80 del contenedor → 8080 del host
+# Nginx: 80 del contenedor →  del host
 ports:
-  - "8080:80"
+  - ":80"
   - "8443:443"
 
 # PgAdmin: 80 del contenedor → 5050 del host
@@ -74,7 +74,7 @@ environment:
   - DJANGO_SETTINGS_MODULE=dealaai.settings.development # Configuración DEV
   - DATABASE_URL=postgresql://...@db:5432/...
   - DEBUG=True # ✅ Debug habilitado
-  - NEXT_PUBLIC_API_URL=http://localhost:8080 # Localhost
+  - NEXT_PUBLIC_API_URL=http://localhost: # Localhost
 ```
 
 #### docker-compose.easypanel.yml (Producción)
@@ -375,10 +375,10 @@ docker-compose -f docker-compose.easypanel.yml ps  # Todo debe estar healthy
 | ----------------- | ---------------------- | ------------------------------ |
 | **Archivo**       | `docker-compose.yml`   | `docker-compose.easypanel.yml` |
 | **DEBUG**         | True                   | False                          |
-| **Puertos**       | 8080, 3001, 8000, etc. | 80, 443                        |
+| **Puertos**       | , 3001, 8000, etc. | 80, 443                        |
 | **Logs**          | Ilimitados             | Rotados                        |
 | **Health Checks** | Sin start_period       | Con start_period               |
 | **Restart**       | unless-stopped         | always                         |
-| **Acceso**        | localhost:8080         | dominio.com                    |
+| **Acceso**        | localhost:         | dominio.com                    |
 
 **Ambos archivos son necesarios** - Cada uno optimizado para su caso de uso.

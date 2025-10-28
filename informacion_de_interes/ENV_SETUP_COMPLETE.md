@@ -43,7 +43,7 @@ cd c:\___apps___\all4devs\AI4Devs-finalproject
 docker-compose up -d
 ```
 
-**Luego accede a**: http://localhost:8080
+**Luego accede a**: http://localhost:
 
 ---
 
@@ -51,8 +51,8 @@ docker-compose up -d
 
 | Servicio       | URL                          | Usuario           | Contraseña |
 | -------------- | ---------------------------- | ----------------- | ---------- |
-| **App**        | http://localhost:8080        | -                 | -          |
-| **Admin**      | http://localhost:8080/admin/ | admin             | admin123   |
+| **App**        | http://localhost:        | -                 | -          |
+| **Admin**      | http://localhost:/admin/ | admin             | admin123   |
 | **PgAdmin**    | http://localhost:5050        | admin@dealaai.com | admin123   |
 | **PostgreSQL** | localhost:5433               | postgres          | postgres   |
 
@@ -66,7 +66,7 @@ docker-compose up -d
 ✅ DEBUG=True
 ✅ ALLOWED_HOSTS=localhost,127.0.0.1,backend,nginx
 ✅ DATABASE_URL=postgresql://postgres:postgres@db:5432/dealaai_dev
-✅ CORS_ALLOWED_ORIGINS=http://localhost:8080,http://localhost:3000,http://localhost:3001
+✅ CORS_ALLOWED_ORIGINS=http://localhost:,http://localhost:3000,http://localhost:3001
 ✅ MEDIA_ROOT=/app/media
 ✅ STATIC_ROOT=/app/staticfiles
 ```
@@ -74,7 +74,7 @@ docker-compose up -d
 ### Frontend
 
 ```env
-✅ NEXT_PUBLIC_API_URL=http://localhost:8080
+✅ NEXT_PUBLIC_API_URL=http://localhost:
 ✅ NODE_ENV=development
 ```
 

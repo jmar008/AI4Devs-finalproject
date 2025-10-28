@@ -42,8 +42,8 @@ docker-compose down -v
 
 | Servicio         | URL                          |
 | ---------------- | ---------------------------- |
-| **Aplicación**   | http://localhost:8080        |
-| **Admin Django** | http://localhost:8080/admin/ |
+| **Aplicación**   | http://localhost:        |
+| **Admin Django** | http://localhost:/admin/ |
 | **PgAdmin**      | http://localhost:5050        |
 
 ---
@@ -88,7 +88,7 @@ La key actual está **expirada**. Si necesitas chat:
 ✅ Redis (redis:6379)         → localhost:6380
 ✅ Django Backend (8000)      → interno
 ✅ Next.js Frontend (3000)    → interno
-✅ Nginx (80/443)             → localhost:8080
+✅ Nginx (80/443)             → localhost:
 ✅ PgAdmin                    → localhost:5050
 ```
 

@@ -8,7 +8,7 @@ AI4Devs-finalproject/
 ├── .env ✨ NEW - COMPLETADO
 │   ├── COMPOSE_PROJECT_NAME=dealaai
 │   ├── DEBUG=True
-│   ├── NEXT_PUBLIC_API_URL=http://localhost:8080
+│   ├── NEXT_PUBLIC_API_URL=http://localhost:
 │   ├── DB_NAME=dealaai_dev
 │   ├── POSTGRES_PASSWORD=postgres
 │   ├── PGADMIN_DEFAULT_EMAIL=admin@dealaai.com
@@ -19,7 +19,7 @@ AI4Devs-finalproject/
 │       ├── DEBUG=True
 │       ├── ALLOWED_HOSTS=localhost,127.0.0.1,backend,nginx
 │       ├── DATABASE_URL=postgresql://postgres:postgres@db:5432/dealaai_dev
-│       ├── CORS_ALLOWED_ORIGINS=http://localhost:8080,http://localhost:3000,http://localhost:3001
+│       ├── CORS_ALLOWED_ORIGINS=http://localhost:,http://localhost:3000,http://localhost:3001
 │       ├── MEDIA_ROOT=/app/media
 │       ├── STATIC_ROOT=/app/staticfiles
 │       └── LOG_LEVEL=DEBUG
@@ -87,8 +87,8 @@ docker-compose ps
 
 ### 3️⃣ Acceder a la Aplicación
 
-- **Frontend**: http://localhost:8080
-- **Admin**: http://localhost:8080/admin/ (admin/admin123)
+- **Frontend**: http://localhost:
+- **Admin**: http://localhost:/admin/ (admin/admin123)
 - **PgAdmin**: http://localhost:5050 (admin@dealaai.com/admin123)
 
 ---
@@ -101,7 +101,7 @@ docker-compose ps
 ✅ DEBUG=True                    (Modo desarrollo)
 ✅ ALLOWED_HOSTS                 (localhost, backend, nginx)
 ✅ DATABASE_URL                  (postgresql://postgres@db:5432/dealaai_dev)
-✅ CORS_ALLOWED_ORIGINS          (http://localhost:8080, etc.)
+✅ CORS_ALLOWED_ORIGINS          (http://localhost:, etc.)
 ✅ REDIS_URL                     (redis://redis:6379/0)
 ✅ MEDIA_ROOT=/app/media         (Archivos subidos)
 ✅ STATIC_ROOT=/app/staticfiles  (CSS, JS, imágenes)
@@ -111,7 +111,7 @@ docker-compose ps
 ### Frontend
 
 ```env
-✅ NEXT_PUBLIC_API_URL=http://localhost:8080
+✅ NEXT_PUBLIC_API_URL=http://localhost:
 ✅ NODE_ENV=development
 ✅ NEXT_PUBLIC_ENVIRONMENT=development
 ```
@@ -131,8 +131,8 @@ docker-compose ps
 
 | Servicio     | URL                          | Usuario           | Contraseña |
 | ------------ | ---------------------------- | ----------------- | ---------- |
-| Aplicación   | http://localhost:8080        | -                 | -          |
-| Django Admin | http://localhost:8080/admin/ | admin             | admin123   |
+| Aplicación   | http://localhost:        | -                 | -          |
+| Django Admin | http://localhost:/admin/ | admin             | admin123   |
 | PgAdmin      | http://localhost:5050        | admin@dealaai.com | admin123   |
 | PostgreSQL   | localhost:5433               | postgres          | postgres   |
 
@@ -149,7 +149,7 @@ docker-compose ps
 
 ### Puertos
 
-- 8080: Nginx (acceso principal)
+- : Nginx (acceso principal)
 - 5433: PostgreSQL (desde host)
 - 6380: Redis (desde host)
 - 5050: PgAdmin
@@ -235,13 +235,13 @@ docker-compose ps
 ### Luego (Abrir Navegador)
 
 ```
-http://localhost:8080
+http://localhost:
 ```
 
 ### Opcional (Si Necesitas Admin)
 
 ```
-http://localhost:8080/admin/
+http://localhost:/admin/
 Usuario: admin
 Contraseña: admin123
 ```
@@ -313,7 +313,7 @@ docker-compose up -d
 **Luego accede a:**
 
 ```
-http://localhost:8080
+http://localhost:
 ```
 
 ---

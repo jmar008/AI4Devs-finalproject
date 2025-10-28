@@ -9,7 +9,7 @@ export default function DiagnosticsPage() {
     const diagnostic = {
       timestamp: new Date().toISOString(),
       userAgent: typeof window !== 'undefined' ? navigator.userAgent : 'N/A',
-      apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080',
+      apiUrl: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:',
       isDev: process.env.NODE_ENV === 'development',
       hasLocalStorage: typeof window !== 'undefined' && !!window.localStorage,
       storedToken:

@@ -1,12 +1,12 @@
 /**
  * API Client Helper
  * Maneja todas las requests a la API del backend con autenticación
- * Compatible con desarrollo (localhost:8080 vía nginx) y producción (EasyPanel)
+ * Compatible con desarrollo (localhost: vía nginx) y producción (EasyPanel)
  */
 
-// En desarrollo, usar localhost:8080 (nginx reverse proxy) para evitar CORS
+// En desarrollo, usar localhost: (nginx reverse proxy) para evitar CORS
 // En producción, NEXT_PUBLIC_API_URL debería apuntar a la URL pública
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:'
 
 interface ApiRequestOptions extends RequestInit {
   headers?: Record<string, string>

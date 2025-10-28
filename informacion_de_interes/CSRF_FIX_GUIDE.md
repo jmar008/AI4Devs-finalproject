@@ -2,16 +2,16 @@
 
 ## 📋 Problema
 
-Al intentar acceder a `/admin` desde `http://localhost:8080`, Django rechaza la solicitud con:
+Al intentar acceder a `/admin` desde `http://localhost:`, Django rechaza la solicitud con:
 
 ```
 La verificación CSRF ha fallado. Solicitud abortada.
-Reason given for failure: Origin checking failed - http://localhost:8080 does not match any trusted origins.
+Reason given for failure: Origin checking failed - http://localhost: does not match any trusted origins.
 ```
 
 ## 🔍 Causa
 
-Django tiene un middleware de seguridad CSRF (Cross-Site Request Forgery) que valida que las solicitudes provengan de orígenes confiables. Como `http://localhost:8080` no estaba configurado como origen confiable, rechazaba la solicitud.
+Django tiene un middleware de seguridad CSRF (Cross-Site Request Forgery) que valida que las solicitudes provengan de orígenes confiables. Como `http://localhost:` no estaba configurado como origen confiable, rechazaba la solicitud.
 
 ## ✅ Soluciones Aplicadas
 
@@ -21,13 +21,13 @@ Django tiene un middleware de seguridad CSRF (Cross-Site Request Forgery) que va
 # CSRF Configuration
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost:8080,http://localhost:3000,http://localhost:3001,http://127.0.0.1:8080,http://127.0.0.1:3000,http://127.0.0.1:3001',
+    default='http://localhost:,http://localhost:3000,http://localhost:3001,http://127.0.0.1:,http://127.0.0.1:3000,http://127.0.0.1:3001',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
 CSRF_ALLOWED_ORIGINS = config(
     'CSRF_ALLOWED_ORIGINS',
-    default='http://localhost:8080,http://localhost:3000,http://localhost:3001,http://127.0.0.1:8080,http://127.0.0.1:3000,http://127.0.0.1:3001',
+    default='http://localhost:,http://localhost:3000,http://localhost:3001,http://127.0.0.1:,http://127.0.0.1:3000,http://127.0.0.1:3001',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
@@ -43,8 +43,8 @@ Se añadieron a `.env` y `backend/.env`:
 
 ```env
 # 🔒 CSRF CONFIGURATION
-CSRF_TRUSTED_ORIGINS=http://localhost:8080,http://localhost:3000,http://localhost:3001,http://127.0.0.1:8080,http://127.0.0.1:3000,http://127.0.0.1:3001
-CSRF_ALLOWED_ORIGINS=http://localhost:8080,http://localhost:3000,http://localhost:3001,http://127.0.0.1:8080,http://127.0.0.1:3000,http://127.0.0.1:3001
+CSRF_TRUSTED_ORIGINS=http://localhost:,http://localhost:3000,http://localhost:3001,http://127.0.0.1:,http://127.0.0.1:3000,http://127.0.0.1:3001
+CSRF_ALLOWED_ORIGINS=http://localhost:,http://localhost:3000,http://localhost:3001,http://127.0.0.1:,http://127.0.0.1:3000,http://127.0.0.1:3001
 CSRF_COOKIE_SECURE=False
 ```
 
@@ -66,10 +66,10 @@ docker restart dealaai_backend
 
 ## 📊 Orígenes Configurados
 
-- ✅ `http://localhost:8080` - Nginx reverse proxy
+- ✅ `http://localhost:` - Nginx reverse proxy
 - ✅ `http://localhost:3000` - Frontend Next.js (puerto alternativo)
 - ✅ `http://localhost:3001` - Frontend Next.js (puerto actual)
-- ✅ `http://127.0.0.1:8080` - Localhost IP
+- ✅ `http://127.0.0.1:` - Localhost IP
 - ✅ `http://127.0.0.1:3000` - Localhost IP alternativo
 - ✅ `http://127.0.0.1:3001` - Localhost IP actual
 
@@ -88,7 +88,7 @@ CSRF_COOKIE_SECURE=True
 
 Ahora deberías poder:
 
-1. ✅ Acceder a `http://localhost:8080/admin/`
+1. ✅ Acceder a `http://localhost:/admin/`
 2. ✅ Hacer login con usuario/contraseña `admin` / `admin123`
 3. ✅ Navegar sin errores CSRF
 

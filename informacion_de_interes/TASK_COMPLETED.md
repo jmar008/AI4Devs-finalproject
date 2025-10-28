@@ -33,7 +33,7 @@
 ✅ DEBUG=True
 ✅ ALLOWED_HOSTS=localhost,127.0.0.1,backend,nginx
 ✅ DATABASE_URL=postgresql://postgres:postgres@db:5432/dealaai_dev
-✅ CORS_ALLOWED_ORIGINS=http://localhost:8080,http://localhost:3000,http://localhost:3001
+✅ CORS_ALLOWED_ORIGINS=http://localhost:,http://localhost:3000,http://localhost:3001
 ✅ REDIS_URL=redis://redis:6379/0
 ✅ MEDIA_ROOT=/app/media
 ✅ STATIC_ROOT=/app/staticfiles
@@ -43,7 +43,7 @@
 ### Frontend
 
 ```
-✅ NEXT_PUBLIC_API_URL=http://localhost:8080
+✅ NEXT_PUBLIC_API_URL=http://localhost:
 ✅ NODE_ENV=development
 ```
 
@@ -73,7 +73,7 @@ cd c:\___apps___\all4devs\AI4Devs-finalproject
 docker-compose up -d
 ```
 
-**Accede a**: http://localhost:8080
+**Accede a**: http://localhost:
 
 ---
 

@@ -13,7 +13,7 @@ docker-compose ps
 
 | Servicio                  | Puerto | Estado     | URL                             |
 | ------------------------- | ------ | ---------- | ------------------------------- |
-| **Nginx** (Reverse Proxy) | 8080   | ✅ Running | http://localhost:8080           |
+| **Nginx** (Reverse Proxy) |    | ✅ Running | http://localhost:           |
 | **Frontend** (Next.js)    | 3000   | ✅ Running | http://localhost:3000 (interno) |
 | **Backend** (Django)      | 8000   | ✅ Running | http://localhost:8000 (interno) |
 | **PostgreSQL**            | 5433   | ✅ Running | localhost:5433                  |
@@ -25,12 +25,12 @@ docker-compose ps
 ```
 ┌─────────────────────────────────────────────────────────┐
 │                       NAVEGADOR                         │
-│                  http://localhost:8080                  │
+│                  http://localhost:                  │
 └────────────────────────┬────────────────────────────────┘
                          │
                          ▼
 ┌─────────────────────────────────────────────────────────┐
-│                    NGINX (Puerto 8080)                  │
+│                    NGINX (Puerto )                  │
 │                   Reverse Proxy + CORS                  │
 ├─────────────────────────────────────────────────────────┤
 │  /                  → Frontend (Next.js)                │
@@ -60,7 +60,7 @@ docker-compose ps
 
 ### Django Admin
 
-- **URL**: http://localhost:8080/admin/
+- **URL**: http://localhost:/admin/
 - **Usuario**: `admin`
 - **Contraseña**: `admin123`
 
@@ -82,14 +82,14 @@ docker-compose ps
 
 ### Aplicación Principal
 
-- **Frontend**: http://localhost:8080 (a través de nginx)
-- **Backend API**: http://localhost:8080/api/
-- **Django Admin**: http://localhost:8080/admin/
+- **Frontend**: http://localhost: (a través de nginx)
+- **Backend API**: http://localhost:/api/
+- **Django Admin**: http://localhost:/admin/
 
 ### Herramientas de Desarrollo
 
 - **PgAdmin**: http://localhost:5050
-- **Documentación API**: http://localhost:8080/api/docs/ (si está configurado)
+- **Documentación API**: http://localhost:/api/docs/ (si está configurado)
 
 ## 🔧 Configuración Corregida
 
@@ -98,8 +98,8 @@ docker-compose ps
 **Frontend** (`.env.local`):
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:8080
-NEXT_PUBLIC_WS_URL=ws://localhost:8080/ws
+NEXT_PUBLIC_API_URL=http://localhost:
+NEXT_PUBLIC_WS_URL=ws://localhost:/ws
 ```
 
 **Backend** (`.env`):
@@ -113,7 +113,7 @@ DB_USER=postgres
 DB_PASSWORD=postgres
 REDIS_URL=redis://redis:6379/0
 ALLOWED_HOSTS=localhost,backend,nginx
-CORS_ALLOWED_ORIGINS=http://localhost:8080,http://localhost:3000
+CORS_ALLOWED_ORIGINS=http://localhost:,http://localhost:3000
 ```
 
 ### Correcciones Aplicadas
@@ -121,7 +121,7 @@ CORS_ALLOWED_ORIGINS=http://localhost:8080,http://localhost:3000
 #### 1. ✅ CORS Resuelto
 
 - **Problema**: Frontend hacía llamadas a `localhost:8000` causando errores CORS
-- **Solución**: Todo el tráfico pasa por nginx en `localhost:8080`
+- **Solución**: Todo el tráfico pasa por nginx en `localhost:`
 - **Archivos actualizados**:
   - `frontend/.env.local`
   - `frontend/next.config.js`
@@ -271,18 +271,18 @@ docker-compose restart nginx
 
 1. **✅ Frontend carga**
 
-   - Abrir http://localhost:8080
+   - Abrir http://localhost:
    - Debería mostrar la página de inicio sin errores
 
 2. **✅ Login funciona**
 
-   - Ir a http://localhost:8080/login
+   - Ir a http://localhost:/login
    - Iniciar sesión con credenciales válidas
    - Verificar que redirige al dashboard
 
 3. **✅ Django Admin carga con estilos**
 
-   - Abrir http://localhost:8080/admin/
+   - Abrir http://localhost:/admin/
    - Verificar que los estilos CSS están aplicados correctamente
    - Login con `admin` / `admin123`
 
@@ -298,7 +298,7 @@ docker-compose restart nginx
    - Ir a la página de perfil
    - Abrir DevTools → Console
    - Verificar que NO hay errores CORS
-   - La llamada debería ser a `http://localhost:8080/api/auth/users/me/`
+   - La llamada debería ser a `http://localhost:/api/auth/users/me/`
 
 6. **✅ Base de datos accesible**
    - Abrir http://localhost:5050 (PgAdmin)
@@ -309,7 +309,7 @@ docker-compose restart nginx
 
 ### Arquitectura de Desarrollo
 
-- **Todo el tráfico pasa por nginx** en el puerto 8080
+- **Todo el tráfico pasa por nginx** en el puerto 
 - **No hay llamadas directas** a backend:8000 o frontend:3000 desde el navegador
 - **Beneficios**:
   - ✅ Sin problemas de CORS

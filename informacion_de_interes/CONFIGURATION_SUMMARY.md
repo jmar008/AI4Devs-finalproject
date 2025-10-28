@@ -24,7 +24,7 @@ DB_HOST=db
 REDIS_URL=redis://redis:6379/0
 
 # Frontend
-NEXT_PUBLIC_API_URL=http://localhost:8080
+NEXT_PUBLIC_API_URL=http://localhost:
 NODE_ENV=development
 
 # Database
@@ -53,7 +53,7 @@ ALLOWED_HOSTS=localhost,127.0.0.1,backend,nginx
 DATABASE_URL=postgresql://postgres:postgres@db:5432/dealaai_dev
 
 # CORS
-CORS_ALLOWED_ORIGINS=http://localhost:8080,http://localhost:3000,http://localhost:3001
+CORS_ALLOWED_ORIGINS=http://localhost:,http://localhost:3000,http://localhost:3001
 
 # Media/Static
 MEDIA_ROOT=/app/media
@@ -75,8 +75,8 @@ SESSION_COOKIE_SECURE=False
 
 | Servicio          | URL                          | Usuario             | Contraseña |
 | ----------------- | ---------------------------- | ------------------- | ---------- |
-| **Frontend**      | http://localhost:8080        | -                   | -          |
-| **Backend Admin** | http://localhost:8080/admin/ | `admin`             | `admin123` |
+| **Frontend**      | http://localhost:        | -                   | -          |
+| **Backend Admin** | http://localhost:/admin/ | `admin`             | `admin123` |
 | **PgAdmin**       | http://localhost:5050        | `admin@dealaai.com` | `admin123` |
 | **PostgreSQL**    | localhost:5433               | `postgres`          | `postgres` |
 | **Redis**         | localhost:6380               | -                   | -          |
@@ -103,7 +103,7 @@ Servicios en docker-compose.yml:
 ├── redis (Cache)
 ├── backend (Django - puerto 8000)
 ├── frontend (Next.js - puerto 3001)
-├── nginx (Reverse Proxy - puerto 8080)
+├── nginx (Reverse Proxy - puerto )
 └── pgadmin (Administración BD - puerto 5050)
 ```
 
@@ -135,13 +135,13 @@ docker-compose down -v
 1. **Frontend (Principal)**
 
    ```
-   http://localhost:8080
+   http://localhost:
    ```
 
 2. **Django Admin**
 
    ```
-   http://localhost:8080/admin/
+   http://localhost:/admin/
    Credenciales: admin / admin123
    ```
 
@@ -241,7 +241,7 @@ docker-compose exec redis redis-cli ping
 ✅ DEBUG=True
 ✅ DB_NAME=dealaai_dev
 ✅ POSTGRES_PASSWORD=postgres
-✅ NEXT_PUBLIC_API_URL=http://localhost:8080
+✅ NEXT_PUBLIC_API_URL=http://localhost:
 ✅ Todos los servicios "healthy"
 ```
 
@@ -256,7 +256,7 @@ docker-compose exec redis redis-cli ping
    docker-compose up -d --build  # Iniciar
    ```
 3. ⏭️ **Esperar** a que todos los servicios estén healthy
-4. ⏭️ **Verificar** acceso a http://localhost:8080
+4. ⏭️ **Verificar** acceso a http://localhost:
 5. ⏭️ **Crear superusuario** si es necesario:
    ```powershell
    docker-compose exec backend python manage.py createsuperuser
@@ -295,7 +295,7 @@ docker-compose up -d  # Vuelve a leer .env
 
 ```powershell
 # Ver qué ocupan los puertos
-netstat -ano | findstr :8080
+netstat -ano | findstr :
 netstat -ano | findstr :5433
 
 # O cambiar puertos en docker-compose.yml
@@ -321,4 +321,4 @@ cd c:\___apps___\all4devs\AI4Devs-finalproject
 docker-compose up -d
 ```
 
-Luego accede a: **http://localhost:8080**
+Luego accede a: **http://localhost:**

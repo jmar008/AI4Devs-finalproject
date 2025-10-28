@@ -6,8 +6,8 @@
 
 ```bash
 # .env.local
-NEXT_PUBLIC_API_URL=http://localhost:8080
-NEXT_PUBLIC_WS_URL=ws://localhost:8080/ws
+NEXT_PUBLIC_API_URL=http://localhost:
+NEXT_PUBLIC_WS_URL=ws://localhost:/ws
 ```
 
 ### Desarrollo con Backend Directo
@@ -22,8 +22,8 @@ NEXT_PUBLIC_WS_URL=ws://localhost:8000/ws
 
 ```bash
 # .env.local
-NEXT_PUBLIC_API_URL=http://192.168.1.100:8080
-NEXT_PUBLIC_WS_URL=ws://192.168.1.100:8080/ws
+NEXT_PUBLIC_API_URL=http://192.168.1.100:
+NEXT_PUBLIC_WS_URL=ws://192.168.1.100:/ws
 ```
 
 _Reemplaza `192.168.1.100` con la IP de tu servidor_
@@ -54,14 +54,14 @@ docker-compose restart frontend
 
 ```bash
 # Construir con variables específicas
-docker build --build-arg API_URL=http://tu-servidor:8080 -t frontend ./frontend
+docker build --build-arg API_URL=http://tu-servidor: -t frontend ./frontend
 ```
 
 ## 📋 Checklist de Configuración
 
 - [ ] Verificar que el backend esté corriendo en el puerto correcto
 - [ ] Confirmar que Nginx esté proxyeando correctamente
-- [ ] Probar conectividad desde el navegador: `http://tu-servidor:8080/api/health/`
+- [ ] Probar conectividad desde el navegador: `http://tu-servidor:/api/health/`
 - [ ] Verificar que no haya problemas de CORS
 - [ ] Probar login y funcionalidades básicas
 
@@ -70,12 +70,12 @@ docker build --build-arg API_URL=http://tu-servidor:8080 -t frontend ./frontend
 ### Error: "Failed to fetch" / "Network Error"
 
 - Verificar que `NEXT_PUBLIC_API_URL` apunte al servidor correcto
-- Confirmar que Nginx esté corriendo en el puerto 8080
+- Confirmar que Nginx esté corriendo en el puerto 
 - Revisar logs de Nginx: `docker-compose logs nginx`
 
 ### Error CORS
 
-- Asegurarse de que las requests vayan a través de Nginx (puerto 8080)
+- Asegurarse de que las requests vayan a través de Nginx (puerto )
 - Verificar configuración CORS en `docker/nginx/nginx.conf`
 
 ### Error 502 Bad Gateway

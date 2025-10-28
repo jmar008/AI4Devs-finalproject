@@ -67,7 +67,7 @@ export default function ProfilePage() {
   }
 
   const handleEditProfile = () => {
-    // Redirigir a http://localhost:8080/admin/
+    // Redirigir a http://localhost:/admin/
     window.location.href = '/admin/'
   }
 
