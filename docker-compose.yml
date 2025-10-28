@@ -86,7 +86,7 @@ services:
       - NEXT_PUBLIC_ENVIRONMENT=development
       - NODE_ENV=development
     ports:
-      - "3000:3000"
+      - "3001:3000"
     depends_on:
       - backend
     networks:
