@@ -38,7 +38,7 @@ interface DashboardStats {
   total_vehiculos: number
   vehiculos_disponibles: number
   vehiculos_publicados: number
-  valor_total_stock: number
+  vehiculos_reservados: number
   precio_promedio: number
   por_provincia: Record<string, number>
   actividad_reciente: Array<{
@@ -90,6 +90,7 @@ export default function DashboardPage() {
       const total_vehiculos = vehicles.length
       const vehiculos_disponibles = vehicles.filter((v) => !v.reservado).length
       const vehiculos_publicados = vehicles.filter((v) => v.publicado).length
+      const vehiculos_reservados = total_vehiculos - vehiculos_disponibles
       const valor_total_stock = vehicles.reduce(
         (sum, v) => sum + (v.precio_venta || 0),
         0
@@ -138,7 +139,7 @@ export default function DashboardPage() {
         total_vehiculos,
         vehiculos_disponibles,
         vehiculos_publicados,
-        valor_total_stock,
+        vehiculos_reservados,
         precio_promedio,
         por_provincia,
         actividad_reciente,
@@ -191,8 +192,8 @@ export default function DashboardPage() {
           color: 'bg-purple-500',
         },
         {
-          label: 'Valor Total Stock',
-          value: `€${dashboardData.valor_total_stock.toLocaleString()}`,
+          label: 'Vehículos Reservados',
+          value: dashboardData.vehiculos_reservados.toLocaleString(),
           icon: Users,
           color: 'bg-orange-500',
         },
