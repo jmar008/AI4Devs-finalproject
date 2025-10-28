@@ -1,15 +1,138 @@
 services:
-  # Servidor web Apache
-  web:
-    image: httpd:alpine
-    container_name: dealaai_web
+  # Base de datos PostgreSQL con pgvector
+  db:
+    image: ankane/pgvector:latest
+    container_name: dealaai_db
     restart: unless-stopped
-    expose:
-      - "80"
     volumes:
-      - ./frontend:/usr/local/apache2/htdocs:ro
+      - postgres-data:/var/lib/postgresql/data
+      - ./database/init:/docker-entrypoint-initdb.d:ro
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dealaai_dev
+    ports:
+      - "5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d dealaai_dev"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - dealaai_network
+
+  # Redis para cache y Celery
+  redis:
+    image: redis:7-alpine
+    container_name: dealaai_redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6380:6379"
+    command: redis-server --appendonly yes
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - dealaai_network
+
+  # Backend Django
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: dealaai_backend
+    restart: unless-stopped
+    volumes:
+      - ./backend:/app:cached
+      - ./media:/app/media:cached
+      - ./static:/app/static:cached
+    environment:
+      - DJANGO_SETTINGS_MODULE=dealaai.settings.development
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/dealaai_dev
+      - REDIS_URL=redis://redis:6379/0
+      - DEBUG=True
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - dealaai_network
+
+  # Frontend Next.js
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: dealaai_frontend
+    restart: unless-stopped
+    volumes:
+      - ./frontend:/app:cached
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+      - NEXT_PUBLIC_ENVIRONMENT=development
+      - NODE_ENV=development
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - dealaai_network
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: dealaai_nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+      - "8443:443"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./static:/var/www/static:ro
+      - ./media:/var/www/media:ro
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - dealaai_network
+
+  # PgAdmin para gestión de base de datos
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: dealaai_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@dealaai.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - db
+    networks:
+      - dealaai_network
+
+volumes:
+  postgres-data:
+  redis-data:
+  pgadmin-data:
 
 networks:
   dealaai_network:

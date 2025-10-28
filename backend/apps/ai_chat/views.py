@@ -124,13 +124,23 @@ class ChatViewSet(viewsets.ViewSet):
         except ValueError as e:
             logger.error(f"Configuration error: {str(e)}")
             return Response(
-                {'error': 'El servicio de IA no está configurado correctamente'},
+                {'error': 'El servicio de IA no está configurado correctamente. Contacta al administrador.'},
                 status=status.HTTP_503_SERVICE_UNAVAILABLE
             )
         except Exception as e:
-            logger.error(f"Error in chat: {str(e)}", exc_info=True)
+            error_str = str(e)
+            logger.error(f"Error in chat: {error_str}", exc_info=True)
+
+            # Mensaje más específico para errores de autenticación
+            if '401' in error_str or 'User not found' in error_str:
+                error_message = 'La API key de OpenRouter es inválida o ha expirado. Contacta al administrador para obtener una nueva key en https://openrouter.ai/'
+            elif '404' in error_str:
+                error_message = 'El modelo de IA no está disponible. Intenta de nuevo en unos minutos.'
+            else:
+                error_message = 'Error al procesar el mensaje. Intenta de nuevo.'
+
             return Response(
-                {'error': 'Error al procesar el mensaje'},
+                {'error': error_message},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 

@@ -1,11 +1,12 @@
 /**
  * API Client Helper
  * Maneja todas las requests a la API del backend con autenticación
- * Compatible con desarrollo (localhost:8000) y producción (EasyPanel)
+ * Compatible con desarrollo (localhost:8080 vía nginx) y producción (EasyPanel)
  */
 
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'
+// En desarrollo, usar localhost:8080 (nginx reverse proxy) para evitar CORS
+// En producción, NEXT_PUBLIC_API_URL debería apuntar a la URL pública
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
 
 interface ApiRequestOptions extends RequestInit {
   headers?: Record<string, string>
@@ -109,20 +110,20 @@ export const apiCall = async <T = any>(
  */
 export const authAPI = {
   login: (username: string, password: string) =>
-    apiCall('/auth/users/login/', {
+    apiCall('/api/auth/users/login/', {
       method: 'POST',
       body: JSON.stringify({ username, password }),
     }),
 
   logout: () =>
-    apiCall('/auth/users/logout/', {
+    apiCall('/api/auth/users/logout/', {
       method: 'POST',
     }),
 
-  me: () => apiCall('/auth/users/me/'),
+  me: () => apiCall('/api/auth/users/me/'),
 
   changePassword: (oldPassword: string, newPassword: string) =>
-    apiCall('/auth/users/change_password/', {
+    apiCall('/api/auth/users/change_password/', {
       method: 'POST',
       body: JSON.stringify({
         old_password: oldPassword,
@@ -146,25 +147,25 @@ export const stockAPI = {
       })
     }
     const query = queryParams.toString()
-    return apiCall(`/stock/?${query}`)
+    return apiCall(`/api/stock/?${query}`)
   },
 
   // Obtener detalles de un vehículo
-  detail: (bastidor: string) => apiCall(`/stock/${bastidor}/`),
+  detail: (bastidor: string) => apiCall(`/api/stock/${bastidor}/`),
 
   // Búsqueda de vehículos
   search: (query: string) =>
-    apiCall('/stock/search/', {
+    apiCall('/api/stock/search/', {
       method: 'POST',
       body: JSON.stringify({ query }),
     }),
 
   // Obtener estadísticas
-  stats: () => apiCall('/stock/stats/'),
+  stats: () => apiCall('/api/stock/stats/'),
 
   // Exportar a CSV
   export: (format: 'csv' | 'excel' = 'csv') =>
-    apiCall(`/stock/export/?format=${format}`),
+    apiCall(`/api/stock/export/?format=${format}`),
 }
 
 /**
@@ -181,29 +182,29 @@ export const usersAPI = {
       })
     }
     const query = queryParams.toString()
-    return apiCall(`/auth/users/?${query}`)
+    return apiCall(`/api/auth/users/?${query}`)
   },
 
-  detail: (id: number) => apiCall(`/auth/users/${id}/`),
+  detail: (id: number) => apiCall(`/api/auth/users/${id}/`),
 
-  subordinados: (id: number) => apiCall(`/auth/users/${id}/subordinados/`),
+  subordinados: (id: number) => apiCall(`/api/auth/users/${id}/subordinados/`),
 
-  jerarquia: (id: number) => apiCall(`/auth/users/${id}/jerarquia/`),
+  jerarquia: (id: number) => apiCall(`/api/auth/users/${id}/jerarquia/`),
 
   create: (data: any) =>
-    apiCall('/auth/users/', {
+    apiCall('/api/auth/users/', {
       method: 'POST',
       body: JSON.stringify(data),
     }),
 
   update: (id: number, data: any) =>
-    apiCall(`/auth/users/${id}/`, {
+    apiCall(`/api/auth/users/${id}/`, {
       method: 'PATCH',
       body: JSON.stringify(data),
     }),
 
   delete: (id: number) =>
-    apiCall(`/auth/users/${id}/`, {
+    apiCall(`/api/auth/users/${id}/`, {
       method: 'DELETE',
     }),
 }
@@ -212,16 +213,16 @@ export const usersAPI = {
  * Endpoints de provincias
  */
 export const provinciasAPI = {
-  list: () => apiCall('/auth/provincias/'),
-  detail: (id: number) => apiCall(`/auth/provincias/${id}/`),
+  list: () => apiCall('/api/auth/provincias/'),
+  detail: (id: number) => apiCall(`/api/auth/provincias/${id}/`),
 }
 
 /**
  * Endpoints de concesionarios
  */
 export const concesionariosAPI = {
-  list: () => apiCall('/auth/concesionarios/'),
-  detail: (id: number) => apiCall(`/auth/concesionarios/${id}/`),
+  list: () => apiCall('/api/auth/concesionarios/'),
+  detail: (id: number) => apiCall(`/api/auth/concesionarios/${id}/`),
 }
 
 export default apiCall

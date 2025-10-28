@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { authAPI } from '@/lib/api'
 import { useAuthStore } from '@/store/authStore'
 import { ChevronLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
@@ -48,22 +49,13 @@ export default function ProfilePage() {
   const loadUserProfile = async () => {
     try {
       setLoading(true)
-      const token = localStorage.getItem('auth_token')
-      if (!token) throw new Error('No token found')
+      const result = await authAPI.me()
 
-      const response = await fetch('http://localhost:8000/api/auth/users/me/', {
-        headers: {
-          Authorization: `Token ${token}`,
-          'Content-Type': 'application/json',
-        },
-      })
-
-      if (!response.ok) {
-        throw new Error('Error al cargar el perfil')
+      if (result.error) {
+        throw new Error(result.error)
       }
 
-      const data = await response.json()
-      setUser(data)
+      setUser(result.data)
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : 'Error desconocido'

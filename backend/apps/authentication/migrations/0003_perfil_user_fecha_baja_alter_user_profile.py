@@ -4,46 +4,57 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def create_perfil_if_not_exists(apps, schema_editor):
+    """Crea el modelo Perfil solo si no existe (evita conflicto con otra rama)"""
+    from django.db import connection
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT EXISTS (
+                SELECT FROM information_schema.tables
+                WHERE table_schema = 'public'
+                AND table_name = 'authentication_perfil'
+            );
+        """)
+        table_exists = cursor.fetchone()[0]
+
+        if not table_exists:
+            # Solo crear la tabla si no existe
+            Perfil = apps.get_model('authentication', 'Perfil')
+            schema_editor.create_model(Perfil)
+
+
+def add_fecha_baja_if_not_exists(apps, schema_editor):
+    """Agrega fecha_baja solo si no existe (evita conflicto con otra rama)"""
+    from django.db import connection
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT EXISTS (
+                SELECT FROM information_schema.columns
+                WHERE table_schema = 'public'
+                AND table_name = 'authentication_user'
+                AND column_name = 'fecha_baja'
+            );
+        """)
+        column_exists = cursor.fetchone()[0]
+
+        if not column_exists:
+            # Solo agregar si no existe
+            cursor.execute("""
+                ALTER TABLE authentication_user
+                ADD COLUMN fecha_baja DATE NULL;
+            """)
+
+
 class Migration(migrations.Migration):
     dependencies = [
         ("authentication", "0002_provincia_alter_user_options_user_activo_and_more"),
     ]
 
     operations = [
-        migrations.CreateModel(
-            name="Perfil",
-            fields=[
-                (
-                    "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                (
-                    "codigo",
-                    models.CharField(max_length=20, unique=True, verbose_name="Código"),
-                ),
-                ("nombre", models.CharField(max_length=150, verbose_name="Nombre")),
-                (
-                    "descripcion",
-                    models.TextField(blank=True, null=True, verbose_name="Descripción"),
-                ),
-                ("activo", models.BooleanField(default=True, verbose_name="Activo")),
-            ],
-            options={
-                "verbose_name": "Perfil",
-                "verbose_name_plural": "Perfiles",
-                "ordering": ["nombre"],
-            },
-        ),
-        migrations.AddField(
-            model_name="user",
-            name="fecha_baja",
-            field=models.DateField(blank=True, null=True, verbose_name="Fecha de baja"),
-        ),
+        # En lugar de CreateModel, usamos RunPython para verificar existencia
+        migrations.RunPython(create_perfil_if_not_exists, reverse_code=migrations.RunPython.noop),
+        # Agregar fecha_baja solo si no existe
+        migrations.RunPython(add_fecha_baja_if_not_exists, reverse_code=migrations.RunPython.noop),
         migrations.AlterField(
             model_name="user",
             name="profile",

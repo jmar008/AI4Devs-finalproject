@@ -82,7 +82,6 @@ urlpatterns = [
 ]
 
 # Django Debug Toolbar URLs (solo en desarrollo)
-from django.conf import settings
 if settings.DEBUG:
     try:
         import debug_toolbar
@@ -92,9 +91,7 @@ if settings.DEBUG:
     except ImportError:
         pass
 
-# Debug Toolbar URLs (solo en desarrollo)
-if settings.DEBUG and 'debug_toolbar' in settings.INSTALLED_APPS:
-    import debug_toolbar
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+    # Servir archivos estáticos y media en desarrollo
+    from django.conf.urls.static import static
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

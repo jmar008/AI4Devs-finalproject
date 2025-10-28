@@ -78,7 +78,7 @@ const chatAPI = {
    * Envía un mensaje al chat
    */
   sendMessage: async (data: SendMessageRequest) => {
-    return apiCall<SendMessageResponse>('/chat/send/', {
+    return apiCall<SendMessageResponse>('/api/chat/send/', {
       method: 'POST',
       body: JSON.stringify(data),
     })
@@ -88,21 +88,21 @@ const chatAPI = {
    * Obtiene todas las conversaciones
    */
   getConversations: async () => {
-    return apiCall<Conversation[]>('/chat/conversations/')
+    return apiCall<Conversation[]>('/api/chat/conversations/')
   },
 
   /**
    * Obtiene una conversación específica con sus mensajes
    */
   getConversation: async (id: number) => {
-    return apiCall<ConversationDetail>(`/chat/conversation/${id}/`)
+    return apiCall<ConversationDetail>(`/api/chat/conversation/${id}/`)
   },
 
   /**
    * Elimina una conversación
    */
   deleteConversation: async (id: number) => {
-    return apiCall<void>(`/chat/conversation/${id}/delete/`, {
+    return apiCall<void>(`/api/chat/conversation/${id}/delete/`, {
       method: 'DELETE',
     })
   },
@@ -111,7 +111,7 @@ const chatAPI = {
    * Limpia todas las conversaciones
    */
   clearAll: async () => {
-    return apiCall<void>('/chat/clear/', {
+    return apiCall<void>('/api/chat/clear/', {
       method: 'POST',
     })
   },
@@ -120,7 +120,7 @@ const chatAPI = {
    * Obtiene resumen del stock
    */
   getStockSummary: async () => {
-    return apiCall<StockSummary>('/chat/stock-summary/')
+    return apiCall<StockSummary>('/api/chat/stock-summary/')
   },
 }
 

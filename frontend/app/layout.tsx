@@ -1,9 +1,10 @@
 import { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 
-const inter = Inter({ subsets: ['latin'] })
+// Nota: next/font deshabilitado temporalmente para evitar problemas de SSL en Docker
+// Se puede reactivar en producción o usando fuentes locales
+// const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'DealaAI - Sistema de Gestión para Concesionarios',
@@ -28,7 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body>
         <Providers>
           <div id="root">{children}</div>
         </Providers>
