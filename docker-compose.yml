@@ -55,6 +55,13 @@ services:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/dealaai_dev
       - REDIS_URL=redis://redis:6379/0
       - DEBUG=True
+      - SECRET_KEY=django-insecure-dev-key-change-in-production
+      - DB_NAME=dealaai_dev
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DEEPSEEK_API_KEY=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
     ports:
       - "8000:8000"
     depends_on:

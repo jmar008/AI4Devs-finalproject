@@ -171,7 +171,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'authentication.User'
 
 # OpenRouter AI Configuration (compatible con OpenAI SDK)
-DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY', default='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')
+DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY', default='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')
 DEEPSEEK_API_BASE = 'https://openrouter.ai/api/v1'  # OpenRouter endpoint
 DEEPSEEK_MODEL = 'openai/gpt-oss-20b'  # Modelo principal - GPT-OSS-20B
 
