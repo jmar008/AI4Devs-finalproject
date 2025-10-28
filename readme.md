@@ -82,7 +82,7 @@ Pendiente
 
 ### 0.5. URL o archivo comprimido del repositorio
 
-https://github.com/jorgemartin/dealaai-concesionario
+https://github.com/LIDR-academy/AI4Devs-finalproject
 
 > Repositorio público con todo el código fuente, documentación y configuración de despliegue.
 
@@ -2933,7 +2933,210 @@ export function useErrorBoundary() {
 
 ---
 
-## 📊 Estado Actual del Proyecto
+## � Scripts y Utilidades del Backend
+
+### **📁 Archivos de OpenRouter y Modelos IA**
+
+El sistema incluye varios scripts especializados para la gestión de modelos de IA a través de OpenRouter, permitiendo generación inteligente de datos y verificación de disponibilidad de modelos.
+
+#### **`backend/verificar_modelos_openrouter.py`**
+
+**Propósito:** Verifica la disponibilidad y funcionalidad de modelos OpenAI a través de OpenRouter.  
+**Funcionalidad:**
+
+- Prueba conectividad con diferentes modelos de IA
+- Verifica límites de rate limiting y manejo de errores
+- Configura modelos fallback para generación de datos
+- Monitorea latencia y tiempos de respuesta
+
+```python
+# Ejemplo de uso
+python verificar_modelos_openrouter.py
+```
+
+**Configuración requerida:**
+
+- Variable `OPENROUTER_API_KEY` en settings
+- Lista de modelos soportados en configuración
+
+#### **`backend/test_ai_generator.py`**
+
+**Propósito:** Prueba individual del generador de vehículos con IA.  
+**Funcionalidad:**
+
+- Genera un vehículo de prueba usando modelos OpenAI
+- Muestra datos generados en formato legible
+- Verifica integridad de la respuesta JSON
+- Útil para debugging del sistema de IA
+
+```python
+# Ejemplo de uso
+python test_ai_generator.py
+```
+
+### **📊 Scripts de Generación y Carga de Datos**
+
+#### **`backend/run_stock_migration.py`**
+
+**Propósito:** Ejecuta migración completa de stock desde fuentes externas.  
+**Funcionalidad:**
+
+- Web scraping automatizado de concesionarios
+- Procesamiento por lotes con manejo de errores
+- Actualización incremental del inventario
+- Logging detallado del proceso de migración
+
+```python
+# Ejemplo de uso
+python run_stock_migration.py --pages 5 --quantity 100
+```
+
+**Parámetros:**
+
+- `--pages`: Número de páginas a procesar
+- `--quantity`: Cantidad máxima de vehículos por lote
+
+#### **`backend/test_generacion_masiva.py`**
+
+**Propósito:** Prueba generación masiva de vehículos con métricas de performance.  
+**Funcionalidad:**
+
+- Genera múltiples vehículos usando IA con modelos fallback
+- Mide tiempos de respuesta y tasas de éxito
+- Compara calidad entre diferentes modelos
+- Genera reportes de performance
+
+```python
+# Ejemplo de uso
+python test_generacion_masiva.py
+```
+
+**Métricas generadas:**
+
+- Tiempo promedio por vehículo
+- Tasa de éxito por modelo
+- Errores y fallbacks utilizados
+
+#### **`backend/comparar_generadores.py`**
+
+**Propósito:** Compara calidad de datos entre generador IA vs generador aleatorio.  
+**Funcionalidad:**
+
+- Genera vehículos con ambos métodos
+- Evalúa coherencia y realismo de datos
+- Calcula métricas de calidad de contenido
+- Ayuda a optimizar prompts de IA
+
+```python
+# Ejemplo de uso
+python comparar_generadores.py
+```
+
+**Métricas de comparación:**
+
+- Coherencia de precios vs características
+- Realismo de descripciones técnicas
+- Consistencia de datos generados
+
+#### **`backend/verificar_margenes.py`**
+
+**Propósito:** Valida que los precios generados mantengan márgenes adecuados.  
+**Funcionalidad:**
+
+- Verifica rangos de precios dentro de tolerancias
+- Calcula porcentajes de desviación
+- Genera alertas para precios fuera de rango
+- Asegura consistencia económica del inventario
+
+```python
+# Ejemplo de uso
+python verificar_margenes.py
+```
+
+**Validaciones realizadas:**
+
+- Margen máximo: ±10% del precio objetivo
+- Alertas para desviaciones significativas
+- Reportes de conformidad por modelo
+
+### **⚙️ Comandos de Gestión de Django**
+
+Los siguientes comandos están disponibles en `backend/management/commands/` para operaciones administrativas:
+
+#### **`generar_usuarios_completos.py`**
+
+**Propósito:** Genera jerarquía completa de usuarios organizacionales.  
+**Funcionalidad:**
+
+- Crea 46 usuarios con estructura jerárquica
+- Asigna roles y permisos automáticamente
+- Genera datos realistas para cada perfil
+- Preserva usuario admin existente
+
+```bash
+# Ejecutar comando
+python manage.py generar_usuarios_completos
+```
+
+**Jerarquía generada:**
+
+- 5 Ejecutivos (CEO, COO, CFO, CTO, CMO)
+- Directores por departamento
+- Gerentes regionales
+- Seniors y Juniors por especialización
+
+#### **`migrate_stock_and_scrape.py`**
+
+**Propósito:** Comando de gestión para migración programada de stock.  
+**Funcionalidad:**
+
+- Integración con sistema de tareas programadas
+- Procesamiento incremental de datos
+- Manejo de duplicados y conflictos
+- Logging para monitoreo del sistema
+
+```bash
+# Ejecutar manualmente
+python manage.py migrate_stock_and_scrape --pages 10
+
+# Programado diariamente a las 01:00
+# Configurado en settings con APScheduler
+```
+
+### **🔄 Flujo de Datos del Sistema**
+
+```
+Fuentes Externas (coches.net)
+    ↓ Web Scraping
+run_stock_migration.py
+    ↓ Procesamiento IA
+verificar_modelos_openrouter.py
+    ↓ Generación de Datos
+test_ai_generator.py / test_generacion_masiva.py
+    ↓ Validación de Calidad
+comparar_generadores.py / verificar_margenes.py
+    ↓ Carga en Base de Datos
+migrate_stock_and_scrape.py
+    ↓ Generación de Usuarios
+generar_usuarios_completos.py
+    ↓ Sistema Operativo
+PostgreSQL + API REST
+```
+
+### **📋 Checklist de Utilidades**
+
+- [x] Verificación de modelos OpenRouter
+- [x] Generación individual de vehículos IA
+- [x] Migración masiva de stock
+- [x] Testing de generación masiva
+- [x] Comparación IA vs aleatorio
+- [x] Validación de márgenes de precio
+- [x] Generación de usuarios jerárquicos
+- [x] Comando de migración programada
+
+---
+
+## �📊 Estado Actual del Proyecto
 
 ### ✅ **MVP COMPLETADO - LISTO PARA PRODUCCIÓN**
 
