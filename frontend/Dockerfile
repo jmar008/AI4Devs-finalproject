@@ -1,4 +1,4 @@
-# Dockerfile para el frontend Next.js
+# Dockerfile para el frontend Next.js (desarrollo)
 FROM node:18-alpine
 
 # Establecer directorio de trabajo
@@ -10,20 +10,14 @@ COPY package*.json ./
 # Instalar dependencias
 RUN npm ci
 
-# Copiar código fuente
-COPY . .
-
-# Variables de entorno para el build
-ARG NEXT_PUBLIC_API_URL=http://backend:8000
-ARG NEXT_PUBLIC_ENVIRONMENT=development
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_ENVIRONMENT=$NEXT_PUBLIC_ENVIRONMENT
-
-# Construir la aplicación
-RUN npm run build
+# Variables de entorno para desarrollo
+# NO incluir /api porque se agrega en las rutas del código
+ENV NEXT_PUBLIC_API_URL=http://localhost:8080
+ENV NEXT_PUBLIC_ENVIRONMENT=development
+ENV NODE_ENV=development
 
 # Exponer puerto
 EXPOSE 3000
 
-# Comando por defecto
-CMD ["npm", "start"]
+# Comando para desarrollo (con hot reload)
+CMD ["npm", "run", "dev"]

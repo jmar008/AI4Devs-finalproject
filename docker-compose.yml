@@ -75,26 +75,20 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-      args:
-        - NEXT_PUBLIC_API_URL=http://backend:8000
-        - NEXT_PUBLIC_ENVIRONMENT=development
     container_name: dealaai_frontend
     restart: unless-stopped
     volumes:
       - ./frontend:/app:cached
       - /app/node_modules
+      - /app/.next
     environment:
-      - NEXT_PUBLIC_API_URL=http://backend:8000
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
       - NEXT_PUBLIC_ENVIRONMENT=development
+      - NODE_ENV=development
     ports:
       - "3000:3000"
     depends_on:
       - backend
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     networks:
       - dealaai_network
 
@@ -132,49 +126,6 @@ services:
       - pgadmin-data:/var/lib/pgadmin
     depends_on:
       - db
-    networks:
-      - dealaai_network
-
-  # Celery Worker para tareas asíncronas
-  celery:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: dealaai_celery
-    restart: unless-stopped
-    command: celery -A dealaai worker --loglevel=info
-    volumes:
-      - ./backend:/app:cached
-      - ./media:/app/media:cached
-    environment:
-      - DJANGO_SETTINGS_MODULE=dealaai.settings.development
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/dealaai_dev
-      - REDIS_URL=redis://redis:6379/0
-    depends_on:
-      - db
-      - redis
-      - backend
-    networks:
-      - dealaai_network
-
-  # Celery Beat para tareas programadas
-  celery-beat:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: dealaai_celery_beat
-    restart: unless-stopped
-    command: celery -A dealaai beat --loglevel=info --scheduler django_celery_beat.schedulers:DatabaseScheduler
-    volumes:
-      - ./backend:/app:cached
-    environment:
-      - DJANGO_SETTINGS_MODULE=dealaai.settings.development
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/dealaai_dev
-      - REDIS_URL=redis://redis:6379/0
-    depends_on:
-      - db
-      - redis
-      - backend
     networks:
       - dealaai_network
 

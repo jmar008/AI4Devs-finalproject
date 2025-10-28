@@ -8,20 +8,31 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y \
     gcc \
     postgresql-client \
+    curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copiar requirements e instalar dependencias de Python
+# Copiar archivos de requirements
+COPY requirements/ ./requirements/
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+
+# Instalar dependencias de Python (desarrollo)
+RUN pip install --no-cache-dir -r requirements/development.txt
 
 # Copiar código de la aplicación
 COPY . .
 
+# Copiar y dar permisos al entrypoint
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Crear directorio para archivos estáticos y media
-RUN mkdir -p /app/static /app/media
+RUN mkdir -p /app/static /app/media /app/logs
 
 # Exponer puerto
 EXPOSE 8000
 
-# Comando por defecto (puede ser sobreescrito en docker-compose)
+# Usar entrypoint para ejecutar migraciones antes de arrancar
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Comando por defecto
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
