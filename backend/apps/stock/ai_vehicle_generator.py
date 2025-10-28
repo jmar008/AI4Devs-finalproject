@@ -36,7 +36,8 @@ class AIVehicleGenerator:
             http_client=http_client,
         )
         self.model = settings.DEEPSEEK_MODEL
-        self.fallback_models = settings.DEEPSEEK_FALLBACK_MODELS
+        # Solo usar el modelo principal, sin fallbacks para asegurar consistencia
+        self.fallback_models = []
 
     def generate_vehicles(self, count: int = 10, brand: Optional[str] = None) -> List[Dict]:
         """
@@ -51,14 +52,16 @@ class AIVehicleGenerator:
         """
         vehicles = []
 
-        # Para lotes grandes, aumentar el tamaño del batch
-        # Esto reduce el número de llamadas a la API
-        if count > 100:
-            batch_size = 10  # Lotes de 10 para generación masiva
+        # Optimización para generar 1000 coches eficientemente
+        # Usar lotes más grandes pero manejables para openai/gpt-oss-20b
+        if count >= 1000:
+            batch_size = 30  # Lotes de 15 para generación masiva eficiente
+        elif count > 100:
+            batch_size = 20
         elif count > 50:
-            batch_size = 8
+            batch_size = 10
         else:
-            batch_size = 5  # Lotes de 5 para cantidades pequeñas
+            batch_size = 5  # Lotes pequeños para cantidades menores
 
         logger.info(f"Generando {count} vehículos con IA en lotes de {batch_size}")
 
@@ -69,10 +72,9 @@ class AIVehicleGenerator:
                 vehicles.extend(batch)
                 logger.info(f"✓ Lote completado: {len(batch)} vehículos (total: {len(vehicles)}/{count})")
 
-                # Pequeño delay entre lotes para evitar rate limiting
-                # Solo si no es el último lote
+                # Delay optimizado entre lotes para eficiencia con lotes más grandes
                 if i + batch_size < count:
-                    time.sleep(0.5)  # 500ms entre lotes
+                    time.sleep(1.0)  # 1 segundo entre lotes para buen balance entre velocidad y estabilidad
 
             except Exception as e:
                 logger.error(f"❌ Error generando lote de vehículos: {str(e)}")
@@ -88,8 +90,8 @@ class AIVehicleGenerator:
 
         prompt = self._create_prompt(count, brand)
 
-        # Intentar con el modelo principal y fallbacks
-        models_to_try = [self.model] + self.fallback_models
+        # Solo usar el modelo principal openai/gpt-oss-20b
+        models_to_try = [self.model]
         last_error = None
 
         for model in models_to_try:
@@ -103,23 +105,41 @@ class AIVehicleGenerator:
                             "role": "system",
                             "content": "Eres un experto en el mercado de vehículos de ocasión en España. "
                                      "Generas datos realistas y coherentes de vehículos usados con relaciones "
-                                     "lógicas entre año, kilometraje, precio y condición."
+                                     "lógicas entre año, kilometraje, precio y condición. "
+                                     "Siempre respondes ÚNICAMENTE con JSON válido, sin texto adicional."
                         },
                         {
                             "role": "user",
                             "content": prompt
                         }
                     ],
-                    temperature=0.8,  # Mayor creatividad para variedad
-                    max_tokens=3500,  # Aumentado para soportar lotes de 10 vehículos
+                    temperature=0.7,  # Temperatura moderada para consistencia
+                    max_tokens=4000,  # Aumentado proporcionalmente al batch_size para lotes más grandes
                     extra_body={
-                        "data_collection": "allow"  # Para modelos gratuitos de OpenRouter
+                        "data_collection": "allow"
                     }
                 )
 
-                # Parsear respuesta JSON
+                # Parsear respuesta JSON con mejor manejo de errores
                 content = response.choices[0].message.content
-                vehicles_data = json.loads(content)
+                logger.debug(f"Respuesta cruda del modelo {model}: {content[:500]}...")
+
+                try:
+                    vehicles_data = json.loads(content)
+                except json.JSONDecodeError as e:
+                    logger.error(f"❌ Error parseando JSON de {model}: {str(e)}")
+                    logger.error(f"Contenido recibido: {content}")
+
+                    # Intentar limpiar el JSON si tiene problemas comunes
+                    try:
+                        cleaned_content = self._clean_json_response(content)
+                        vehicles_data = json.loads(cleaned_content)
+                        logger.info(f"✓ JSON limpiado exitosamente para {model}")
+                    except json.JSONDecodeError:
+                        logger.error(f"❌ No se pudo limpiar el JSON de {model}")
+                        # Usar fallback en lugar de fallar
+                        logger.warning(f"⚠️  Usando generación fallback para {count} vehículos")
+                        return [self._generate_fallback_vehicle(brand) for _ in range(count)]
 
                 # Validar y completar datos
                 vehicles = []
@@ -130,29 +150,13 @@ class AIVehicleGenerator:
                 logger.info(f"✓ Generados {len(vehicles)} vehículos con {model}")
                 return vehicles
 
-            except json.JSONDecodeError as e:
-                logger.error(f"❌ Error parseando JSON de {model}: {str(e)}")
-                last_error = e
-                continue
             except Exception as e:
                 error_str = str(e)
-                logger.warning(f"⚠️  Error con modelo {model}: {error_str}")
+                logger.error(f"❌ Error con modelo {model}: {error_str}")
                 last_error = e
-
-                # Si es rate limit (429) o modelo no disponible (404), intentar siguiente modelo
-                if "429" in error_str or "rate" in error_str.lower():
-                    logger.info(f"→ Rate limit detectado, cambiando al siguiente modelo...")
-                    continue
-                elif "404" in error_str or "not found" in error_str.lower():
-                    logger.info(f"→ Modelo no disponible (404), cambiando al siguiente modelo...")
-                    continue
-                # Otros errores, también intentar siguiente
-                continue
-
-        # Si todos los modelos fallan, lanzar error
-        if last_error:
-            raise last_error
-        raise Exception("No se pudo generar vehículos con ningún modelo")
+                # Si hay error, usar fallback inmediatamente
+                logger.warning(f"⚠️  Error con {model}, usando generación fallback para {count} vehículos")
+                return [self._generate_fallback_vehicle(brand) for _ in range(count)]
 
     def _create_prompt(self, count: int, brand: Optional[str] = None) -> str:
         """Crea el prompt para generar vehículos"""
@@ -161,6 +165,16 @@ class AIVehicleGenerator:
 
         return f"""Genera {count} vehículos de ocasión realistas {brand_constraint} para un concesionario en España.
 
+INSTRUCCIONES CRÍTICAS PARA JSON VÁLIDO:
+- Responde ÚNICAMENTE con JSON válido - nada más, ningún texto adicional
+- NO incluyas explicaciones, comentarios o formato markdown
+- El JSON debe empezar con {{ y terminar con }} exactamente
+- Todas las claves deben estar entre comillas dobles
+- Todas las cadenas de texto deben estar entre comillas dobles
+- NO uses comillas simples para strings
+- Los números no van entre comillas
+- El array "vehicles" debe contener exactamente {count} objetos
+
 Para cada vehículo, considera relaciones lógicas:
 - Coches más antiguos tienen más kilómetros (ej: 2015 → 80,000-150,000 km)
 - Coches recientes tienen menos kilómetros (ej: 2022 → 10,000-50,000 km)
@@ -168,7 +182,7 @@ Para cada vehículo, considera relaciones lógicas:
 - Modelos y versiones reales de cada marca
 - Potencia y cilindrada coherentes con el modelo
 
-Responde ÚNICAMENTE con JSON válido en este formato:
+Formato JSON exacto requerido (ejemplo con 2 vehículos):
 {{
   "vehicles": [
     {{
@@ -187,16 +201,34 @@ Responde ÚNICAMENTE con JSON válido en este formato:
       "puertas": 5,
       "plazas": 5,
       "descripcion": "BMW Serie 3 en excelente estado, único propietario, mantenimiento oficial"
+    }},
+    {{
+      "marca": "Mercedes",
+      "modelo": "Clase C",
+      "version": "C200",
+      "anio_matricula": 2018,
+      "kilometros": 95000,
+      "precio_venta": 23000,
+      "color": "Blanco",
+      "combustible": "Gasolina",
+      "transmision": "Automática",
+      "tipo_vehiculo": "Berlina",
+      "cilindrada": 1998,
+      "potencia": 184,
+      "puertas": 5,
+      "plazas": 5,
+      "descripcion": "Mercedes Clase C bien conservado, 1 propietario, revisiones al día"
     }}
   ]
 }}
 
-Asegúrate de que:
-1. El JSON sea válido (sin comentarios ni texto extra)
-2. Los precios sean coherentes (vehículos premium más caros)
-3. El kilometraje sea realista según el año
-4. Los modelos y versiones existan realmente
-5. La descripción mencione características relevantes del vehículo"""
+IMPORTANTE:
+1. El JSON debe ser válido y parseable
+2. Los precios deben ser coherentes (vehículos premium más caros)
+3. El kilometraje debe ser realista según el año
+4. Los modelos y versiones deben existir realmente
+5. Cada descripción debe mencionar características relevantes del vehículo
+6. NO agregar texto fuera del JSON"""
 
     def _complete_vehicle_data(self, ai_data: Dict) -> Dict:
         """Completa los datos del vehículo con campos adicionales"""
@@ -274,6 +306,70 @@ Asegúrate de que:
 
         logger.warning("Usando generación fallback (sin IA) para vehículo")
         return datos
+
+    def _clean_json_response(self, content: str) -> str:
+        """Limpia la respuesta JSON para manejar errores comunes de los modelos de IA"""
+
+        import re
+
+        # Remover posibles textos introductorios o explicativos
+        start_idx = content.find('{')
+        if start_idx > 0:
+            content = content[start_idx:]
+
+        # Intentar encontrar el final del JSON válido
+        # Buscar el último '}' que tenga un matching '{'
+        brace_count = 0
+        last_valid_end = -1
+
+        for i, char in enumerate(content):
+            if char == '{':
+                brace_count += 1
+            elif char == '}':
+                brace_count -= 1
+                if brace_count == 0:
+                    last_valid_end = i
+
+        # Si encontramos un final válido, usar solo esa parte
+        if last_valid_end >= 0:
+            content = content[:last_valid_end + 1]
+
+        # Limpiar caracteres de escape problemáticos
+        content = re.sub(r"'([^']*)'", r'"\1"', content)  # Comillas simples a dobles
+        content = content.replace('\\"', '"')  # Corregir escapes incorrectos
+
+        # Asegurar que las claves estén entre comillas dobles
+        # Patrón más específico para evitar romper JSON ya válido
+        content = re.sub(r'(?<![\"\'])(\w+)(?=\s*:)', r'"\1"', content)
+
+        # Corregir strings truncadas al final
+        # Si el contenido termina con una cadena incompleta, intentar cerrarla
+        if content.count('"') % 2 == 1:  # Número impar de comillas
+            # Buscar la última comilla y agregar cierre si es necesario
+            last_quote_idx = content.rfind('"')
+            if last_quote_idx >= 0:
+                # Verificar si después de la última comilla hay contenido sin cerrar
+                after_quote = content[last_quote_idx + 1:]
+                if after_quote and not after_quote[-1] in [',', '}', ']', ' ']:
+                    # Agregar comilla de cierre antes del último carácter válido
+                    content = content.rstrip()
+                    if content.endswith(','):
+                        content = content[:-1] + '",'
+                    elif content.endswith('}'):
+                        content = content[:-1] + '"}'
+                    elif content.endswith(']'):
+                        content = content[:-1] + '"]'
+                    else:
+                        content += '"'
+
+        # Limpiar espacios en blanco extra
+        content = content.strip()
+
+        # Asegurar que termine con }
+        if content and not content.endswith('}'):
+            content += '}'
+
+        return content
 
 
 def generar_vehiculos_con_ia(num_vehiculos: int = 10, marca: Optional[str] = None) -> List[Dict]:

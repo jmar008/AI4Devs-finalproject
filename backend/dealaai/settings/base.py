@@ -135,6 +135,24 @@ CORS_ALLOWED_ORIGINS = config(
 # Permitir credentials de CORS (cookies / autenticación) en desarrollo
 CORS_ALLOW_CREDENTIALS = True
 
+# CSRF Configuration
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='http://localhost:8080,http://localhost:3000,http://localhost:3001,http://127.0.0.1:8080,http://127.0.0.1:3000,http://127.0.0.1:3001',
+    cast=lambda v: [s.strip() for s in v.split(',')]
+)
+
+CSRF_ALLOWED_ORIGINS = config(
+    'CSRF_ALLOWED_ORIGINS',
+    default='http://localhost:8080,http://localhost:3000,http://localhost:3001,http://127.0.0.1:8080,http://127.0.0.1:3000,http://127.0.0.1:3001',
+    cast=lambda v: [s.strip() for s in v.split(',')]
+)
+
+# Permitir CSRF desde localhost en desarrollo
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=False, cast=bool)
+CSRF_COOKIE_HTTPONLY = False  # Permitir acceso desde JavaScript (necesario para Next.js)
+CSRF_COOKIE_SAMESITE = 'Lax'  # Permite cookies en solicitudes same-site
+
 # Internationalization
 LANGUAGE_CODE = 'es-es'  # Español de España
 TIME_ZONE = 'Europe/Madrid'
@@ -155,7 +173,7 @@ AUTH_USER_MODEL = 'authentication.User'
 # OpenRouter AI Configuration (compatible con OpenAI SDK)
 DEEPSEEK_API_KEY = config('DEEPSEEK_API_KEY', default='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')
 DEEPSEEK_API_BASE = 'https://openrouter.ai/api/v1'  # OpenRouter endpoint
-DEEPSEEK_MODEL = 'deepseek/deepseek-r1:free'  # Modelo principal - DeepSeek R1 (más potente)
+DEEPSEEK_MODEL = 'openai/gpt-oss-20b'  # Modelo principal - GPT-OSS-20B
 
 # Lista de modelos de fallback (se intentarán en orden si el principal falla)
 # Solo modelos verificados como disponibles en OpenRouter

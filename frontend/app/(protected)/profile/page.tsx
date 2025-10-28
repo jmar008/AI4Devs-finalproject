@@ -66,6 +66,11 @@ export default function ProfilePage() {
     }
   }
 
+  const handleEditProfile = () => {
+    // Redirigir a http://localhost:8080/admin/
+    window.location.href = '/admin/'
+  }
+
   if (authLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -196,7 +201,12 @@ export default function ProfilePage() {
 
         {/* Actions */}
         <div className="flex gap-3 border-t border-gray-200 bg-gray-50 px-6 py-4">
-          <Button variant="outline">Editar Perfil</Button>
+          <Button
+            onClick={handleEditProfile}
+            className="bg-indigo-600 text-white hover:bg-indigo-700"
+          >
+            ✏️ Editar Perfil
+          </Button>
           <Button variant="outline" className="text-red-600">
             Cambiar Contraseña
           </Button>

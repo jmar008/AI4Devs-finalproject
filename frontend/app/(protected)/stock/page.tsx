@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { stockAPI } from '@/lib/api'
 import { useAuthStore } from '@/store/authStore'
-import { ChevronLeft, ChevronRight, Filter, Search } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Search } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
@@ -224,10 +224,7 @@ export default function StockPage() {
               className="pl-10"
             />
           </div>
-          <Button variant="outline" className="flex items-center gap-2">
-            <Filter size={18} />
-            Más filtros
-          </Button>
+          {/* 'Más filtros' button removed as requested */}
         </div>
 
         {/* Filter Tags */}
