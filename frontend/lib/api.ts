@@ -6,7 +6,7 @@
 
 // En desarrollo, usar localhost: (nginx reverse proxy) para evitar CORS
 // En producción, NEXT_PUBLIC_API_URL debería apuntar a la URL pública
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:'
+const API_BASE_URL = 'https://mcp.jorgemg.es'
 
 interface ApiRequestOptions extends RequestInit {
   headers?: Record<string, string>

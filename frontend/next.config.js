@@ -13,7 +13,7 @@ const nextConfig = {
 
   // Configuración de rewrites para API en desarrollo
   async rewrites() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:'
+    const apiUrl = 'https://mcp.jorgemg.es'
     return [
       {
         source: '/api/:path*',

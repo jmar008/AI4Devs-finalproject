@@ -12,7 +12,7 @@ RUN npm ci
 
 # Variables de entorno para desarrollo
 # NO incluir /api porque se agrega en las rutas del código
-ENV NEXT_PUBLIC_API_URL=http://localhost:
+ENV NEXT_PUBLIC_API_URL=https://mcp.jorgemg.es
 ENV NEXT_PUBLIC_ENVIRONMENT=development
 ENV NODE_ENV=development
 

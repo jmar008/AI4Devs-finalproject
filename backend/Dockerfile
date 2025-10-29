@@ -32,7 +32,7 @@ RUN mkdir -p /app/static /app/media /app/logs
 EXPOSE 8000
 
 # Usar entrypoint para ejecutar migraciones antes de arrancar
-ENTRYPOINT ["/entrypoint.sh"]
+#ENTRYPOINT ["/entrypoint.sh"]
 
 # Comando por defecto
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

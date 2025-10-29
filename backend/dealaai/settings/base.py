@@ -16,7 +16,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,mcp.jorgemg.es', cast=lambda v: [s.strip() for s in v.split(',')])
 
 # Application definition
 INSTALLED_APPS = [
@@ -138,13 +138,13 @@ CORS_ALLOW_CREDENTIALS = True
 # CSRF Configuration
 CSRF_TRUSTED_ORIGINS = config(
     'CSRF_TRUSTED_ORIGINS',
-    default='http://localhost,http://localhost:3000,http://localhost:3001,http://127.0.0.1,http://127.0.0.1:3000,http://127.0.0.1:3001',
+    default='http://localhost,http://localhost:3000,http://localhost:3001,http://127.0.0.1,http://127.0.0.1:3000,http://127.0.0.1:3001,http://mcp.jorgemg.es,https://mcp.jorgemg.es',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
 CSRF_ALLOWED_ORIGINS = config(
     'CSRF_ALLOWED_ORIGINS',
-    default='http://localhost,http://localhost:3000,http://localhost:3001,http://127.0.0.1,http://127.0.0.1:3000,http://127.0.0.1:3001',
+    default='http://localhost,http://localhost:3000,http://localhost:3001,http://127.0.0.1,http://127.0.0.1:3000,http://127.0.0.1:3001,http://mcp.jorgemg.es,https://mcp.jorgemg.es',
     cast=lambda v: [s.strip() for s in v.split(',')]
 )
 
